@@ -1,7 +1,7 @@
 extends Spatial
 
 var mode = "frame"
-var time_f = 10
+var time_f = 1
 var time_b = 0.1
 
 func _ready():
