@@ -2,4 +2,4 @@
 ---
 ## This project uses keypoint data to rig a hand model
 ---
-![Screenshot](images/readme.png)
+![Image](/Images/readme.PNG)
