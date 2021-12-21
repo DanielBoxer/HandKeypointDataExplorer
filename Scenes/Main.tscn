@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Assets/Sunset.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=2]
@@ -9,68 +9,90 @@
 [ext_resource path="res://Assets/Display_Text.tres" type="DynamicFont" id=7]
 [ext_resource path="res://Scripts/Controller.gd" type="Script" id=8]
 [ext_resource path="res://Assets/Pause_Text.tres" type="DynamicFont" id=9]
+[ext_resource path="res://Assets/Button_Text.tres" type="DynamicFont" id=10]
 
-[sub_resource type="CapsuleShape" id=19]
+[sub_resource type="CapsuleShape" id=61]
 height = 3.0
 
-[sub_resource type="DynamicFont" id=51]
+[sub_resource type="Gradient" id=58]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0.105882, 0.768627, 0.87451, 1 )
+
+[sub_resource type="GradientTexture" id=62]
+gradient = SubResource( 58 )
+
+[sub_resource type="Gradient" id=59]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0.109804, 0.0823529, 0.372549, 1 )
+
+[sub_resource type="GradientTexture" id=63]
+gradient = SubResource( 59 )
+
+[sub_resource type="Gradient" id=60]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0.2, 0.27451, 0.780392, 1 )
+
+[sub_resource type="GradientTexture" id=64]
+gradient = SubResource( 60 )
+
+[sub_resource type="DynamicFont" id=65]
 size = 43
 outline_color = Color( 0.25098, 0.12549, 0.843137, 1 )
 font_data = ExtResource( 4 )
 
-[sub_resource type="CubeMesh" id=1]
+[sub_resource type="CubeMesh" id=66]
 
-[sub_resource type="SphereMesh" id=2]
+[sub_resource type="SphereMesh" id=67]
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="SpatialMaterial" id=68]
 albedo_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=37]
+[sub_resource type="SpatialMaterial" id=69]
 albedo_color = Color( 1, 0, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=38]
+[sub_resource type="SpatialMaterial" id=70]
 albedo_color = Color( 1, 0, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=39]
+[sub_resource type="SpatialMaterial" id=71]
 albedo_color = Color( 1, 0, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=40]
+[sub_resource type="SpatialMaterial" id=72]
 albedo_color = Color( 1, 0, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=41]
+[sub_resource type="SpatialMaterial" id=73]
 albedo_color = Color( 0.968627, 1, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=42]
+[sub_resource type="SpatialMaterial" id=74]
 albedo_color = Color( 0.968627, 1, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=43]
+[sub_resource type="SpatialMaterial" id=75]
 albedo_color = Color( 0.968627, 1, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=29]
+[sub_resource type="SpatialMaterial" id=76]
 albedo_color = Color( 0.968627, 1, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=28]
+[sub_resource type="SpatialMaterial" id=77]
 albedo_color = Color( 0, 1, 0.180392, 1 )
 
-[sub_resource type="SpatialMaterial" id=44]
+[sub_resource type="SpatialMaterial" id=78]
 albedo_color = Color( 0, 1, 0.180392, 1 )
 
-[sub_resource type="SpatialMaterial" id=45]
+[sub_resource type="SpatialMaterial" id=79]
 albedo_color = Color( 0, 1, 0.180392, 1 )
 
-[sub_resource type="SpatialMaterial" id=10]
+[sub_resource type="SpatialMaterial" id=80]
 albedo_color = Color( 0, 1, 0.180392, 1 )
 
-[sub_resource type="SpatialMaterial" id=46]
+[sub_resource type="SpatialMaterial" id=81]
 albedo_color = Color( 0.0313726, 0, 1, 1 )
 
-[sub_resource type="SpatialMaterial" id=47]
+[sub_resource type="SpatialMaterial" id=82]
 albedo_color = Color( 0.0313726, 0, 1, 1 )
 
-[sub_resource type="SpatialMaterial" id=48]
+[sub_resource type="SpatialMaterial" id=83]
 albedo_color = Color( 0.0313726, 0, 1, 1 )
 
-[sub_resource type="SpatialMaterial" id=49]
+[sub_resource type="SpatialMaterial" id=84]
 albedo_color = Color( 0.686275, 0, 1, 1 )
 
 [node name="Main" type="Spatial"]
@@ -79,59 +101,39 @@ script = ExtResource( 2 )
 [node name="LeftHand_11_26" parent="." instance=ExtResource( 5 )]
 script = ExtResource( 6 )
 
-[node name="Display_Screen" type="ColorRect" parent="LeftHand_11_26"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 1, 1, 1, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="text" type="RichTextLabel" parent="LeftHand_11_26/Display_Screen"]
+[node name="DisplayText" type="RichTextLabel" parent="LeftHand_11_26"]
+visible = false
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 24.0
-margin_top = -42.0
-margin_right = 10.0
-margin_bottom = -6.0
+margin_left = 10.0
+margin_top = -35.0
 custom_fonts/normal_font = ExtResource( 7 )
-scroll_active = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="next_input" type="RichTextLabel" parent="LeftHand_11_26/Display_Screen"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 24.0
-margin_top = -84.0
-margin_right = 10.0
-margin_bottom = -52.0
-custom_fonts/normal_font = ExtResource( 7 )
-scroll_active = false
+text = "Dataset: 0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Controller" type="KinematicBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 2.5 )
-visible = false
 script = ExtResource( 8 )
 
 [node name="Head" type="Spatial" parent="Controller"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 
 [node name="Camera" type="Camera" parent="Controller/Head"]
+current = true
 
 [node name="CollisionShape" type="CollisionShape" parent="Controller"]
 transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, 0 )
-shape = SubResource( 19 )
+shape = SubResource( 61 )
+
+[node name="ARVROrigin" type="ARVROrigin" parent="."]
+
+[node name="ARVRCamera" type="ARVRCamera" parent="ARVROrigin"]
 
 [node name="Pause" type="Control" parent="."]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 3 )
@@ -153,50 +155,330 @@ anchor_bottom = 1.0
 custom_fonts/normal_font = ExtResource( 9 )
 bbcode_enabled = true
 bbcode_text = "[center][rainbow freq=0.1]Menu - [tornado]Paused[/tornado][/rainbow]
-
-Press [rainbow freq=0.1]Esc[/rainbow] to open or close menu
-
-Press [rainbow freq=0.1]I[/rainbow] to open or close instructions when paused[/center]"
+Press [rainbow freq=0.1]Esc[/rainbow] to open or close menu"
 text = "Menu - Paused
+Press Esc to open or close menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-Press Esc to open or close menu
+[node name="VBoxContainer" type="VBoxContainer" parent="Pause/MenuOverlay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 300.0
+custom_constants/separation = 30
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-Press I to open or close instructions when paused"
+[node name="Instructions" type="TextureButton" parent="Pause/MenuOverlay/VBoxContainer"]
+margin_left = 402.0
+margin_right = 622.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 220, 50 )
+size_flags_horizontal = 4
+texture_normal = SubResource( 62 )
+texture_pressed = SubResource( 63 )
+texture_hover = SubResource( 64 )
+expand = true
+
+[node name="Label" type="Label" parent="Pause/MenuOverlay/VBoxContainer/Instructions"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 10 )
+text = "Instructions"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Settings" type="TextureButton" parent="Pause/MenuOverlay/VBoxContainer"]
+margin_left = 402.0
+margin_top = 80.0
+margin_right = 622.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 220, 50 )
+size_flags_horizontal = 4
+texture_normal = SubResource( 62 )
+texture_pressed = SubResource( 63 )
+texture_hover = SubResource( 64 )
+expand = true
+
+[node name="Label" type="Label" parent="Pause/MenuOverlay/VBoxContainer/Settings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 10 )
+text = "Settings"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" type="TextureButton" parent="Pause/MenuOverlay/VBoxContainer"]
+margin_left = 402.0
+margin_top = 160.0
+margin_right = 622.0
+margin_bottom = 210.0
+rect_min_size = Vector2( 220, 50 )
+size_flags_horizontal = 4
+texture_normal = SubResource( 62 )
+texture_pressed = SubResource( 63 )
+texture_hover = SubResource( 64 )
+expand = true
+
+[node name="Label" type="Label" parent="Pause/MenuOverlay/VBoxContainer/Quit"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 10 )
+text = "Quit"
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="InstructionsOverlay" type="ColorRect" parent="Pause"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.784314 )
 
-[node name="text" type="RichTextLabel" parent="Pause/InstructionsOverlay"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Pause/InstructionsOverlay"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/normal_font = SubResource( 51 )
-text = "- Press I to return to the menu or Esc to unpause
-- Use WASD and ZC to move on the XZ and Y axis
-- Use the mouse to control the camera 
-- Press E to change viewing mode 
-- Frame mode displays one frame at a time
-- Bone mode rotates one bone at a time
-- The up and down arrow keys change the time between frames
-- The left and right arrow keys change the time between bones
-- Press K to toggle keypoint visibility"
+margin_bottom = -500.0
+custom_fonts/normal_font = ExtResource( 9 )
+bbcode_enabled = true
+bbcode_text = "[center][rainbow freq=0.1]Instructions [/rainbow]"
+text = "Instructions "
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Objects" type="Node" parent="."]
+[node name="text" type="RichTextLabel" parent="Pause/InstructionsOverlay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 100.0
+custom_fonts/normal_font = SubResource( 65 )
+text = "- Press Esc to open or close the menu
+- Use WASD and ZC to move on the XZ and Y axis in keyboard mode
+- Use the mouse to control the camera in keyboard mode
+- Frame mode displays one frame at a time
+- Bone mode rotates one bone at a time"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Pause/InstructionsOverlay"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -250.0
+margin_top = -65.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="TextureButton" parent="Pause/InstructionsOverlay/VBoxContainer"]
+margin_left = 15.0
+margin_right = 235.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 220, 50 )
+size_flags_horizontal = 4
+texture_normal = SubResource( 62 )
+texture_pressed = SubResource( 63 )
+texture_hover = SubResource( 64 )
+expand = true
+
+[node name="Label" type="Label" parent="Pause/InstructionsOverlay/VBoxContainer/Back"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 10 )
+text = "Back"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SettingsOverlay" type="ColorRect" parent="Pause"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.784314 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Pause/SettingsOverlay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -500.0
+custom_fonts/normal_font = ExtResource( 9 )
+bbcode_enabled = true
+bbcode_text = "[center][rainbow freq=0.1]Settings [/rainbow]"
+text = "Settings "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Pause/SettingsOverlay"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -250.0
+margin_top = -65.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="TextureButton" parent="Pause/SettingsOverlay/VBoxContainer"]
+margin_left = 15.0
+margin_right = 235.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 220, 50 )
+size_flags_horizontal = 4
+texture_normal = SubResource( 62 )
+texture_pressed = SubResource( 63 )
+texture_hover = SubResource( 64 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Pause/SettingsOverlay/VBoxContainer/Back"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 10 )
+text = "Back"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Pause/SettingsOverlay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 50.0
+margin_top = 150.0
+margin_right = -50.0
+margin_bottom = -100.0
+custom_constants/separation = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Column1" type="VBoxContainer" parent="Pause/SettingsOverlay/HBoxContainer"]
+margin_right = 452.0
+margin_bottom = 350.0
+size_flags_horizontal = 3
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScreenLabel" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
+margin_right = 452.0
+margin_bottom = 14.0
+text = "Display"
+
+[node name="ScreenOptions" type="OptionButton" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
+margin_top = 24.0
+margin_right = 452.0
+margin_bottom = 44.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputLabel" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
+margin_top = 54.0
+margin_right = 452.0
+margin_bottom = 68.0
+text = "Input"
+
+[node name="InputOptions" type="OptionButton" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
+margin_top = 78.0
+margin_right = 452.0
+margin_bottom = 98.0
+
+[node name="KPLabel" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
+margin_top = 108.0
+margin_right = 452.0
+margin_bottom = 122.0
+text = "Keypoint Visibility"
+
+[node name="KPOptions" type="OptionButton" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
+margin_top = 132.0
+margin_right = 452.0
+margin_bottom = 152.0
+
+[node name="ModeLabel" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
+margin_top = 162.0
+margin_right = 452.0
+margin_bottom = 176.0
+text = "Mode"
+
+[node name="ModeOptions" type="OptionButton" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
+margin_top = 186.0
+margin_right = 452.0
+margin_bottom = 206.0
+
+[node name="Column2" type="VBoxContainer" parent="Pause/SettingsOverlay/HBoxContainer"]
+margin_left = 472.0
+margin_right = 924.0
+margin_bottom = 350.0
+size_flags_horizontal = 3
+custom_constants/separation = 50
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FrameValue" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column2"]
+margin_right = 452.0
+margin_bottom = 14.0
+text = "Frame Time: 1 seconds"
+
+[node name="FrameTime" type="HSlider" parent="Pause/SettingsOverlay/HBoxContainer/Column2/FrameValue"]
+margin_top = 18.0
+margin_right = 295.0
+margin_bottom = 34.0
+min_value = 0.01
+max_value = 5.0
+step = 0.01
+value = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BoneValue" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column2"]
+margin_top = 64.0
+margin_right = 452.0
+margin_bottom = 78.0
+text = "Bone Time: 0.1 seconds"
+
+[node name="BoneTime" type="HSlider" parent="Pause/SettingsOverlay/HBoxContainer/Column2/BoneValue"]
+margin_top = 18.0
+margin_right = 295.0
+margin_bottom = 34.0
+min_value = 0.001
+max_value = 0.2
+step = 0.001
+value = 0.1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Objects" type="Spatial" parent="."]
 
 [node name="Sunset" type="WorldEnvironment" parent="Objects"]
 environment = ExtResource( 1 )
 
 [node name="Floor" type="MeshInstance" parent="Objects"]
 transform = Transform( 5, 0, 0, 0, 0.1, 0, 0, 0, 5, 0, -2, 0 )
-mesh = SubResource( 1 )
+mesh = SubResource( 66 )
 skeleton = NodePath("../..")
 material/0 = null
 
@@ -204,105 +486,117 @@ material/0 = null
 
 [node name="wrist" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 3 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 68 )
 
 [node name="thumb_tip" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 37 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 69 )
 
 [node name="thumb_dst" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 38 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 70 )
 
 [node name="thumb_pxm" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 39 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 71 )
 
 [node name="thumb_mcp" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 40 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 72 )
 
 [node name="index_tip" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 41 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 73 )
 
 [node name="index_dst" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 42 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 74 )
 
 [node name="index_int" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 43 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 75 )
 
 [node name="index_pxm" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 29 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 76 )
 
 [node name="middle_tip" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 28 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 77 )
 
 [node name="middle_dst" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 44 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 78 )
 
 [node name="middle_int" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 45 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 79 )
 
 [node name="middle_pxm" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 10 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 80 )
 
 [node name="ring_tip" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 46 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 81 )
 
 [node name="ring_dst" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 47 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 82 )
 
 [node name="ring_int" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 48 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 83 )
 
 [node name="ring_pxm" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 48 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 83 )
 
 [node name="little_tip" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 49 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 84 )
 
 [node name="little_dst" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 49 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 84 )
 
 [node name="little_int" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 49 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 84 )
 
 [node name="little_pxm" type="MeshInstance" parent="Objects/Keypoint_View"]
 transform = Transform( 0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 49 )
+mesh = SubResource( 67 )
+material/0 = SubResource( 84 )
+
+[connection signal="pressed" from="Pause/MenuOverlay/VBoxContainer/Instructions" to="Pause" method="_on_Instructions_pressed"]
+[connection signal="pressed" from="Pause/MenuOverlay/VBoxContainer/Settings" to="Pause" method="_on_Settings_pressed"]
+[connection signal="pressed" from="Pause/MenuOverlay/VBoxContainer/Quit" to="Pause" method="_on_Quit_pressed"]
+[connection signal="pressed" from="Pause/InstructionsOverlay/VBoxContainer/Back" to="Pause" method="_on_Back_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/VBoxContainer/Back" to="Pause" method="_on_Back_pressed"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/HBoxContainer/Column1/ScreenOptions" to="Pause" method="_on_ScreenOptions_item_selected"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/HBoxContainer/Column1/InputOptions" to="Pause" method="_on_InputOptions_item_selected"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/HBoxContainer/Column1/KPOptions" to="Pause" method="_on_KPOptions_item_selected"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/HBoxContainer/Column1/ModeOptions" to="Pause" method="_on_ModeOptions_item_selected"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/HBoxContainer/Column2/FrameValue/FrameTime" to="Pause" method="_on_FrameTime_value_changed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/HBoxContainer/Column2/BoneValue/BoneTime" to="Pause" method="_on_BoneTime_value_changed"]

@@ -1,9 +1,8 @@
 extends Spatial
 
-var mode = false
-var time_f = 5
+var mode = "frame"
+var time_f = 10
 var time_b = 0.1
-var kp_visible = true
 
 func _ready():
 	# map contains the bone id for each bone of the hand asset
@@ -21,8 +20,7 @@ func _ready():
 	
 	var hand = get_node("/root/Main/LeftHand_11_26")
 	var skel = get_node("Armature/Skeleton")
-	var display_text = get_node("Display_Screen/text")
-	var next_input_text = get_node("Display_Screen/next_input")
+	var display_text = get_node("DisplayText")
 	var bonePose
 	
 	for frame in frames:
@@ -76,20 +74,14 @@ func _ready():
 		
 		# this shows the keypoints beside the hand
 		var offset = Vector3(1, 0, 0)
-		var skip = "dataset"
-		if kp_visible:
+		if get_node("/root/Main/Objects/Keypoint_View").visible:
 			for bone in dict_key_array:
-				if bone != skip:
+				if bone != "dataset":
 					# get the position from the data, and move the keypoint meshinstance there
 					var position = offset + Vector3((frame[bone][0])/conversionRatio,(frame[bone][1])/conversionRatio,(frame[bone][2])/conversionRatio)
 					var keypoint = get_node("/root/Main/Objects/Keypoint_View/"+bone)
 					keypoint.transform.origin = position
 					keypoint.show()
-		else:
-			for bone in dict_key_array:
-				if bone != skip:
-					var keypoint = get_node("/root/Main/Objects/Keypoint_View/"+bone)
-					keypoint.hide()
 		
 		for bone in bone_keys.size():
 			if not skip_names.has(bone_keys[bone]):
@@ -117,23 +109,11 @@ func _ready():
 				bonePose = skel.get_bone_pose(map[bone_keys[bone]])
 				bonePose = bonePose.rotated(axis_local.normalized(), angle)
 				skel.set_bone_pose(map[bone_keys[bone]], bonePose)
-			if mode:
+			if mode == "bone":
 				# this displays one bone at a time
-				if not skip_names.has(bone_keys[bone]):
-					var mode_txt = "Mode: Bone"
-					var time_f_txt = "     Frame Time: " + str(time_f) + " s"
-					var time_b_txt = "     Bone Time: " + str(time_b) + " s"
-					var visible_text
-					if kp_visible:
-						visible_text = "     Keypoints: Visible"
-					else:
-						visible_text = "     Keypoints: Invisible"
-					var data_txt = "     Dataset Number: " + str(frame["dataset"])
-					var bone_txt = "     Bone: " + bone_keys[bone]
-					var text = mode_txt + time_f_txt + time_b_txt + visible_text + data_txt + bone_txt
-					# update the display text
-					display_text.set_text(text)
-					next_input_text.set_text("")
+				var data_txt = "Dataset Number: " + str(frame["dataset"])
+				# update the display text
+				display_text.set_text(data_txt)
 				var t = Timer.new()
 				t.set_wait_time(time_b)
 				t.set_one_shot(true)
@@ -141,21 +121,10 @@ func _ready():
 				t.start()
 				yield(t, "timeout")
 				t.queue_free()
-		if not mode:
+		if mode == "frame":
 			# this displays one frame at a time
-			var mode_txt = "Mode: Frame"
-			var time_f_txt = "     Frame Time: " + str(time_f) + " s"
-			var time_b_txt = "     Bone Time: " + str(time_b) + " s"
-			var visible_text
-			if kp_visible:
-				visible_text = "     Keypoints: Visible"
-			else:
-				visible_text = "     Keypoints: Invisible"
-			var data_txt = "     Dataset Number: " + str(frame["dataset"])
-			var text = mode_txt + time_f_txt + time_b_txt + visible_text + data_txt
-			# update the display text
-			display_text.set_text(text)
-			next_input_text.set_text("")
+			var data_txt = "Dataset Number: " + str(frame["dataset"])
+			display_text.set_text(data_txt)
 			var t = Timer.new()
 			t.set_wait_time(time_f)
 			t.set_one_shot(true)
@@ -163,54 +132,3 @@ func _ready():
 			t.start()
 			yield(t, "timeout")
 			t.queue_free()
-		
-func _input(event):
-	var input_check = false
-	var input = {}
-	if event.is_action_pressed("mode"):
-		mode = not mode
-		var mode_text
-		if mode:
-			mode_text = "Mode: Bone"
-		else:
-			mode_text = "Mode: Frame"
-		input_check = true
-		input["mode"] = mode_text
-	if event.is_action_pressed("time_increase_f"):
-		time_f += 0.1
-		var time_f_text = "Frame Time: " + str(time_f) + " s"
-		input_check = true
-		input["time_f"] = time_f_text
-	if event.is_action_pressed("time_increase_b"):
-		time_b += 0.01
-		var time_b_text = "Bone Time: " + str(time_b) + " s"
-		input_check = true
-		input["time_b"] = time_b_text
-	if event.is_action_pressed("time_decrease_f"):
-		if time_f > 0.1:
-			time_f -= 0.1
-			var time_f_text = "Frame Time: " + str(time_f) + " s"
-			input_check = true
-			input["time_f"] = time_f_text
-	if event.is_action_pressed("time_decrease_b"):
-		if time_b > 0.01:
-			time_b -= 0.01
-			var time_b_text = "Bone Time: " + str(time_b) + " s"
-			input_check = true
-			input["time_b"] = time_b_text
-	if event.is_action_pressed("kp_visible"):
-		var visible_text
-		kp_visible = not kp_visible
-		if kp_visible:
-			visible_text = "Keypoints: Visible"
-		else:
-			visible_text = "Keypoints: Invisible"
-		input_check = true
-		input["visible"] = visible_text
-	if input_check:
-		var items = input.values()
-		var final_text = ""
-		for item in items:
-			final_text += item + "     "
-		var next_input_text = get_node("Display_Screen/next_input")
-		next_input_text.set_text("Next Input:  " + final_text + "     " + next_input_text.get_text())
