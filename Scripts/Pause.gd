@@ -18,8 +18,8 @@ func _ready():
 	input.add_item("Keyboard")
 	input.add_item("VR")
 	var kp = get_node("SettingsOverlay/HBoxContainer/Column1/KPOptions")
-	kp.add_item("Visible")
 	kp.add_item("Invisible")
+	kp.add_item("Visible")
 
 func _input(event):
 	if event.is_action_pressed("menu") and not vr_mode:

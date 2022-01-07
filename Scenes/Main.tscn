@@ -204,10 +204,8 @@ anchor_bottom = 1.0
 margin_top = 100.0
 custom_fonts/normal_font = SubResource( 65 )
 text = "- Press Esc to open or close the menu
-- Use WASD and ZC to move on the XZ and Y axis in keyboard mode
-- Use the mouse to control the camera in keyboard mode
-- Frame mode displays one frame at a time
-- Bone mode rotates one bone at a time"
+- Use WASD and ZC to move on the XZ and Y axis
+- Use the mouse to control the camera"
 __meta__ = {
 "_edit_use_anchors_": false
 }
