@@ -21,7 +21,6 @@ func _ready():
 	kp.add_item("Visible")
 	kp.add_item("Invisible")
 
-	
 func _input(event):
 	if event.is_action_pressed("menu") and not vr_mode:
 		# open menu
@@ -31,7 +30,7 @@ func _input(event):
 		var new_pause_state = not get_tree().paused
 		get_tree().paused = new_pause_state
 		visible = new_pause_state
-		get_node("/root/Main/LeftHand_11_26/DisplayText").visible = not new_pause_state
+		get_node("/root/Main/LeftHand_1_07/DisplayText").visible = not new_pause_state
 		if new_pause_state:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		else:
@@ -94,15 +93,8 @@ func _on_InputOptions_item_selected(_index):
 		camera.current = true
 
 func _on_KPOptions_item_selected(_index):
-	var keypoints = get_node("/root/Main/Objects/Keypoint_View")
-	if keypoints.visible:
-		keypoints.visible = false
+	var hand = get_node("/root/Main/LeftHand_1_07/Armature/Skeleton/Hand_L")
+	if hand.visible:
+		hand.visible = false
 	else:
-		keypoints.visible = true
-
-func _on_ModeOptions_item_selected(_index):
-	var mode = get_node("/root/Main/LeftHand_11_26").mode
-	if mode == "frame":
-		get_node("/root/Main/LeftHand_11_26").mode = "bone"
-	else:
-		get_node("/root/Main/LeftHand_11_26").mode = "frame"
+		hand.visible = true

@@ -1,12 +1,11 @@
 extends Spatial
 
-var frame_num = 0
-var frames
-
-onready var hand = get_node("/root/Main/LeftHand_11_26")
+onready var hand = get_node("/root/Main/LeftHand_1_07")
 onready var skel = get_node("Armature/Skeleton")
 onready var display_text = get_node("DisplayText")
 
+var frame_num = 0
+var frames
 # map contains the bone id for each bone of the hand asset
 var map = {"wrist": 0,
 	"thumb_tip": 25, "thumb_dst": 24, "thumb_pxm": 23, "thumb_mcp": 22,
@@ -16,20 +15,15 @@ var map = {"wrist": 0,
 	"little_tip": 5, "little_dst": 4, "little_int": 3, "little_pxm": 2}
 
 func _ready():
-	
 	# Gets the keypoint data from the parsing script
 	frames = get_node("/root/ImportData").getData()
-	
+	display_text.visible = false
 	set_physics_process(true)
 
-
 func _physics_process(_delta):
-	
 	if frame_num > frames.size() - 2:
 		set_physics_process(false)
-	
 	var next_frame = frames[frame_num]
-	
 	display_text.set_text("Dataset: " + str(frame_num + 1))
 	
 	# get positions of bones needed to calculate hand orientation 
@@ -79,17 +73,6 @@ func _physics_process(_delta):
 	
 	# these values are skipped because they can't be rotated
 	var skip_names = ["dataset", "wrist", "thumb_tip", "index_tip", "middle_tip", "ring_tip", "little_tip"]
-	
-	# this shows the keypoints beside the hand
-	var offset = Vector3(1, 0, 0)
-	if get_node("/root/Main/Objects/Keypoint_View").visible:
-		for bone in dict_key_array:
-			if bone != "dataset":
-				# get the position from the data, and move the keypoint meshinstance there
-				var position = offset + Vector3((next_frame[bone][0]),(next_frame[bone][1]),(next_frame[bone][2]))
-				var keypoint = get_node("/root/Main/Objects/Keypoint_View/"+bone)
-				keypoint.transform.origin = position
-				keypoint.show()
 	
 	for bone in bone_keys.size():
 		if not skip_names.has(bone_keys[bone]):
