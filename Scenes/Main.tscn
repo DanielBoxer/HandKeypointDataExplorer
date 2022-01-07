@@ -415,17 +415,6 @@ margin_top = 132.0
 margin_right = 452.0
 margin_bottom = 152.0
 
-[node name="ModeLabel" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
-margin_top = 162.0
-margin_right = 452.0
-margin_bottom = 176.0
-text = "Mode"
-
-[node name="ModeOptions" type="OptionButton" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
-margin_top = 186.0
-margin_right = 452.0
-margin_bottom = 206.0
-
 [node name="Column2" type="VBoxContainer" parent="Pause/SettingsOverlay/HBoxContainer"]
 margin_left = 472.0
 margin_right = 924.0
@@ -436,37 +425,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FrameValue" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column2"]
+[node name="FPSValue" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column2"]
 margin_right = 452.0
 margin_bottom = 14.0
-text = "Frame Time: 1 seconds"
+text = "FPS: 1"
 
-[node name="FrameTime" type="HSlider" parent="Pause/SettingsOverlay/HBoxContainer/Column2/FrameValue"]
+[node name="FPS" type="HSlider" parent="Pause/SettingsOverlay/HBoxContainer/Column2/FPSValue"]
 margin_top = 18.0
 margin_right = 295.0
 margin_bottom = 34.0
-min_value = 0.01
-max_value = 5.0
-step = 0.01
+min_value = 1.0
+max_value = 90.0
 value = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BoneValue" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column2"]
-margin_top = 64.0
-margin_right = 452.0
-margin_bottom = 78.0
-text = "Bone Time: 0.1 seconds"
-
-[node name="BoneTime" type="HSlider" parent="Pause/SettingsOverlay/HBoxContainer/Column2/BoneValue"]
-margin_top = 18.0
-margin_right = 295.0
-margin_bottom = 34.0
-min_value = 0.001
-max_value = 0.2
-step = 0.001
-value = 0.1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -597,6 +567,4 @@ material/0 = SubResource( 84 )
 [connection signal="item_selected" from="Pause/SettingsOverlay/HBoxContainer/Column1/ScreenOptions" to="Pause" method="_on_ScreenOptions_item_selected"]
 [connection signal="item_selected" from="Pause/SettingsOverlay/HBoxContainer/Column1/InputOptions" to="Pause" method="_on_InputOptions_item_selected"]
 [connection signal="item_selected" from="Pause/SettingsOverlay/HBoxContainer/Column1/KPOptions" to="Pause" method="_on_KPOptions_item_selected"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/HBoxContainer/Column1/ModeOptions" to="Pause" method="_on_ModeOptions_item_selected"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/HBoxContainer/Column2/FrameValue/FrameTime" to="Pause" method="_on_FrameTime_value_changed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/HBoxContainer/Column2/BoneValue/BoneTime" to="Pause" method="_on_BoneTime_value_changed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/HBoxContainer/Column2/FPSValue/FPS" to="Pause" method="_on_FPS_value_changed"]

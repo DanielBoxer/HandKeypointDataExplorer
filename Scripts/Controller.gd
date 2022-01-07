@@ -18,7 +18,7 @@ func _input(event):
 		head.rotate_x(deg2rad(-event.relative.y * mouse_sensitivity))
 		head.rotation.x = clamp(head.rotation.x, deg2rad(-89), deg2rad(89))
 		
-func _physics_process(delta):
+func _process(delta):
 	direction = Vector3()
 	# get direction of movement based on key press
 	if Input.is_action_pressed("move_forward"):

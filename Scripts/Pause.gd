@@ -20,9 +20,7 @@ func _ready():
 	var kp = get_node("SettingsOverlay/HBoxContainer/Column1/KPOptions")
 	kp.add_item("Visible")
 	kp.add_item("Invisible")
-	var mode = get_node("SettingsOverlay/HBoxContainer/Column1/ModeOptions")
-	mode.add_item("Frame")
-	mode.add_item("Bone")
+
 	
 func _input(event):
 	if event.is_action_pressed("menu") and not vr_mode:
@@ -55,16 +53,11 @@ func _on_Settings_pressed():
 func _on_Quit_pressed():
 	get_tree().quit()
 
-func _on_FrameTime_value_changed(value):
-	var frame_text = get_node("SettingsOverlay/HBoxContainer/Column2/FrameValue")
-	frame_text.set_text("Frame Time: " + str(value) + " seconds")
-	get_node("/root/Main/LeftHand_11_26").time_f = value
-
-func _on_BoneTime_value_changed(value):
-	var bone_text = get_node("SettingsOverlay/HBoxContainer/Column2/BoneValue")
-	bone_text.set_text("Bone Time: " + str(value) + " seconds")
-	get_node("/root/Main/LeftHand_11_26").time_b = value
-
+func _on_FPS_value_changed(value):
+	var fps_text = get_node("SettingsOverlay/HBoxContainer/Column2/FPSValue")
+	Engine.iterations_per_second = value
+	fps_text.set_text("FPS: " + str(value))
+	
 func _on_ScreenOptions_item_selected(_index):
 	# toggle fullscreen
 	OS.window_fullscreen = !OS.window_fullscreen
