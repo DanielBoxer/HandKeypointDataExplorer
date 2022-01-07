@@ -60,6 +60,6 @@ move_down={
  ]
 }
 
-[physics]
+[rendering]
 
-common/enable_pause_aware_picking=true
+environment/default_environment="res://Assets/Sunset.tres"

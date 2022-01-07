@@ -14,22 +14,20 @@ func _ready():
 	"little_tip": 5, "little_dst": 4, "little_int": 3, "little_pxm": 2}
 	
 	# Gets the keypoint data from the parsing script
-	var data = get_node("/root/ImportData").getData()
-	var frames = data["frames"]
-	var conversionRatio = data["ratio"]
+	var frames = get_node("/root/ImportData").getData()
 	
 	var hand = get_node("/root/Main/LeftHand_11_26")
 	var skel = get_node("Armature/Skeleton")
 	var display_text = get_node("DisplayText")
 	var bonePose
 	
-	for frame in frames:
+	for next_frame in frames:
 		# get positions of bones needed to calculate hand orientation 
-		var wrist = Vector3( frame["wrist"][0] , frame["wrist"][1] , frame["wrist"][2] )
-		var middle_pxm = Vector3( frame["middle_pxm"][0] , frame["middle_pxm"][1] , frame["middle_pxm"][2] )
-		var index_pxm = Vector3( frame["index_pxm"][0] , frame["index_pxm"][1] , frame["index_pxm"][2] )
-		var little_pxm = Vector3( frame["little_pxm"][0] , frame["little_pxm"][1] , frame["little_pxm"][2] )
-		var middle_tip = Vector3( frame["middle_tip"][0] , frame["middle_tip"][1] , frame["middle_tip"][2] )
+		var wrist = Vector3( next_frame["wrist"][0] , next_frame["wrist"][1] , next_frame["wrist"][2] )
+		var middle_pxm = Vector3( next_frame["middle_pxm"][0] , next_frame["middle_pxm"][1] , next_frame["middle_pxm"][2] )
+		var index_pxm = Vector3( next_frame["index_pxm"][0] , next_frame["index_pxm"][1] , next_frame["index_pxm"][2] )
+		var little_pxm = Vector3( next_frame["little_pxm"][0] , next_frame["little_pxm"][1] , next_frame["little_pxm"][2] )
+		var middle_tip = Vector3( next_frame["middle_tip"][0] , next_frame["middle_tip"][1] , next_frame["middle_tip"][2] )
 		
 		# the vector target is the direction the hand is facing
 		# this is calculated using the middle proximal and wrist keypoint 
@@ -58,11 +56,11 @@ func _ready():
 		
 		# the wrist translation is applied which moves the whole hand
 		bonePose = skel.get_bone_global_pose(map["wrist"])
-		var endPosition = Vector3( frame["wrist"][0] / conversionRatio , frame["wrist"][1] / conversionRatio , frame["wrist"][2] / conversionRatio)
+		var endPosition = Vector3( next_frame["wrist"][0] , next_frame["wrist"][1] , next_frame["wrist"][2])
 		var newPose = Transform(bonePose.basis, skel.to_local(endPosition))
 		skel.set_bone_global_pose_override(map["wrist"], newPose,1.0,true)
 		
-		var dict_key_array = Array(frame.keys())
+		var dict_key_array = Array(next_frame.keys())
 		var bone_keys = Array()
 		# the bone array must be reversed because the bones have to be moved from bottom to top
 		for x in dict_key_array.size():
@@ -78,7 +76,7 @@ func _ready():
 			for bone in dict_key_array:
 				if bone != "dataset":
 					# get the position from the data, and move the keypoint meshinstance there
-					var position = offset + Vector3((frame[bone][0])/conversionRatio,(frame[bone][1])/conversionRatio,(frame[bone][2])/conversionRatio)
+					var position = offset + Vector3((next_frame[bone][0]),(next_frame[bone][1]),(next_frame[bone][2]))
 					var keypoint = get_node("/root/Main/Objects/Keypoint_View/"+bone)
 					keypoint.transform.origin = position
 					keypoint.show()
@@ -91,13 +89,14 @@ func _ready():
 				
 				# get positions of current bone location and next bone location on the hand asset
 				# and the location of the next bone in the data which is the final location
-				var pos1 = skel.to_global(skel.get_bone_global_pose(map[bone_keys[bone]]).origin)
-				var pos2_i = skel.to_global(skel.get_bone_global_pose(map[bone_keys[next_bone]]).origin)
-				var pos2_f = Vector3( frame[bone_keys[next_bone]][0] / conversionRatio , frame[bone_keys[next_bone]][1] / conversionRatio , frame[bone_keys[next_bone]][2] / conversionRatio )
+				var current_pos_i = skel.to_global(skel.get_bone_global_pose(map[bone_keys[bone]]).origin)
+				var current_pos_f = skel.to_global(skel.get_bone_global_pose(map[bone_keys[next_bone]]).origin)
+				var next_pos_i = Vector3( next_frame[bone_keys[bone]][0] , next_frame[bone_keys[bone]][1] , next_frame[bone_keys[bone]][2] )
+				var next_pos_f = Vector3( next_frame[bone_keys[next_bone]][0] , next_frame[bone_keys[next_bone]][1] , next_frame[bone_keys[next_bone]][2] )
 				
 				# the angle vectors are calculated
-				var r_i = pos2_i - pos1
-				var r_f = pos2_f - pos1
+				var r_i = current_pos_f - current_pos_i
+				var r_f = next_pos_f - next_pos_i
 				var angle = r_i.angle_to(r_f)
 				
 				# the axis is perpendicular to the vectors making the angle
@@ -111,7 +110,7 @@ func _ready():
 				skel.set_bone_pose(map[bone_keys[bone]], bonePose)
 			if mode == "bone":
 				# this displays one bone at a time
-				var data_txt = "Dataset Number: " + str(frame["dataset"])
+				var data_txt = "Dataset Number: " + str(next_frame["dataset"])
 				# update the display text
 				display_text.set_text(data_txt)
 				var t = Timer.new()
@@ -123,7 +122,7 @@ func _ready():
 				t.queue_free()
 		if mode == "frame":
 			# this displays one frame at a time
-			var data_txt = "Dataset Number: " + str(frame["dataset"])
+			var data_txt = "Dataset Number: " + str(next_frame["dataset"])
 			display_text.set_text(data_txt)
 			var t = Timer.new()
 			t.set_wait_time(time_f)
