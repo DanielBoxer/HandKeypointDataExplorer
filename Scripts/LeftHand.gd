@@ -23,26 +23,46 @@ var keypoint_map := {
 	"little_int": 3,
 	"little_pxm": 2,
 } setget , get_keypoint_map
+var is_plugin_activated := false setget set_is_plugin_activated
+var frame_number := 0 setget set_frame_number
 
 var data_frames: Array
-var frame_number := 0
 
 onready var dataset_display_text := get_node("DisplayText")
 onready var hand := get_node("/root/Main/LeftHand")
 onready var hand_skeleton := get_node("Armature/Skeleton")
+onready var keypoint_data := preload("res://GDNative/bin/keypoints.gdns").new()
 
 
 func _ready() -> void:
 	data_frames = get_node("/root/ImportData").keypoint_data
 	dataset_display_text.visible = false
+	dataset_display_text.set_text("Dataset: None")
 	set_physics_process(true)
 
 
 func _physics_process(_delta: float) -> void:
-	if frame_number > data_frames.size() - 2:
-		set_physics_process(false)
-	var next_frame: Dictionary = data_frames[frame_number]
-	dataset_display_text.set_text("Dataset: " + str(frame_number + 1))
+	var next_frame := Dictionary()
+	if is_plugin_activated:
+		# get data from plugin
+		var data = keypoint_data.get_data()
+		var keypoint_keys = Array()
+		var keypoint_values = Array()
+		for key in range(0, data.size(), 2):
+			keypoint_keys.append(data[key])
+		for value in range(1, data.size(), 2):
+			keypoint_values.append(data[value])
+		for pair_num in range(data.size() / 2):
+			next_frame[keypoint_keys[pair_num]] = keypoint_values[pair_num]
+		dataset_display_text.set_text("Dataset: Plugin Data")
+	elif frame_number > data_frames.size() - 1:
+		frame_number = 0
+		next_frame = data_frames[frame_number]
+		dataset_display_text.set_text("Dataset: " + str(frame_number))
+	else:
+		# get data from json file
+		next_frame = data_frames[frame_number]
+		dataset_display_text.set_text("Dataset: " + str(frame_number))
 
 	var data_wrist_position := Vector3(
 		next_frame["wrist"][0], next_frame["wrist"][1], next_frame["wrist"][2]
@@ -190,3 +210,11 @@ func _physics_process(_delta: float) -> void:
 
 func get_keypoint_map() -> Dictionary:
 	return keypoint_map
+
+
+func set_is_plugin_activated(state) -> void:
+	is_plugin_activated = state
+
+
+func set_frame_number(value: int) -> void:
+	frame_number = value

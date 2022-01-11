@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Assets/sunset.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=2]
@@ -17,35 +17,25 @@
 [ext_resource path="res://Assets/keypoint_little_material.tres" type="Material" id=15]
 [ext_resource path="res://Assets/keypoint_middle_material.tres" type="Material" id=16]
 [ext_resource path="res://Assets/keypoint_ring_material.tres" type="Material" id=17]
+[ext_resource path="res://Assets/button_normal.tres" type="Texture" id=18]
+[ext_resource path="res://Assets/button_hover.tres" type="Texture" id=19]
+[ext_resource path="res://Assets/button_pressed.tres" type="Texture" id=20]
 
 [sub_resource type="CapsuleShape" id=61]
 height = 3.0
-
-[sub_resource type="Gradient" id=58]
-offsets = PoolRealArray( 0 )
-colors = PoolColorArray( 0.105882, 0.768627, 0.87451, 1 )
-
-[sub_resource type="GradientTexture" id=62]
-gradient = SubResource( 58 )
-
-[sub_resource type="Gradient" id=59]
-offsets = PoolRealArray( 0 )
-colors = PoolColorArray( 0.109804, 0.0823529, 0.372549, 1 )
-
-[sub_resource type="GradientTexture" id=63]
-gradient = SubResource( 59 )
-
-[sub_resource type="Gradient" id=60]
-offsets = PoolRealArray( 0 )
-colors = PoolColorArray( 0.2, 0.27451, 0.780392, 1 )
-
-[sub_resource type="GradientTexture" id=64]
-gradient = SubResource( 60 )
 
 [sub_resource type="DynamicFont" id=65]
 size = 43
 outline_color = Color( 0.25098, 0.12549, 0.843137, 1 )
 font_data = ExtResource( 4 )
+
+[sub_resource type="StyleBoxEmpty" id=68]
+
+[sub_resource type="StyleBoxEmpty" id=69]
+
+[sub_resource type="StyleBoxEmpty" id=70]
+
+[sub_resource type="StyleBoxEmpty" id=71]
 
 [sub_resource type="SphereMesh" id=67]
 
@@ -101,7 +91,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="text" type="RichTextLabel" parent="Pause/MenuOverlay"]
+[node name="MenuText" type="RichTextLabel" parent="Pause/MenuOverlay"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/normal_font = ExtResource( 9 )
@@ -114,7 +104,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Pause/MenuOverlay"]
+[node name="MenuContainer" type="VBoxContainer" parent="Pause/MenuOverlay"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 300.0
@@ -123,18 +113,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Instructions" type="TextureButton" parent="Pause/MenuOverlay/VBoxContainer"]
+[node name="Instructions" type="TextureButton" parent="Pause/MenuOverlay/MenuContainer"]
 margin_left = 402.0
 margin_right = 622.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 220, 50 )
 size_flags_horizontal = 4
-texture_normal = SubResource( 62 )
-texture_pressed = SubResource( 63 )
-texture_hover = SubResource( 64 )
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 20 )
+texture_hover = ExtResource( 19 )
 expand = true
 
-[node name="Label" type="Label" parent="Pause/MenuOverlay/VBoxContainer/Instructions"]
+[node name="InstructionsText" type="Label" parent="Pause/MenuOverlay/MenuContainer/Instructions"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 10 )
@@ -145,19 +135,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Settings" type="TextureButton" parent="Pause/MenuOverlay/VBoxContainer"]
+[node name="Settings" type="TextureButton" parent="Pause/MenuOverlay/MenuContainer"]
 margin_left = 402.0
 margin_top = 80.0
 margin_right = 622.0
 margin_bottom = 130.0
 rect_min_size = Vector2( 220, 50 )
 size_flags_horizontal = 4
-texture_normal = SubResource( 62 )
-texture_pressed = SubResource( 63 )
-texture_hover = SubResource( 64 )
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 20 )
+texture_hover = ExtResource( 19 )
 expand = true
 
-[node name="Label" type="Label" parent="Pause/MenuOverlay/VBoxContainer/Settings"]
+[node name="SettingsText" type="Label" parent="Pause/MenuOverlay/MenuContainer/Settings"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 10 )
@@ -168,19 +158,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Quit" type="TextureButton" parent="Pause/MenuOverlay/VBoxContainer"]
+[node name="Quit" type="TextureButton" parent="Pause/MenuOverlay/MenuContainer"]
 margin_left = 402.0
 margin_top = 160.0
 margin_right = 622.0
 margin_bottom = 210.0
 rect_min_size = Vector2( 220, 50 )
 size_flags_horizontal = 4
-texture_normal = SubResource( 62 )
-texture_pressed = SubResource( 63 )
-texture_hover = SubResource( 64 )
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 20 )
+texture_hover = ExtResource( 19 )
 expand = true
 
-[node name="Label" type="Label" parent="Pause/MenuOverlay/VBoxContainer/Quit"]
+[node name="QuitText" type="Label" parent="Pause/MenuOverlay/MenuContainer/Quit"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 10 )
@@ -196,7 +186,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.784314 )
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Pause/InstructionsOverlay"]
+[node name="InstructionsTitleText" type="RichTextLabel" parent="Pause/InstructionsOverlay"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -500.0
@@ -208,7 +198,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="text" type="RichTextLabel" parent="Pause/InstructionsOverlay"]
+[node name="InstructionsText" type="RichTextLabel" parent="Pause/InstructionsOverlay"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 100.0
@@ -220,29 +210,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Pause/InstructionsOverlay"]
+[node name="Back" type="TextureButton" parent="Pause/InstructionsOverlay"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -250.0
-margin_top = -65.0
+margin_left = -100.0
+margin_top = -50.0
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 20 )
+texture_hover = ExtResource( 19 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Back" type="TextureButton" parent="Pause/InstructionsOverlay/VBoxContainer"]
-margin_left = 15.0
-margin_right = 235.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 220, 50 )
-size_flags_horizontal = 4
-texture_normal = SubResource( 62 )
-texture_pressed = SubResource( 63 )
-texture_hover = SubResource( 64 )
-expand = true
-
-[node name="Label" type="Label" parent="Pause/InstructionsOverlay/VBoxContainer/Back"]
+[node name="BackText" type="Label" parent="Pause/InstructionsOverlay/Back"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 10 )
@@ -261,7 +244,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Pause/SettingsOverlay"]
+[node name="SettingsTitleText" type="RichTextLabel" parent="Pause/SettingsOverlay"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -500.0
@@ -273,34 +256,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Pause/SettingsOverlay"]
+[node name="Back" type="TextureButton" parent="Pause/SettingsOverlay"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -250.0
-margin_top = -65.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Back" type="TextureButton" parent="Pause/SettingsOverlay/VBoxContainer"]
-margin_left = 15.0
-margin_right = 235.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 220, 50 )
-size_flags_horizontal = 4
-texture_normal = SubResource( 62 )
-texture_pressed = SubResource( 63 )
-texture_hover = SubResource( 64 )
+margin_left = -100.0
+margin_top = -50.0
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 20 )
+texture_hover = ExtResource( 19 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Pause/SettingsOverlay/VBoxContainer/Back"]
+[node name="BackText" type="Label" parent="Pause/SettingsOverlay/Back"]
+anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -100.0
+margin_top = -50.0
 custom_fonts/font = ExtResource( 10 )
 text = "Back"
 align = 1
@@ -309,7 +286,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Pause/SettingsOverlay"]
+[node name="SettingsContainer" type="HBoxContainer" parent="Pause/SettingsOverlay"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 50.0
@@ -321,8 +298,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Column1" type="VBoxContainer" parent="Pause/SettingsOverlay/HBoxContainer"]
-margin_right = 452.0
+[node name="Column1" type="VBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer"]
+margin_right = 229.0
 margin_bottom = 350.0
 size_flags_horizontal = 3
 custom_constants/separation = 10
@@ -330,79 +307,100 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScreenLabel" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
-margin_right = 452.0
-margin_bottom = 14.0
-text = "Display"
+[node name="Row1" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column1"]
+margin_right = 229.0
+margin_bottom = 24.0
+
+[node name="CurrentFrameLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row1"]
+margin_top = 5.0
+margin_right = 144.0
+margin_bottom = 19.0
+text = "Stay On Current Frame"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScreenOptions" type="OptionButton" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
-margin_top = 24.0
-margin_right = 452.0
-margin_bottom = 44.0
+[node name="CurrentFrameOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row1"]
+margin_left = 148.0
+margin_right = 172.0
+margin_bottom = 24.0
+custom_styles/focus = SubResource( 68 )
+
+[node name="Row2" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column1"]
+margin_top = 34.0
+margin_right = 229.0
+margin_bottom = 58.0
+
+[node name="PluginLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row2"]
+margin_top = 5.0
+margin_right = 201.0
+margin_bottom = 19.0
+text = "Get Data From GDNative Plugin"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="InputLabel" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
-margin_top = 54.0
-margin_right = 452.0
-margin_bottom = 68.0
-text = "Input"
+[node name="PluginOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row2"]
+margin_left = 205.0
+margin_right = 229.0
+margin_bottom = 24.0
+custom_styles/focus = SubResource( 69 )
 
-[node name="InputOptions" type="OptionButton" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
-margin_top = 78.0
-margin_right = 452.0
-margin_bottom = 98.0
+[node name="Row3" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column1"]
+margin_top = 68.0
+margin_right = 229.0
+margin_bottom = 92.0
 
-[node name="KPLabel" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
-margin_top = 108.0
-margin_right = 452.0
-margin_bottom = 122.0
+[node name="KPLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row3"]
+margin_top = 5.0
+margin_right = 90.0
+margin_bottom = 19.0
 text = "Keypoint View"
 
-[node name="KPOptions" type="OptionButton" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
-margin_top = 132.0
-margin_right = 452.0
-margin_bottom = 152.0
+[node name="KPOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row3"]
+margin_left = 94.0
+margin_right = 118.0
+margin_bottom = 24.0
+custom_styles/focus = SubResource( 70 )
 
-[node name="SideKPLabel" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
-margin_top = 162.0
-margin_right = 452.0
-margin_bottom = 176.0
+[node name="Row4" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column1"]
+margin_top = 102.0
+margin_right = 229.0
+margin_bottom = 126.0
+
+[node name="SideKPLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row4"]
+margin_top = 5.0
+margin_right = 121.0
+margin_bottom = 19.0
 text = "Side Keypoint View"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SideKPOptions" type="OptionButton" parent="Pause/SettingsOverlay/HBoxContainer/Column1"]
-margin_top = 186.0
-margin_right = 452.0
-margin_bottom = 206.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="SideKPOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row4"]
+margin_left = 125.0
+margin_right = 149.0
+margin_bottom = 24.0
+custom_styles/focus = SubResource( 71 )
 
-[node name="Column2" type="VBoxContainer" parent="Pause/SettingsOverlay/HBoxContainer"]
-margin_left = 472.0
-margin_right = 924.0
+[node name="Column2" type="VBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer"]
+margin_left = 249.0
+margin_right = 460.0
 margin_bottom = 350.0
 size_flags_horizontal = 3
-custom_constants/separation = 50
+custom_constants/separation = 30
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FPSValue" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column2"]
-margin_right = 452.0
+[node name="FPSValue" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column2"]
+margin_right = 211.0
 margin_bottom = 14.0
 text = "FPS: 1"
 
-[node name="FPS" type="HSlider" parent="Pause/SettingsOverlay/HBoxContainer/Column2/FPSValue"]
+[node name="FPS" type="HSlider" parent="Pause/SettingsOverlay/SettingsContainer/Column2/FPSValue"]
 margin_top = 18.0
-margin_right = 452.0
+margin_right = 200.0
 margin_bottom = 34.0
 min_value = 1.0
 max_value = 90.0
@@ -411,15 +409,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MouseSensitivityValue" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column2"]
-margin_top = 64.0
-margin_right = 452.0
-margin_bottom = 78.0
+[node name="MouseSensitivityValue" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column2"]
+margin_top = 44.0
+margin_right = 211.0
+margin_bottom = 58.0
 text = "Mouse Sensitivity: 5"
 
-[node name="MouseSensitivity" type="HSlider" parent="Pause/SettingsOverlay/HBoxContainer/Column2/MouseSensitivityValue"]
+[node name="MouseSensitivity" type="HSlider" parent="Pause/SettingsOverlay/SettingsContainer/Column2/MouseSensitivityValue"]
 margin_top = 18.0
-margin_right = 452.0
+margin_right = 200.0
 margin_bottom = 34.0
 min_value = 1.0
 max_value = 10.0
@@ -428,18 +426,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MovementSpeedValue" type="Label" parent="Pause/SettingsOverlay/HBoxContainer/Column2"]
-margin_top = 128.0
-margin_right = 452.0
-margin_bottom = 142.0
+[node name="MovementSpeedValue" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column2"]
+margin_top = 88.0
+margin_right = 211.0
+margin_bottom = 102.0
 text = "Movement Speed: 3"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MovementSpeed" type="HSlider" parent="Pause/SettingsOverlay/HBoxContainer/Column2/MovementSpeedValue"]
+[node name="MovementSpeed" type="HSlider" parent="Pause/SettingsOverlay/SettingsContainer/Column2/MovementSpeedValue"]
 margin_top = 18.0
-margin_right = 452.0
+margin_right = 200.0
 margin_bottom = 34.0
 min_value = 1.0
 max_value = 10.0
@@ -447,6 +445,66 @@ value = 3.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Column3" type="VBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer"]
+margin_left = 480.0
+margin_right = 692.0
+margin_bottom = 350.0
+size_flags_horizontal = 3
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScreenLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column3"]
+margin_right = 212.0
+margin_bottom = 14.0
+text = "Display"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScreenOptions" type="OptionButton" parent="Pause/SettingsOverlay/SettingsContainer/Column3"]
+margin_top = 24.0
+margin_right = 212.0
+margin_bottom = 44.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column3"]
+margin_top = 54.0
+margin_right = 212.0
+margin_bottom = 68.0
+text = "Input"
+
+[node name="InputOptions" type="OptionButton" parent="Pause/SettingsOverlay/SettingsContainer/Column3"]
+margin_top = 78.0
+margin_right = 212.0
+margin_bottom = 98.0
+
+[node name="Column4" type="VBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer"]
+margin_left = 712.0
+margin_right = 924.0
+margin_bottom = 350.0
+size_flags_horizontal = 3
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputFrameLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column4"]
+margin_right = 212.0
+margin_bottom = 14.0
+text = "Input Next Frame: Not Set"
+
+[node name="InputFrame" type="SpinBox" parent="Pause/SettingsOverlay/SettingsContainer/Column4"]
+margin_top = 24.0
+margin_right = 212.0
+margin_bottom = 48.0
+min_value = -1.0
+max_value = 10.0
+value = -1.0
 
 [node name="KeypointView" type="Spatial" parent="."]
 script = ExtResource( 11 )
@@ -571,17 +629,18 @@ mesh = SubResource( 66 )
 skeleton = NodePath("../..")
 material/0 = null
 
-[connection signal="pressed" from="Pause/MenuOverlay/VBoxContainer/Instructions" to="Pause" method="_on_Instructions_pressed"]
-[connection signal="pressed" from="Pause/MenuOverlay/VBoxContainer/Settings" to="Pause" method="_on_Settings_pressed"]
-[connection signal="pressed" from="Pause/MenuOverlay/VBoxContainer/Quit" to="Pause" method="_on_Quit_pressed"]
-[connection signal="pressed" from="Pause/InstructionsOverlay/VBoxContainer/Back" to="Pause" method="_on_Back_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/VBoxContainer/Back" to="Pause" method="_on_Back_pressed"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/HBoxContainer/Column1/ScreenOptions" to="Pause" method="_on_ScreenOptions_item_selected"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/HBoxContainer/Column1/InputOptions" to="Pause" method="_on_InputOptions_item_selected"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/HBoxContainer/Column1/KPOptions" to="Pause" method="_on_KPOptions_item_selected"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/HBoxContainer/Column1/SideKPOptions" to="Pause" method="_on_SideKPOptions_item_selected"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/HBoxContainer/Column2/FPSValue/FPS" to="Pause" method="_on_FPS_value_changed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/HBoxContainer/Column2/MouseSensitivityValue/MouseSensitivity" to="Pause" method="_on_MouseSensitivity_value_changed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/HBoxContainer/Column2/MovementSpeedValue/MovementSpeed" to="Pause" method="_on_MovementSpeed_value_changed"]
-
-[editable path="LeftHand"]
+[connection signal="pressed" from="Pause/MenuOverlay/MenuContainer/Instructions" to="Pause" method="_on_Instructions_pressed"]
+[connection signal="pressed" from="Pause/MenuOverlay/MenuContainer/Settings" to="Pause" method="_on_Settings_pressed"]
+[connection signal="pressed" from="Pause/MenuOverlay/MenuContainer/Quit" to="Pause" method="_on_Quit_pressed"]
+[connection signal="pressed" from="Pause/InstructionsOverlay/Back" to="Pause" method="_on_Back_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Back" to="Pause" method="_on_Back_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row1/CurrentFrameOptions" to="Pause" method="_on_CurrentFrameOptions_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row2/PluginOptions" to="Pause" method="_on_PluginOptions_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row3/KPOptions" to="Pause" method="_on_KPOptions_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row4/SideKPOptions" to="Pause" method="_on_SideKPOptions_toggled"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/SettingsContainer/Column2/FPSValue/FPS" to="Pause" method="_on_FPS_value_changed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/SettingsContainer/Column2/MouseSensitivityValue/MouseSensitivity" to="Pause" method="_on_MouseSensitivity_value_changed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/SettingsContainer/Column2/MovementSpeedValue/MovementSpeed" to="Pause" method="_on_MovementSpeed_value_changed"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/SettingsContainer/Column3/ScreenOptions" to="Pause" method="_on_ScreenOptions_item_selected"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/SettingsContainer/Column3/InputOptions" to="Pause" method="_on_InputOptions_item_selected"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/SettingsContainer/Column4/InputFrame" to="Pause" method="_on_InputFrame_value_changed"]
