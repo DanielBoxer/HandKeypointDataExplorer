@@ -62,4 +62,4 @@ move_down={
 
 [rendering]
 
-environment/default_environment="res://Assets/Sunset.tres"
+environment/default_environment="res://Assets/sunset.tres"
