@@ -25,7 +25,10 @@ func _ready() -> void:
 	var input_frame: SpinBox = get_node(
 		"SettingsOverlay/SettingsContainer/Column4/InputFrame"
 	)
-	input_frame.max_value = get_node("/root/ImportData").keypoint_data.size() - 1
+	input_frame.max_value = (
+		get_node("/root/ImportData").keypoint_data["left_hand_data"].size()
+		- 1
+	)
 
 
 func _input(event: InputEvent) -> void:
@@ -37,14 +40,15 @@ func _input(event: InputEvent) -> void:
 		var new_pause_state: bool = not get_tree().paused
 		get_tree().paused = new_pause_state
 		visible = new_pause_state
-		get_node("/root/Main/LeftHand/DisplayText").visible = not new_pause_state
+		get_node("/root/Main/Hands/DisplayText").visible = not new_pause_state
 		if new_pause_state:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-			get_node("SettingsOverlay/SettingsContainer/Column4/InputFrameLabel").set_text(
-				"Input Next Frame: Not Set"
+			var input_frame_text: Label = get_node(
+				"SettingsOverlay/SettingsContainer/Column4/InputFrameLabel"
 			)
+			input_frame_text.set_text("Input Next Frame: Not Set")
 
 
 func _on_Instructions_pressed() -> void:
@@ -68,7 +72,7 @@ func _on_Quit_pressed() -> void:
 
 
 func _on_FPS_value_changed(value: int) -> void:
-	var fps_text := get_node("SettingsOverlay/SettingsContainer/Column2/FPSValue")
+	var fps_text: Label = get_node("SettingsOverlay/SettingsContainer/Column2/FPSValue")
 	Engine.iterations_per_second = value
 	fps_text.set_text("FPS: " + str(value))
 
@@ -79,9 +83,11 @@ func _on_ScreenOptions_item_selected(_index: int) -> void:
 
 
 func _on_InputOptions_item_selected(_index: int) -> void:
-	var camera := get_node("/root/Main/Controller/Head/Camera")
-	var vr_camera := get_node("/root/Main/ARVROrigin/ARVRCamera")
-	var input_text := get_node("SettingsOverlay/SettingsContainer/Column3/InputLabel")
+	var camera: Camera = get_node("/root/Main/Controller/Head/Camera")
+	var vr_camera: ARVRCamera = get_node("/root/Main/ARVROrigin/ARVRCamera")
+	var input_text: Label = get_node(
+		"SettingsOverlay/SettingsContainer/Column3/InputLabel"
+	)
 	if camera.current:
 		# start VR
 		var VR: ARVRInterface = ARVRServer.find_interface("OpenVR")
@@ -128,49 +134,76 @@ func _on_InputFrame_value_changed(value: int) -> void:
 	var input_frame: SpinBox = get_node(
 		"SettingsOverlay/SettingsContainer/Column4/InputFrame"
 	)
-	if value >= 0:
-		get_node("/root/Main/LeftHand").frame_number = value
-		get_node("SettingsOverlay/SettingsContainer/Column4/InputFrameLabel").set_text(
-			"Input Next Frame: Frame " + str(value)
+	var plugin_checkbox: CheckBox = get_node(
+		"SettingsOverlay/SettingsContainer/Column1/Row4/PluginOptions"
+	)
+	if plugin_checkbox.pressed == false:
+		if value >= 0:
+			get_node("/root/Main/Hands").frame_number = value
+			get_node("/root/Main/KeypointView").frame_number = value
+
+			get_node("SettingsOverlay/SettingsContainer/Column4/InputFrameLabel").set_text(
+				"Input Next Frame: Frame " + str(value)
+			)
+			input_frame.value = -1
+	else:
+		var input_frame_text: Label = get_node(
+			"SettingsOverlay/SettingsContainer/Column4/InputFrameLabel"
 		)
+		input_frame_text.set_text("Unavailable while plugin is on")
 		input_frame.value = -1
+		var timer := Timer.new()
+		timer.set_wait_time(5)
+		timer.set_one_shot(true)
+		self.add_child(timer)
+		timer.start()
+		yield(timer, "timeout")
+		timer.queue_free()
+		input_frame_text.set_text("Input Next Frame: Not Set")
 
 
 func _on_CurrentFrameOptions_toggled(button_pressed: bool) -> void:
-	get_node("/root/Main/LeftHand").set_physics_process(not button_pressed)
+	get_node("/root/Main/Hands").set_physics_process(not button_pressed)
 	get_node("/root/Main/KeypointView").set_physics_process(not button_pressed)
 
 
 func _on_PluginOptions_toggled(button_pressed: bool) -> void:
-	get_node("/root/Main/LeftHand").is_plugin_activated = button_pressed
-	var side_keypoint_checkbox := get_node(
-		"SettingsOverlay/SettingsContainer/Column1/Row4/SideKPOptions"
+	get_node("/root/Main/Hands").is_plugin_activated = button_pressed
+	var side_keypoint_checkbox: CheckBox = get_node(
+		"SettingsOverlay/SettingsContainer/Column1/Row6/SideKPOptions"
 	)
 	if side_keypoint_checkbox.is_pressed():
 		side_keypoint_checkbox.pressed = false
 
 
 func _on_KPOptions_toggled(button_pressed: bool) -> void:
-	get_node("/root/Main/LeftHand/Armature/Skeleton/Hand_L").visible = not button_pressed
+	var hand_mesh_left: MeshInstance = get_node(
+		"/root/Main/Hands/LeftHand/Armature/Skeleton/Hand_L"
+	)
+	hand_mesh_left.visible = not button_pressed
+	var hand_mesh_right: MeshInstance = get_node(
+		"/root/Main/Hands/RightHand/Armature/Skeleton/Hand_L"
+	)
+	hand_mesh_right.visible = not button_pressed
 
 
 func _on_SideKPOptions_toggled(button_pressed: bool) -> void:
-	var side_keypoint_text := get_node(
-		"SettingsOverlay/SettingsContainer/Column1/Row4/SideKPLabel"
+	var side_keypoint_text: Label = get_node(
+		"SettingsOverlay/SettingsContainer/Column1/Row6/SideKPLabel"
 	)
-	var side_keypoints := get_node("/root/Main/KeypointView")
-	var side_keypoint_checkbox = get_node(
-		"SettingsOverlay/SettingsContainer/Column1/Row4/SideKPOptions"
+	var side_keypoints: Spatial = get_node("/root/Main/KeypointView")
+	var side_keypoint_checkbox: CheckBox = get_node(
+		"SettingsOverlay/SettingsContainer/Column1/Row6/SideKPOptions"
 	)
-	var plugin_checkbox := get_node(
-		"SettingsOverlay/SettingsContainer/Column1/Row2/PluginOptions"
+	var plugin_checkbox: CheckBox = get_node(
+		"SettingsOverlay/SettingsContainer/Column1/Row4/PluginOptions"
 	)
 	var is_plugin_checked: bool = plugin_checkbox.is_pressed()
 	if is_plugin_checked:
 		side_keypoints.visible = false
 		side_keypoint_checkbox.pressed = false
 		if side_keypoint_text.get_text() == "Side Keypoint View":
-			side_keypoint_text.set_text("Unavailable with plugin")
+			side_keypoint_text.set_text("Unavailable while plugin is on")
 			var timer := Timer.new()
 			timer.set_wait_time(5)
 			timer.set_one_shot(true)
@@ -182,3 +215,13 @@ func _on_SideKPOptions_toggled(button_pressed: bool) -> void:
 
 	else:
 		side_keypoints.visible = button_pressed
+
+
+func _on_LeftHandView_toggled(button_pressed: bool) -> void:
+	get_node("/root/Main/Hands/LeftHand").visible = button_pressed
+	get_node("/root/Main/KeypointView/left_hand").visible = button_pressed
+
+
+func _on_RightHandView_toggled(button_pressed: bool) -> void:
+	get_node("/root/Main/Hands/RightHand").visible = button_pressed
+	get_node("/root/Main/KeypointView/right_hand").visible = button_pressed

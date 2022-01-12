@@ -1,38 +1,51 @@
 extends Spatial
 
-const KEYPOINTS_OFFSET := Vector3(1, 0, 0)
-const KEYPOINTS_SCALE_FACTOR := 1.5
+const KEYPOINTS_OFFSET: Dictionary = {
+	"left_hand": Vector3(0.2, 0, 0), "right_hand": Vector3(-0.2, 0, 0)
+}
 
 var keypoints: Array
-var frames: Array
-var frame_number := 0
+var frames := {"left_hand": Array(), "right_hand": Array()}
+var frame_number := 0 setget set_frame_number
 
 
 func _ready() -> void:
 	visible = false
-	keypoints = get_node("/root/Main/LeftHand").keypoint_map.keys()
-	frames = get_node("/root/ImportData").keypoint_data
+	get_node("/root/Main/KeypointView/right_hand").visible = false
+	keypoints = get_node("/root/Main/Hands").keypoint_map.keys()
+	var import_data: Dictionary = get_node("/root/ImportData").keypoint_data
+	frames["left_hand"] = import_data["left_hand_data"]
+	frames["right_hand"] = import_data["right_hand_data"]
 
 
 func _physics_process(_delta) -> void:
-	if frame_number > frames.size() - 2:
-		set_physics_process(false)
-	var next_frame: Dictionary = frames[frame_number]
+	transform_keypoints("left_hand")
+	transform_keypoints("right_hand")
+	frame_number += 1
+
+
+func transform_keypoints(hand: String) -> void:
+	if frame_number > frames["left_hand"].size() - 1:
+		frame_number = 0
+	var next_frame: Dictionary = frames[hand][frame_number]
 
 	# this shows the keypoints beside the hand
-	if get_node("/root/Main/KeypointView").visible:
-		for keypoint in keypoints:
-			if keypoint != "dataset":
-				var position := (
-					KEYPOINTS_OFFSET
-					+ Vector3(
-						next_frame[keypoint][0] * KEYPOINTS_SCALE_FACTOR,
-						next_frame[keypoint][1] * KEYPOINTS_SCALE_FACTOR,
-						next_frame[keypoint][2] * KEYPOINTS_SCALE_FACTOR
-					)
+	for keypoint in keypoints:
+		if keypoint != "dataset":
+			var position: Vector3 = (
+				KEYPOINTS_OFFSET[hand]
+				+ Vector3(
+					next_frame[keypoint][0],
+					next_frame[keypoint][1],
+					next_frame[keypoint][2]
 				)
-				var keypoint_node := get_node("/root/Main/KeypointView/" + keypoint)
-				keypoint_node.transform.origin = position
-				keypoint_node.show()
+			)
+			var keypoint_node := get_node(
+				"/root/Main/KeypointView/" + hand + "/" + keypoint
+			)
+			keypoint_node.transform.origin = position
+			keypoint_node.show()
 
-	frame_number += 1
+
+func set_frame_number(value: int) -> void:
+	frame_number = value

@@ -3,13 +3,13 @@
 [ext_resource path="res://Assets/sunset.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/Pause.gd" type="Script" id=3]
-[ext_resource path="res://Assets/raleway_variable_font_wght.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Assets/button_font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://Scenes/LeftHand.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/LeftHand.gd" type="Script" id=6]
-[ext_resource path="res://Assets/display_text.tres" type="DynamicFont" id=7]
+[ext_resource path="res://Assets/instructions_font.tres" type="DynamicFont" id=7]
 [ext_resource path="res://Scripts/Controller.gd" type="Script" id=8]
-[ext_resource path="res://Assets/pause_text.tres" type="DynamicFont" id=9]
-[ext_resource path="res://Assets/button_text.tres" type="DynamicFont" id=10]
+[ext_resource path="res://Assets/pause_font.tres" type="DynamicFont" id=9]
+[ext_resource path="res://Assets/display_font.tres" type="DynamicFont" id=10]
 [ext_resource path="res://Scripts/KeypointView.gd" type="Script" id=11]
 [ext_resource path="res://Assets/keypoint_thumb_material.tres" type="Material" id=12]
 [ext_resource path="res://Assets/keypoint_index_material.tres" type="Material" id=13]
@@ -20,22 +20,18 @@
 [ext_resource path="res://Assets/button_normal.tres" type="Texture" id=18]
 [ext_resource path="res://Assets/button_hover.tres" type="Texture" id=19]
 [ext_resource path="res://Assets/button_pressed.tres" type="Texture" id=20]
+[ext_resource path="res://Scenes/RightHand.tscn" type="PackedScene" id=21]
 
 [sub_resource type="CapsuleShape" id=61]
 height = 3.0
 
-[sub_resource type="DynamicFont" id=65]
-size = 43
-outline_color = Color( 0.25098, 0.12549, 0.843137, 1 )
-font_data = ExtResource( 4 )
+[sub_resource type="StyleBoxEmpty" id=71]
 
 [sub_resource type="StyleBoxEmpty" id=68]
 
 [sub_resource type="StyleBoxEmpty" id=69]
 
 [sub_resource type="StyleBoxEmpty" id=70]
-
-[sub_resource type="StyleBoxEmpty" id=71]
 
 [sub_resource type="SphereMesh" id=67]
 
@@ -44,24 +40,30 @@ font_data = ExtResource( 4 )
 [node name="Main" type="Spatial"]
 script = ExtResource( 2 )
 
-[node name="LeftHand" parent="." instance=ExtResource( 5 )]
+[node name="Hands" type="Spatial" parent="."]
 script = ExtResource( 6 )
 
-[node name="DisplayText" type="Label" parent="LeftHand"]
+[node name="LeftHand" parent="Hands" instance=ExtResource( 5 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+
+[node name="RightHand" parent="Hands" instance=ExtResource( 21 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+
+[node name="DisplayText" type="Label" parent="Hands"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
 margin_top = -40.0
 margin_right = 120.0
 margin_bottom = -10.0
-custom_fonts/font = ExtResource( 7 )
+custom_fonts/font = ExtResource( 10 )
 text = "Dataset: 0"
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
 [node name="Controller" type="KinematicBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 2.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 1.5 )
 script = ExtResource( 8 )
 
 [node name="Head" type="Spatial" parent="Controller"]
@@ -91,7 +93,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MenuText" type="RichTextLabel" parent="Pause/MenuOverlay"]
+[node name="MenuTitleText" type="RichTextLabel" parent="Pause/MenuOverlay"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/normal_font = ExtResource( 9 )
@@ -127,7 +129,7 @@ expand = true
 [node name="InstructionsText" type="Label" parent="Pause/MenuOverlay/MenuContainer/Instructions"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 4 )
 text = "Instructions"
 align = 1
 valign = 1
@@ -150,7 +152,7 @@ expand = true
 [node name="SettingsText" type="Label" parent="Pause/MenuOverlay/MenuContainer/Settings"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 4 )
 text = "Settings"
 align = 1
 valign = 1
@@ -173,7 +175,7 @@ expand = true
 [node name="QuitText" type="Label" parent="Pause/MenuOverlay/MenuContainer/Quit"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 4 )
 text = "Quit"
 align = 1
 valign = 1
@@ -202,7 +204,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 100.0
-custom_fonts/normal_font = SubResource( 65 )
+custom_fonts/normal_font = ExtResource( 7 )
 text = "- Press Esc to open or close the menu
 - Use WASD and ZC to move on the XZ and Y axis
 - Use the mouse to control the camera"
@@ -228,7 +230,7 @@ __meta__ = {
 [node name="BackText" type="Label" parent="Pause/InstructionsOverlay/Back"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 4 )
 text = "Back"
 align = 1
 valign = 1
@@ -278,7 +280,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -100.0
 margin_top = -50.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 4 )
 text = "Back"
 align = 1
 valign = 1
@@ -311,7 +313,48 @@ __meta__ = {
 margin_right = 229.0
 margin_bottom = 24.0
 
-[node name="CurrentFrameLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row1"]
+[node name="LeftHandViewLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row1"]
+margin_top = 5.0
+margin_right = 98.0
+margin_bottom = 19.0
+text = "Show Left Hand"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeftHandView" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row1"]
+margin_left = 102.0
+margin_right = 126.0
+margin_bottom = 24.0
+custom_styles/focus = SubResource( 71 )
+pressed = true
+
+[node name="Row2" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column1"]
+margin_top = 34.0
+margin_right = 229.0
+margin_bottom = 58.0
+
+[node name="RightHandViewLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row2"]
+margin_top = 5.0
+margin_right = 106.0
+margin_bottom = 19.0
+text = "Show Right Hand"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RightHandView" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row2"]
+margin_left = 110.0
+margin_right = 134.0
+margin_bottom = 24.0
+custom_styles/focus = SubResource( 71 )
+
+[node name="Row3" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column1"]
+margin_top = 68.0
+margin_right = 229.0
+margin_bottom = 92.0
+
+[node name="CurrentFrameLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row3"]
 margin_top = 5.0
 margin_right = 144.0
 margin_bottom = 19.0
@@ -320,18 +363,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CurrentFrameOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row1"]
+[node name="CurrentFrameOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row3"]
 margin_left = 148.0
 margin_right = 172.0
 margin_bottom = 24.0
 custom_styles/focus = SubResource( 68 )
 
-[node name="Row2" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column1"]
-margin_top = 34.0
+[node name="Row4" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column1"]
+margin_top = 102.0
 margin_right = 229.0
-margin_bottom = 58.0
+margin_bottom = 126.0
 
-[node name="PluginLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row2"]
+[node name="PluginLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row4"]
 margin_top = 5.0
 margin_right = 201.0
 margin_bottom = 19.0
@@ -340,35 +383,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PluginOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row2"]
+[node name="PluginOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row4"]
 margin_left = 205.0
 margin_right = 229.0
 margin_bottom = 24.0
 custom_styles/focus = SubResource( 69 )
 
-[node name="Row3" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column1"]
-margin_top = 68.0
+[node name="Row5" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column1"]
+margin_top = 136.0
 margin_right = 229.0
-margin_bottom = 92.0
+margin_bottom = 160.0
 
-[node name="KPLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row3"]
+[node name="KPLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row5"]
 margin_top = 5.0
 margin_right = 90.0
 margin_bottom = 19.0
 text = "Keypoint View"
 
-[node name="KPOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row3"]
+[node name="KPOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row5"]
 margin_left = 94.0
 margin_right = 118.0
 margin_bottom = 24.0
 custom_styles/focus = SubResource( 70 )
 
-[node name="Row4" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column1"]
-margin_top = 102.0
+[node name="Row6" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column1"]
+margin_top = 170.0
 margin_right = 229.0
-margin_bottom = 126.0
+margin_bottom = 194.0
 
-[node name="SideKPLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row4"]
+[node name="SideKPLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row6"]
 margin_top = 5.0
 margin_right = 121.0
 margin_bottom = 19.0
@@ -377,7 +420,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SideKPOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row4"]
+[node name="SideKPOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row6"]
 margin_left = 125.0
 margin_right = 149.0
 margin_bottom = 24.0
@@ -509,107 +552,237 @@ value = -1.0
 [node name="KeypointView" type="Spatial" parent="."]
 script = ExtResource( 11 )
 
-[node name="wrist" type="MeshInstance" parent="KeypointView"]
+[node name="left_hand" type="Spatial" parent="KeypointView"]
+
+[node name="wrist" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 14 )
+
+[node name="thumb_tip" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 12 )
+
+[node name="thumb_dst" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 12 )
+
+[node name="thumb_pxm" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 12 )
+
+[node name="thumb_mcp" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 12 )
+
+[node name="index_tip" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 13 )
+
+[node name="index_dst" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 13 )
+
+[node name="index_int" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 13 )
+
+[node name="index_pxm" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 13 )
+
+[node name="middle_tip" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 16 )
+
+[node name="middle_dst" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 16 )
+
+[node name="middle_int" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 16 )
+
+[node name="middle_pxm" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 16 )
+
+[node name="ring_tip" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 17 )
+
+[node name="ring_dst" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 17 )
+
+[node name="ring_int" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 17 )
+
+[node name="ring_pxm" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 17 )
+
+[node name="little_tip" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 15 )
+
+[node name="little_dst" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 15 )
+
+[node name="little_int" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 15 )
+
+[node name="little_pxm" type="MeshInstance" parent="KeypointView/left_hand"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 15 )
+
+[node name="right_hand" type="Spatial" parent="KeypointView"]
+
+[node name="wrist" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 14 )
 
-[node name="thumb_tip" type="MeshInstance" parent="KeypointView"]
+[node name="thumb_tip" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 12 )
 
-[node name="thumb_dst" type="MeshInstance" parent="KeypointView"]
+[node name="thumb_dst" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 12 )
 
-[node name="thumb_pxm" type="MeshInstance" parent="KeypointView"]
+[node name="thumb_pxm" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 12 )
 
-[node name="thumb_mcp" type="MeshInstance" parent="KeypointView"]
+[node name="thumb_mcp" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 12 )
 
-[node name="index_tip" type="MeshInstance" parent="KeypointView"]
+[node name="index_tip" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 13 )
 
-[node name="index_dst" type="MeshInstance" parent="KeypointView"]
+[node name="index_dst" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 13 )
 
-[node name="index_int" type="MeshInstance" parent="KeypointView"]
+[node name="index_int" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 13 )
 
-[node name="index_pxm" type="MeshInstance" parent="KeypointView"]
+[node name="index_pxm" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 13 )
 
-[node name="middle_tip" type="MeshInstance" parent="KeypointView"]
+[node name="middle_tip" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 16 )
 
-[node name="middle_dst" type="MeshInstance" parent="KeypointView"]
+[node name="middle_dst" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 16 )
 
-[node name="middle_int" type="MeshInstance" parent="KeypointView"]
+[node name="middle_int" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 16 )
 
-[node name="middle_pxm" type="MeshInstance" parent="KeypointView"]
+[node name="middle_pxm" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 16 )
 
-[node name="ring_tip" type="MeshInstance" parent="KeypointView"]
+[node name="ring_tip" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 17 )
 
-[node name="ring_dst" type="MeshInstance" parent="KeypointView"]
+[node name="ring_dst" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 17 )
 
-[node name="ring_int" type="MeshInstance" parent="KeypointView"]
+[node name="ring_int" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 17 )
 
-[node name="ring_pxm" type="MeshInstance" parent="KeypointView"]
+[node name="ring_pxm" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 17 )
 
-[node name="little_tip" type="MeshInstance" parent="KeypointView"]
+[node name="little_tip" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 15 )
 
-[node name="little_dst" type="MeshInstance" parent="KeypointView"]
+[node name="little_dst" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 15 )
 
-[node name="little_int" type="MeshInstance" parent="KeypointView"]
+[node name="little_int" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 15 )
 
-[node name="little_pxm" type="MeshInstance" parent="KeypointView"]
+[node name="little_pxm" type="MeshInstance" parent="KeypointView/right_hand"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 15 )
@@ -634,10 +807,12 @@ material/0 = null
 [connection signal="pressed" from="Pause/MenuOverlay/MenuContainer/Quit" to="Pause" method="_on_Quit_pressed"]
 [connection signal="pressed" from="Pause/InstructionsOverlay/Back" to="Pause" method="_on_Back_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Back" to="Pause" method="_on_Back_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row1/CurrentFrameOptions" to="Pause" method="_on_CurrentFrameOptions_toggled"]
-[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row2/PluginOptions" to="Pause" method="_on_PluginOptions_toggled"]
-[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row3/KPOptions" to="Pause" method="_on_KPOptions_toggled"]
-[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row4/SideKPOptions" to="Pause" method="_on_SideKPOptions_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row1/LeftHandView" to="Pause" method="_on_LeftHandView_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row2/RightHandView" to="Pause" method="_on_RightHandView_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row3/CurrentFrameOptions" to="Pause" method="_on_CurrentFrameOptions_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row4/PluginOptions" to="Pause" method="_on_PluginOptions_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row5/KPOptions" to="Pause" method="_on_KPOptions_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row6/SideKPOptions" to="Pause" method="_on_SideKPOptions_toggled"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/SettingsContainer/Column2/FPSValue/FPS" to="Pause" method="_on_FPS_value_changed"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/SettingsContainer/Column2/MouseSensitivityValue/MouseSensitivity" to="Pause" method="_on_MouseSensitivity_value_changed"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/SettingsContainer/Column2/MovementSpeedValue/MovementSpeed" to="Pause" method="_on_MovementSpeed_value_changed"]
