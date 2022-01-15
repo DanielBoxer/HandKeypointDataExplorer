@@ -1,6 +1,6 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=39 format=2]
 
-[ext_resource path="res://Assets/sunset.tres" type="Environment" id=1]
+[ext_resource path="res://Assets/sunset_environment.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/Pause.gd" type="Script" id=3]
 [ext_resource path="res://Assets/button_font.tres" type="DynamicFont" id=4]
@@ -21,6 +21,11 @@
 [ext_resource path="res://Assets/button_hover.tres" type="Texture" id=19]
 [ext_resource path="res://Assets/button_pressed.tres" type="Texture" id=20]
 [ext_resource path="res://Scenes/RightHand.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Scripts/Debugger.gd" type="Script" id=22]
+[ext_resource path="res://Assets/marker_y_axis_material.tres" type="Material" id=23]
+[ext_resource path="res://Assets/axis_material.tres" type="Material" id=24]
+[ext_resource path="res://Assets/marker_z_axis_material.tres" type="Material" id=25]
+[ext_resource path="res://Assets/marker_x_axis_material.tres" type="Material" id=26]
 
 [sub_resource type="CapsuleShape" id=61]
 height = 3.0
@@ -33,7 +38,17 @@ height = 3.0
 
 [sub_resource type="StyleBoxEmpty" id=70]
 
+[sub_resource type="StyleBoxEmpty" id=75]
+
+[sub_resource type="StyleBoxEmpty" id=76]
+
+[sub_resource type="StyleBoxEmpty" id=77]
+
 [sub_resource type="SphereMesh" id=67]
+
+[sub_resource type="CapsuleMesh" id=74]
+
+[sub_resource type="CapsuleMesh" id=73]
 
 [sub_resource type="CubeMesh" id=66]
 
@@ -48,16 +63,36 @@ transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 
 [node name="RightHand" parent="Hands" instance=ExtResource( 21 )]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+visible = false
 
-[node name="DisplayText" type="Label" parent="Hands"]
+[node name="DisplayContainer" type="HBoxContainer" parent="Hands"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
 margin_top = -40.0
-margin_right = 120.0
-margin_bottom = -10.0
+margin_right = 110.0
+custom_constants/separation = 25
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DatasetText" type="Label" parent="Hands/DisplayContainer"]
+margin_top = 5.0
+margin_right = 110.0
+margin_bottom = 35.0
 custom_fonts/font = ExtResource( 10 )
 text = "Dataset: 0"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="DebugAngleText" type="Label" parent="Hands/DisplayContainer"]
+margin_left = 135.0
+margin_top = 5.0
+margin_right = 212.0
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 10 )
+text = "Angle: "
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -426,6 +461,27 @@ margin_right = 149.0
 margin_bottom = 24.0
 custom_styles/focus = SubResource( 71 )
 
+[node name="Row7" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column1"]
+margin_top = 204.0
+margin_right = 229.0
+margin_bottom = 228.0
+
+[node name="DisplayTextLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row7"]
+margin_top = 5.0
+margin_right = 115.0
+margin_bottom = 19.0
+text = "Show Display Text"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DisplayTextOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column1/Row7"]
+margin_left = 119.0
+margin_right = 143.0
+margin_bottom = 24.0
+custom_styles/focus = SubResource( 71 )
+pressed = true
+
 [node name="Column2" type="VBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer"]
 margin_left = 249.0
 margin_right = 460.0
@@ -436,9 +492,30 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FPSValue" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column2"]
+[node name="NextFrameContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column2"]
 margin_right = 211.0
-margin_bottom = 14.0
+margin_bottom = 24.0
+custom_constants/separation = 10
+
+[node name="InputFrameLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column2/NextFrameContainer"]
+margin_top = 5.0
+margin_right = 120.0
+margin_bottom = 19.0
+text = "Next Frame: Unset"
+
+[node name="InputFrame" type="SpinBox" parent="Pause/SettingsOverlay/SettingsContainer/Column2/NextFrameContainer"]
+margin_left = 130.0
+margin_right = 211.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+min_value = -1.0
+max_value = 10.0
+value = -1.0
+
+[node name="FPSValue" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column2"]
+margin_top = 54.0
+margin_right = 211.0
+margin_bottom = 68.0
 text = "FPS: 1"
 
 [node name="FPS" type="HSlider" parent="Pause/SettingsOverlay/SettingsContainer/Column2/FPSValue"]
@@ -453,9 +530,9 @@ __meta__ = {
 }
 
 [node name="MouseSensitivityValue" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column2"]
-margin_top = 44.0
+margin_top = 98.0
 margin_right = 211.0
-margin_bottom = 58.0
+margin_bottom = 112.0
 text = "Mouse Sensitivity: 5"
 
 [node name="MouseSensitivity" type="HSlider" parent="Pause/SettingsOverlay/SettingsContainer/Column2/MouseSensitivityValue"]
@@ -470,9 +547,9 @@ __meta__ = {
 }
 
 [node name="MovementSpeedValue" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column2"]
-margin_top = 88.0
+margin_top = 142.0
 margin_right = 211.0
-margin_bottom = 102.0
+margin_bottom = 156.0
 text = "Movement Speed: 3"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -536,18 +613,149 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="InputFrameLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column4"]
+[node name="Row1" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column4"]
 margin_right = 212.0
-margin_bottom = 14.0
-text = "Input Next Frame: Not Set"
+margin_bottom = 24.0
 
-[node name="InputFrame" type="SpinBox" parent="Pause/SettingsOverlay/SettingsContainer/Column4"]
-margin_top = 24.0
+[node name="DebugLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Row1"]
+margin_top = 5.0
+margin_right = 81.0
+margin_bottom = 19.0
+text = "Debug Mode"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DebugOptions" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Row1"]
+margin_left = 85.0
+margin_right = 109.0
+margin_bottom = 24.0
+custom_styles/focus = SubResource( 71 )
+
+[node name="Hidden" type="Control" parent="Pause/SettingsOverlay/SettingsContainer/Column4"]
+margin_top = 34.0
 margin_right = 212.0
-margin_bottom = 48.0
+margin_bottom = 34.0
+
+[node name="Row2" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden"]
+margin_top = 10.0
+margin_right = 212.0
+margin_bottom = 24.0
+
+[node name="DebugFrameLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row2"]
+margin_right = 150.0
+margin_bottom = 14.0
+text = "Frame To Debug: Unset"
+
+[node name="Row3" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden"]
+margin_top = 34.0
+margin_right = 212.0
+margin_bottom = 58.0
+
+[node name="DebugFrame" type="SpinBox" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row3"]
+margin_right = 212.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
 min_value = -1.0
-max_value = 10.0
 value = -1.0
+
+[node name="Row4" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden"]
+margin_top = 68.0
+margin_right = 212.0
+margin_bottom = 82.0
+
+[node name="HandDebugLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row4"]
+margin_right = 148.0
+margin_bottom = 14.0
+text = "Choose Hand To Debug"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Row5" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden"]
+margin_top = 92.0
+margin_right = 212.0
+margin_bottom = 112.0
+
+[node name="HandDebugOptions" type="OptionButton" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row5"]
+margin_right = 212.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+custom_styles/focus = SubResource( 71 )
+
+[node name="Row6" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden"]
+margin_top = 122.0
+margin_right = 212.0
+margin_bottom = 146.0
+
+[node name="ShowMarkerLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row6"]
+margin_top = 5.0
+margin_right = 81.0
+margin_bottom = 19.0
+text = "Show Marker"
+
+[node name="ShowMarkerCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row6"]
+margin_left = 85.0
+margin_right = 109.0
+margin_bottom = 24.0
+custom_styles/focus = SubResource( 75 )
+
+[node name="Row7" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden"]
+margin_top = 156.0
+margin_right = 212.0
+margin_bottom = 180.0
+
+[node name="ShowGlobalAxisLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row7"]
+margin_top = 5.0
+margin_right = 109.0
+margin_bottom = 19.0
+text = "Show Global Axis"
+
+[node name="ShowGlobalAxisCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row7"]
+margin_left = 113.0
+margin_right = 137.0
+margin_bottom = 24.0
+custom_styles/focus = SubResource( 76 )
+
+[node name="Row8" type="HBoxContainer" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden"]
+margin_top = 190.0
+margin_right = 212.0
+margin_bottom = 214.0
+
+[node name="ShowBoneAxisLabel" type="Label" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row8"]
+margin_top = 5.0
+margin_right = 101.0
+margin_bottom = 19.0
+text = "Show Bone Axis"
+
+[node name="ShowBoneAxisCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row8"]
+margin_left = 105.0
+margin_right = 129.0
+margin_bottom = 24.0
+custom_styles/focus = SubResource( 77 )
+
+[node name="Popup" type="ColorRect" parent="Pause/SettingsOverlay"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -186.5
+margin_top = -104.0
+margin_right = 186.5
+margin_bottom = -64.0
+color = Color( 0.133333, 0.133333, 0.345098, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PopupText" type="Label" parent="Pause/SettingsOverlay/Popup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="KeypointView" type="Spatial" parent="."]
 script = ExtResource( 11 )
@@ -787,14 +995,188 @@ transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 15 )
 
-[node name="ARVROrigin" type="ARVROrigin" parent="."]
+[node name="Debugger" type="Spatial" parent="."]
+script = ExtResource( 22 )
 
-[node name="ARVRCamera" type="ARVRCamera" parent="ARVROrigin"]
+[node name="Hands" type="Spatial" parent="Debugger"]
+
+[node name="LeftHand" parent="Debugger/Hands" instance=ExtResource( 5 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+
+[node name="RightHand" parent="Debugger/Hands" instance=ExtResource( 21 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+visible = false
+
+[node name="KeypointView" type="Spatial" parent="Debugger"]
+
+[node name="wrist" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 14 )
+
+[node name="thumb_tip" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 12 )
+
+[node name="thumb_dst" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 12 )
+
+[node name="thumb_pxm" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 12 )
+
+[node name="thumb_mcp" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 12 )
+
+[node name="index_tip" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 13 )
+
+[node name="index_dst" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 13 )
+
+[node name="index_int" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 13 )
+
+[node name="index_pxm" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 13 )
+
+[node name="middle_tip" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 16 )
+
+[node name="middle_dst" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 16 )
+
+[node name="middle_int" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 16 )
+
+[node name="middle_pxm" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 16 )
+
+[node name="ring_tip" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 17 )
+
+[node name="ring_dst" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 17 )
+
+[node name="ring_int" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 17 )
+
+[node name="ring_pxm" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 17 )
+
+[node name="little_tip" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 15 )
+
+[node name="little_dst" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 15 )
+
+[node name="little_int" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 15 )
+
+[node name="little_pxm" type="MeshInstance" parent="Debugger/KeypointView"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
+mesh = SubResource( 67 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 15 )
+
+[node name="Tools" type="Spatial" parent="Debugger"]
+
+[node name="Marker" type="Spatial" parent="Debugger/Tools"]
+
+[node name="MarkerX" type="MeshInstance" parent="Debugger/Tools/Marker"]
+transform = Transform( -4.37114e-11, 0, 0.025, 0, 0.001, 0, -0.001, 0, -1.09278e-09, 0, 0, 0 )
+mesh = SubResource( 74 )
+skeleton = NodePath("../../..")
+material/0 = ExtResource( 26 )
+
+[node name="MarkerY" type="MeshInstance" parent="Debugger/Tools/Marker"]
+transform = Transform( 0.001, 0, 0, 0, -4.37114e-11, -0.025, 0, 0.001, -1.09278e-09, 0, 0, 0 )
+mesh = SubResource( 74 )
+skeleton = NodePath("../../..")
+material/0 = ExtResource( 23 )
+
+[node name="MarkerZ" type="MeshInstance" parent="Debugger/Tools/Marker"]
+transform = Transform( -4.37114e-11, -0.001, 0, 0.001, -4.37114e-11, 0, 0, 0, 0.025, 0, 0, 0 )
+mesh = SubResource( 74 )
+skeleton = NodePath("../../..")
+material/0 = ExtResource( 25 )
+
+[node name="GlobalAxis" type="MeshInstance" parent="Debugger/Tools"]
+transform = Transform( 0.003, 0, 0, 0, 0.003, 0, 0, 0, 0.04, 0, 0, 0 )
+mesh = SubResource( 73 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 24 )
+
+[node name="BoneAxis" type="MeshInstance" parent="Debugger/Tools"]
+transform = Transform( 0.003, 0, 0, 0, 0.003, 0, 0, 0, 0.04, 0, 0, 0 )
+mesh = SubResource( 73 )
+skeleton = NodePath("../..")
+material/0 = null
 
 [node name="Objects" type="Spatial" parent="."]
 
 [node name="Sunset" type="WorldEnvironment" parent="Objects"]
 environment = ExtResource( 1 )
+
+[node name="ARVROrigin" type="ARVROrigin" parent="Objects"]
+
+[node name="ARVRCamera" type="ARVRCamera" parent="Objects/ARVROrigin"]
 
 [node name="Floor" type="MeshInstance" parent="Objects"]
 transform = Transform( 5, 0, 0, 0, 0.1, 0, 0, 0, 5, 0, -2, 0 )
@@ -813,9 +1195,16 @@ material/0 = null
 [connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row4/PluginOptions" to="Pause" method="_on_PluginOptions_toggled"]
 [connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row5/KPOptions" to="Pause" method="_on_KPOptions_toggled"]
 [connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row6/SideKPOptions" to="Pause" method="_on_SideKPOptions_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column1/Row7/DisplayTextOptions" to="Pause" method="_on_DisplayTextOptions_toggled"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/SettingsContainer/Column2/NextFrameContainer/InputFrame" to="Pause" method="_on_InputFrame_value_changed"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/SettingsContainer/Column2/FPSValue/FPS" to="Pause" method="_on_FPS_value_changed"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/SettingsContainer/Column2/MouseSensitivityValue/MouseSensitivity" to="Pause" method="_on_MouseSensitivity_value_changed"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/SettingsContainer/Column2/MovementSpeedValue/MovementSpeed" to="Pause" method="_on_MovementSpeed_value_changed"]
 [connection signal="item_selected" from="Pause/SettingsOverlay/SettingsContainer/Column3/ScreenOptions" to="Pause" method="_on_ScreenOptions_item_selected"]
 [connection signal="item_selected" from="Pause/SettingsOverlay/SettingsContainer/Column3/InputOptions" to="Pause" method="_on_InputOptions_item_selected"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/SettingsContainer/Column4/InputFrame" to="Pause" method="_on_InputFrame_value_changed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column4/Row1/DebugOptions" to="Pause" method="_on_DebugOptions_toggled"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row3/DebugFrame" to="Pause" method="_on_DebugFrame_value_changed"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row5/HandDebugOptions" to="Pause" method="_on_HandDebugOptions_item_selected"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row6/ShowMarkerCheckbox" to="Pause" method="_on_ShowMarkerCheckbox_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row7/ShowGlobalAxisCheckbox" to="Pause" method="_on_ShowGlobalAxisCheckbox_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row8/ShowBoneAxisCheckbox" to="Pause" method="_on_ShowBoneAxisCheckbox_toggled"]

@@ -40,7 +40,7 @@ onready var hand_objects := {
 		"data_frames": Array()
 	}
 }
-onready var dataset_display_text: Label = get_node("DisplayText")
+onready var dataset_display_text: Label = get_node("DisplayContainer/DatasetText")
 onready var keypoint_data := preload("res://GDNative/bin/keypoints.gdns").new()
 
 
@@ -51,6 +51,8 @@ func _ready() -> void:
 	hand_objects["right_hand"]["hand_node"].visible = false
 	dataset_display_text.visible = false
 	dataset_display_text.set_text("Dataset: None")
+	get_node("LeftHand/Armature/Skeleton/Keypoints").visible = false
+	get_node("RightHand/Armature/Skeleton/Keypoints").visible = false
 	set_physics_process(true)
 
 
