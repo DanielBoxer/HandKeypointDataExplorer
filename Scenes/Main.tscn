@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Assets/sunset_environment.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=2]
@@ -26,6 +26,7 @@
 [ext_resource path="res://Assets/axis_material.tres" type="Material" id=24]
 [ext_resource path="res://Assets/marker_z_axis_material.tres" type="Material" id=25]
 [ext_resource path="res://Assets/marker_x_axis_material.tres" type="Material" id=26]
+[ext_resource path="res://Scripts/BVH.gd" type="Script" id=27]
 
 [sub_resource type="CapsuleShape" id=61]
 height = 3.0
@@ -1169,6 +1170,31 @@ mesh = SubResource( 73 )
 skeleton = NodePath("../..")
 material/0 = null
 
+[node name="BVH" type="Control" parent="."]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 328.0
+margin_top = 562.0
+margin_right = -324.0
+script = ExtResource( 27 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BVHButton" type="Button" parent="BVH"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -51.0
+margin_top = -20.0
+margin_right = 51.0
+text = "Generate BVH"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Objects" type="Spatial" parent="."]
 
 [node name="Sunset" type="WorldEnvironment" parent="Objects"]
@@ -1208,3 +1234,4 @@ material/0 = null
 [connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row6/ShowMarkerCheckbox" to="Pause" method="_on_ShowMarkerCheckbox_toggled"]
 [connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row7/ShowGlobalAxisCheckbox" to="Pause" method="_on_ShowGlobalAxisCheckbox_toggled"]
 [connection signal="toggled" from="Pause/SettingsOverlay/SettingsContainer/Column4/Hidden/Row8/ShowBoneAxisCheckbox" to="Pause" method="_on_ShowBoneAxisCheckbox_toggled"]
+[connection signal="pressed" from="BVH/BVHButton" to="BVH" method="_on_BVH_pressed"]
