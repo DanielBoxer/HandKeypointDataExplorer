@@ -4,76 +4,74 @@ var _is_vr_mode_activated := false
 var _is_dataset_text_visible := true
 var _is_debug_angle_text_visible := false
 
+var location = "SettingsOverlay/Settings/"
 onready var menu_overlay := get_node("MenuOverlay")
 onready var instructions_overlay := get_node("InstructionsOverlay")
 onready var settings_overlay := get_node("SettingsOverlay")
 onready var input_frame_label := get_node(
-	"SettingsOverlay/SettingsContainer/Column2/NextFrameContainer/InputFrameLabel"
+	location + "FrameSettings/Column/NextFrameContainer/InputFrameLabel"
 )
 onready var input_options: OptionButton = get_node(
-	"SettingsOverlay/SettingsContainer/Column3/InputOptions"
+	location + "InputSettings/Column/InputContainer/InputOptions"
 )
 onready var input_frame: SpinBox = get_node(
-	"SettingsOverlay/SettingsContainer/Column2/NextFrameContainer/InputFrame"
+	location + "FrameSettings/Column/NextFrameContainer/InputFrame"
 )
 onready var controller := get_node("/root/Main/Controller")
 onready var plugin_checkbox: CheckBox = get_node(
-	"SettingsOverlay/SettingsContainer/Column1/Row4/PluginOptions"
+	location + "FrameSettings/Column/PluginContainer/PluginOptions"
 )
 onready var hands := get_node("/root/Main/Hands")
 onready var keypoint_view := get_node("/root/Main/KeypointView")
 onready var side_keypoints_checkbox: CheckBox = get_node(
-	"SettingsOverlay/SettingsContainer/Column1/Row6/SideKPOptions"
+	location + "ViewSettings/Column/SideKPContainer/SideKPOptions"
 )
 onready var debug_options_checkbox = get_node(
-	"SettingsOverlay/SettingsContainer/Column4/Row1/DebugOptions"
+	location + "DebugSettings/Column/DebugContainer/DebugOptions"
 )
 onready var popup := get_node("SettingsOverlay/Popup")
 onready var current_frame_options_checkbox = get_node(
-	"SettingsOverlay/SettingsContainer/Column1/Row3/CurrentFrameOptions"
+	location + "FrameSettings/Column/CurrentFrameContainer/CurrentFrameOptions"
 )
 onready var keypoint_view_checkbox = get_node(
-	"SettingsOverlay/SettingsContainer/Column1/Row5/KPOptions"
+	location + "ViewSettings/Column/KPContainer/KPOptions"
 )
 onready var left_hand_view_checkbox = get_node(
-	"SettingsOverlay/SettingsContainer/Column1/Row1/LeftHandView"
+	location + "ViewSettings/Column/LeftHandViewContainer/LeftHandView"
 )
 onready var right_hand_view_checkbox = get_node(
-	"SettingsOverlay/SettingsContainer/Column1/Row2/RightHandView"
+	location + "ViewSettings/Column/RightHandViewContainer/RightHandView"
 )
 onready var current_frame_checkbox: CheckBox = get_node(
-	"SettingsOverlay/SettingsContainer/Column1/Row3/CurrentFrameOptions"
+	location + "FrameSettings/Column/CurrentFrameContainer/CurrentFrameOptions"
 )
 onready var hand_debug_options: OptionButton = get_node(
-	"SettingsOverlay/SettingsContainer/Column4/Hidden/Row5/HandDebugOptions"
+	location + "DebugSettings/Column/HandDebugContainer/HandDebugOptions"
 )
 onready var hand_debug_options_text = get_node(
-	"SettingsOverlay/SettingsContainer/Column4/Hidden/Row4/HandDebugLabel"
+	location + "DebugSettings/Column/HandDebugContainer/HandDebugLabel"
 )
 onready var dataset_text = get_node("/root/Main/Hands/DisplayContainer/DatasetText")
 onready var debug_angle_text = get_node(
 	"/root/Main/Hands/DisplayContainer/DebugAngleText"
 )
 onready var debug_frame_text = get_node(
-	"SettingsOverlay/SettingsContainer/Column4/Hidden/Row2/DebugFrameLabel"
+	location + "DebugSettings/Column/DebugFrameContainer/DebugFrameLabel"
 )
 onready var debug_frame = get_node(
-	"SettingsOverlay/SettingsContainer/Column4/Hidden/Row3/DebugFrame"
-)
-onready var hidden_debug_settings = get_node(
-	"SettingsOverlay/SettingsContainer/Column4/Hidden"
+	location + "DebugSettings/Column/DebugFrameContainer/DebugFrame"
 )
 onready var marker := get_node("/root/Main/Debugger/Tools/Marker")
 onready var global_axis := get_node("/root/Main/Debugger/Tools/GlobalAxis")
 onready var bone_axis := get_node("/root/Main/Debugger/Tools/BoneAxis")
 onready var marker_checkbox := get_node(
-	"SettingsOverlay/SettingsContainer/Column4/Hidden/Row6/ShowMarkerCheckbox"
+	location + "DebugSettings/Column/ShowMarkerContainer/ShowMarkerCheckbox"
 )
 onready var global_axis_checkbox := get_node(
-	"SettingsOverlay/SettingsContainer/Column4/Hidden/Row7/ShowGlobalAxisCheckbox"
+	location + "DebugSettings/Column/ShowGlobalAxisContainer/ShowGlobalAxisCheckbox"
 )
 onready var bone_axis_checkbox := get_node(
-	"SettingsOverlay/SettingsContainer/Column4/Hidden/Row8/ShowBoneAxisCheckbox"
+	location + "DebugSettings/Column/ShowBoneAxisContainer/ShowBoneAxisCheckbox"
 )
 onready var debugger = get_node("/root/Main/Debugger")
 
@@ -112,7 +110,7 @@ func pause() -> void:
 func add_button_items() -> void:
 	# add items to sliders
 	var screen_options: OptionButton = get_node(
-		"SettingsOverlay/SettingsContainer/Column3/ScreenOptions"
+		location + "DisplaySettings/Column/ScreenContainer/ScreenOptions"
 	)
 	screen_options.add_item("Windowed")
 	screen_options.add_item("Fullscreen")
@@ -126,7 +124,6 @@ func add_button_items() -> void:
 	debug_frame.max_value = input_frame.max_value
 	hand_debug_options.add_item("Left Hand")
 	hand_debug_options.add_item("Right Hand")
-	hidden_debug_settings.visible = false
 
 
 func activate_popup(text: String) -> void:
@@ -165,7 +162,7 @@ func _on_Quit_pressed() -> void:
 func _on_FPS_value_changed(value: int) -> void:
 	if debug_options_checkbox.pressed == false:
 		var fps_text: Label = get_node(
-			"SettingsOverlay/SettingsContainer/Column2/FPSValue"
+			location + "FrameSettings/Column/FPSContainer/FPSValue"
 		)
 		Engine.iterations_per_second = value
 		fps_text.set_text("FPS: " + str(value))
@@ -202,16 +199,18 @@ func _on_InputOptions_item_selected(_index: int) -> void:
 
 
 func _on_MouseSensitivity_value_changed(value: int) -> void:
-	get_node("SettingsOverlay/SettingsContainer/Column2/MouseSensitivityValue").set_text(
-		"Mouse Sensitivity: " + str(value)
+	var mouse_sensitivity_text := get_node(
+		location + "InputSettings/Column/MouseSensitivityContainer/MouseSensitivityValue"
 	)
+	mouse_sensitivity_text.set_text("Mouse Sensitivity: " + str(value))
 	controller.mouse_sensitivity = value
 
 
 func _on_MovementSpeed_value_changed(value: int) -> void:
-	get_node("SettingsOverlay/SettingsContainer/Column2/MovementSpeedValue").set_text(
-		"Movement Speed: " + str(value)
+	var movement_speed_text := get_node(
+		location + "InputSettings/Column/MovementSpeedContainer/MovementSpeedValue"
 	)
+	movement_speed_text.set_text("Movement Speed: " + str(value))
 	controller.speed = value
 
 
@@ -306,7 +305,6 @@ func _on_DebugOptions_toggled(button_pressed: bool) -> void:
 	debugger.debug_new_frame_update()
 	debugger.set_debug_mode(button_pressed)
 	_is_debug_angle_text_visible = button_pressed
-	hidden_debug_settings.visible = button_pressed
 	current_frame_checkbox.pressed = true
 	left_hand_view_checkbox.pressed = false
 	right_hand_view_checkbox.pressed = false

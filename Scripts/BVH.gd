@@ -1,27 +1,27 @@
 extends Node
 
-onready var bvh_button: Button = get_node(location + "/BVHButtonContainer/BVHButton")
+var location := "/root/Main/Pause/SettingsOverlay/Settings/BVHSettings/Column/"
+onready var bvh_button: Button = get_node(location + "BVHButton")
 onready var skeleton := get_node("/root/Main/Hands/LeftHand/Armature/Skeleton")
-var location := "/root/Main/Pause/SettingsOverlay/BVHSettings"
 onready var pause = get_node("/root/Main/Pause")
 
 onready var frame_start_label: Label = get_node(
-	location + "/FrameStartContainer/FrameStartLabel"
+	location + "FrameStartContainer/FrameStartLabel"
 )
 onready var frame_end_label: Label = get_node(
-	location + "/FrameEndContainer/FrameEndLabel"
+	location + "FrameEndContainer/FrameEndLabel"
 )
 onready var frame_start_slider: HSlider = get_node(
-	location + "/FrameStartContainer/FrameStartSlider"
+	location + "FrameStartContainer/FrameStartSlider"
 )
 onready var frame_end_slider: HSlider = get_node(
-	location + "/FrameEndContainer/FrameEndSlider"
+	location + "FrameEndContainer/FrameEndSlider"
 )
 onready var frame_start_input: SpinBox = get_node(
-	location + "/FrameStartContainer/FrameStartInput"
+	location + "FrameStartContainer/FrameStartInput"
 )
 onready var frame_end_input: SpinBox = get_node(
-	location + "/FrameEndContainer/FrameEndInput"
+	location + "FrameEndContainer/FrameEndInput"
 )
 
 
