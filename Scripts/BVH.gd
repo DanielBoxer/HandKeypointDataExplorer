@@ -1,7 +1,37 @@
 extends Node
 
-onready var bvh_button: Button = get_node("BVHButton")
+onready var bvh_button: Button = get_node(location + "/BVHButtonContainer/BVHButton")
 onready var skeleton := get_node("/root/Main/Hands/LeftHand/Armature/Skeleton")
+var location := "/root/Main/Pause/SettingsOverlay/BVHSettings"
+onready var pause = get_node("/root/Main/Pause")
+
+onready var frame_start_label: Label = get_node(
+	location + "/FrameStartContainer/FrameStartLabel"
+)
+onready var frame_end_label: Label = get_node(
+	location + "/FrameEndContainer/FrameEndLabel"
+)
+onready var frame_start_slider: HSlider = get_node(
+	location + "/FrameStartContainer/FrameStartSlider"
+)
+onready var frame_end_slider: HSlider = get_node(
+	location + "/FrameEndContainer/FrameEndSlider"
+)
+onready var frame_start_input: SpinBox = get_node(
+	location + "/FrameStartContainer/FrameStartInput"
+)
+onready var frame_end_input: SpinBox = get_node(
+	location + "/FrameEndContainer/FrameEndInput"
+)
+
+
+func _ready():
+	var frame_count = get_node("/root/ImportData").keypoint_data["left_hand_data"].size()
+
+	frame_start_slider.max_value = frame_count
+	frame_end_slider.max_value = frame_count
+	frame_start_input.max_value = frame_count
+	frame_end_input.max_value = frame_count
 
 
 func insert_tabs(tab_number: int, input_string: String) -> String:
@@ -107,3 +137,35 @@ func _on_BVH_pressed() -> void:
 	file.store_line(temp)
 
 	file.close()
+
+
+func _on_FrameStartSlider_value_changed(value: int) -> void:
+	if value <= frame_end_slider.value:
+		frame_start_label.text = "Frame Start: " + str(value)
+		frame_start_input.value = value
+	else:
+		pause.activate_popup("Start frame can't be greater than end frame")
+
+
+func _on_FrameEndSlider_value_changed(value: int) -> void:
+	if value >= frame_start_slider.value:
+		frame_end_label.text = "Frame End: " + str(value)
+		frame_end_input.value = value
+	else:
+		pause.activate_popup("End frame can't be less than start frame")
+
+
+func _on_FrameStartInput_value_changed(value: int) -> void:
+	if value <= frame_end_input.value:
+		frame_start_label.text = "Frame Start: " + str(value)
+		frame_start_slider.value = value
+	else:
+		pause.activate_popup("Start frame can't be less than end frame")
+
+
+func _on_FrameEndInput_value_changed(value: int) -> void:
+	if value >= frame_start_input.value:
+		frame_end_label.text = "Frame End: " + str(value)
+		frame_end_slider.value = value
+	else:
+		pause.activate_popup("End frame can't be greater than start frame")
