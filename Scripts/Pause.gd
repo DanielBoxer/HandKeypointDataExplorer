@@ -3,77 +3,99 @@ extends Control
 var _is_vr_mode_activated := false
 var _is_dataset_text_visible := true
 var _is_debug_angle_text_visible := false
+var _location = "SettingsOverlay/Settings/"
 
-var location = "SettingsOverlay/Settings/"
 onready var menu_overlay := get_node("MenuOverlay")
 onready var instructions_overlay := get_node("InstructionsOverlay")
 onready var settings_overlay := get_node("SettingsOverlay")
-onready var input_frame_label := get_node(
-	location + "FrameSettings/Column/NextFrameContainer/InputFrameLabel"
-)
-onready var input_options: OptionButton = get_node(
-	location + "InputSettings/Column/InputContainer/InputOptions"
-)
-onready var input_frame: SpinBox = get_node(
-	location + "FrameSettings/Column/NextFrameContainer/InputFrame"
-)
 onready var controller := get_node("/root/Main/Controller")
-onready var plugin_checkbox: CheckBox = get_node(
-	location + "FrameSettings/Column/PluginContainer/PluginOptions"
-)
 onready var hands := get_node("/root/Main/Hands")
 onready var keypoint_view := get_node("/root/Main/KeypointView")
-onready var side_keypoints_checkbox: CheckBox = get_node(
-	location + "ViewSettings/Column/SideKPContainer/SideKPOptions"
-)
-onready var debug_options_checkbox = get_node(
-	location + "DebugSettings/Column/DebugContainer/DebugOptions"
-)
 onready var popup := get_node("SettingsOverlay/Popup")
-onready var current_frame_options_checkbox = get_node(
-	location + "FrameSettings/Column/CurrentFrameContainer/CurrentFrameOptions"
+onready var dataset_text = get_node("/root/Main/Hands/DisplayContainer/DatasetText")
+onready var input_frame_label := get_node(
+	_location + "FrameSettings/Column/NextFrameContainer/InputFrameLabel"
 )
-onready var keypoint_view_checkbox = get_node(
-	location + "ViewSettings/Column/KPContainer/KPOptions"
+onready var input_frame: SpinBox = get_node(
+	_location + "FrameSettings/Column/NextFrameContainer/InputFrame"
+)
+onready var fps_slider := get_node(_location + "FrameSettings/Column/FPSContainer/FPS")
+onready var current_frame_checkbox: CheckBox = get_node(
+	_location + "FrameSettings/Column/CurrentFrameContainer/CurrentFrameOptions"
+)
+onready var plugin_checkbox: CheckBox = get_node(
+	_location + "FrameSettings/Column/PluginContainer/PluginOptions"
 )
 onready var left_hand_view_checkbox = get_node(
-	location + "ViewSettings/Column/LeftHandViewContainer/LeftHandView"
+	_location + "ViewSettings/Column/LeftHandViewContainer/LeftHandView"
 )
 onready var right_hand_view_checkbox = get_node(
-	location + "ViewSettings/Column/RightHandViewContainer/RightHandView"
+	_location + "ViewSettings/Column/RightHandViewContainer/RightHandView"
 )
-onready var current_frame_checkbox: CheckBox = get_node(
-	location + "FrameSettings/Column/CurrentFrameContainer/CurrentFrameOptions"
+onready var keypoint_view_checkbox = get_node(
+	_location + "ViewSettings/Column/KPContainer/KPOptions"
 )
-onready var hand_debug_options: OptionButton = get_node(
-	location + "DebugSettings/Column/HandDebugContainer/HandDebugOptions"
+onready var side_keypoints_checkbox: CheckBox = get_node(
+	_location + "ViewSettings/Column/SideKPContainer/SideKPOptions"
 )
-onready var hand_debug_options_text = get_node(
-	location + "DebugSettings/Column/HandDebugContainer/HandDebugLabel"
+onready var display_text_checkbox := get_node(
+	_location + "ViewSettings/Column/DisplayTextContainer/DisplayTextOptions"
 )
-onready var dataset_text = get_node("/root/Main/Hands/DisplayContainer/DatasetText")
-onready var debug_angle_text = get_node(
-	"/root/Main/Hands/DisplayContainer/DebugAngleText"
+onready var screen_options := get_node(
+	_location + "DisplaySettings/Column/ScreenContainer/ScreenOptions"
+)
+onready var mouse_sensitivity_slider: HSlider = get_node(
+	_location + "InputSettings/Column/MouseSensitivityContainer/MouseSensitivity"
+)
+onready var movement_speed_slider: HSlider = get_node(
+	_location + "InputSettings/Column/MovementSpeedContainer/MovementSpeed"
+)
+onready var input_options: OptionButton = get_node(
+	_location + "InputSettings/Column/InputContainer/InputOptions"
+)
+onready var bvh_frame_start_input: SpinBox = get_node(
+	_location + "BVHSettings/Column/FrameStartContainer/FrameStartInput"
+)
+onready var bvh_frame_end_input: SpinBox = get_node(
+	_location + "BVHSettings/Column/FrameEndContainer/FrameEndInput"
+)
+onready var bvh_left_hand_checkbox: CheckBox = get_node(
+	_location + "BVHSettings/Column/LeftHandBVHContainer/LeftHandBVHCheckbox"
+)
+onready var bvh_right_hand_checkbox: CheckBox = get_node(
+	_location + "BVHSettings/Column/RightHandBVHContainer/RightHandBVHCheckbox"
+)
+onready var debug_options_checkbox = get_node(
+	_location + "DebugSettings/Column/DebugContainer/DebugOptions"
 )
 onready var debug_frame_text = get_node(
-	location + "DebugSettings/Column/DebugFrameContainer/DebugFrameLabel"
+	_location + "DebugSettings/Column/DebugFrameContainer/DebugFrameLabel"
 )
 onready var debug_frame = get_node(
-	location + "DebugSettings/Column/DebugFrameContainer/DebugFrame"
+	_location + "DebugSettings/Column/DebugFrameContainer/DebugFrame"
+)
+onready var hand_debug_options_text = get_node(
+	_location + "DebugSettings/Column/HandDebugContainer/HandDebugLabel"
+)
+onready var hand_debug_options: OptionButton = get_node(
+	_location + "DebugSettings/Column/HandDebugContainer/HandDebugOptions"
+)
+onready var marker_checkbox := get_node(
+	_location + "DebugSettings/Column/ShowMarkerContainer/ShowMarkerCheckbox"
+)
+onready var global_axis_checkbox := get_node(
+	_location + "DebugSettings/Column/ShowGlobalAxisContainer/ShowGlobalAxisCheckbox"
+)
+onready var bone_axis_checkbox := get_node(
+	_location + "DebugSettings/Column/ShowBoneAxisContainer/ShowBoneAxisCheckbox"
+)
+onready var debugger = get_node("/root/Main/Debugger")
+onready var debug_angle_text = get_node(
+	"/root/Main/Hands/DisplayContainer/DebugAngleText"
 )
 onready var marker := get_node("/root/Main/Debugger/Tools/Marker")
 onready var global_axis := get_node("/root/Main/Debugger/Tools/GlobalAxis")
 onready var bone_axis := get_node("/root/Main/Debugger/Tools/BoneAxis")
-onready var marker_checkbox := get_node(
-	location + "DebugSettings/Column/ShowMarkerContainer/ShowMarkerCheckbox"
-)
-onready var global_axis_checkbox := get_node(
-	location + "DebugSettings/Column/ShowGlobalAxisContainer/ShowGlobalAxisCheckbox"
-)
-onready var bone_axis_checkbox := get_node(
-	location + "DebugSettings/Column/ShowBoneAxisContainer/ShowBoneAxisCheckbox"
-)
-onready var debugger = get_node("/root/Main/Debugger")
 
 
 func _ready() -> void:
@@ -96,6 +118,7 @@ func pause() -> void:
 	instructions_overlay.hide()
 	settings_overlay.hide()
 	self.visible = new_pause_state
+	popup.visible = false
 	if _is_dataset_text_visible:
 		dataset_text.visible = not new_pause_state
 	if _is_debug_angle_text_visible:
@@ -109,9 +132,6 @@ func pause() -> void:
 
 func add_button_items() -> void:
 	# add items to sliders
-	var screen_options: OptionButton = get_node(
-		location + "DisplaySettings/Column/ScreenContainer/ScreenOptions"
-	)
 	screen_options.add_item("Windowed")
 	screen_options.add_item("Fullscreen")
 
@@ -128,15 +148,7 @@ func add_button_items() -> void:
 
 func activate_popup(text: String) -> void:
 	popup.visible = true
-	get_node("SettingsOverlay/Popup/PopupText").set_text(text)
-	var timer := Timer.new()
-	timer.set_wait_time(5)
-	timer.set_one_shot(true)
-	self.add_child(timer)
-	timer.start()
-	yield(timer, "timeout")
-	timer.queue_free()
-	popup.visible = false
+	get_node("SettingsOverlay/Popup/PopupContainer/PopupText").set_text(text)
 
 
 func _on_Instructions_pressed() -> void:
@@ -144,25 +156,35 @@ func _on_Instructions_pressed() -> void:
 	instructions_overlay.show()
 
 
-func _on_Back_pressed() -> void:
-	menu_overlay.show()
-	instructions_overlay.hide()
-	settings_overlay.hide()
-
-
 func _on_Settings_pressed() -> void:
 	menu_overlay.hide()
 	settings_overlay.show()
+
+
+func _on_Unpause_pressed():
+	pause()
+
+
+func _on_Restart_pressed():
+	var _error_message: int = get_tree().reload_current_scene()
+	pause()
 
 
 func _on_Quit_pressed() -> void:
 	get_tree().quit()
 
 
+func _on_Back_pressed() -> void:
+	menu_overlay.show()
+	instructions_overlay.hide()
+	settings_overlay.hide()
+	popup.visible = false
+
+
 func _on_FPS_value_changed(value: int) -> void:
 	if debug_options_checkbox.pressed == false:
 		var fps_text: Label = get_node(
-			location + "FrameSettings/Column/FPSContainer/FPSValue"
+			_location + "FrameSettings/Column/FPSContainer/FPSValue"
 		)
 		Engine.iterations_per_second = value
 		fps_text.set_text("FPS: " + str(value))
@@ -200,7 +222,7 @@ func _on_InputOptions_item_selected(_index: int) -> void:
 
 func _on_MouseSensitivity_value_changed(value: int) -> void:
 	var mouse_sensitivity_text := get_node(
-		location + "InputSettings/Column/MouseSensitivityContainer/MouseSensitivityValue"
+		_location + "InputSettings/Column/MouseSensitivityContainer/MouseSensitivityValue"
 	)
 	mouse_sensitivity_text.set_text("Mouse Sensitivity: " + str(value))
 	controller.mouse_sensitivity = value
@@ -208,7 +230,7 @@ func _on_MouseSensitivity_value_changed(value: int) -> void:
 
 func _on_MovementSpeed_value_changed(value: int) -> void:
 	var movement_speed_text := get_node(
-		location + "InputSettings/Column/MovementSpeedContainer/MovementSpeedValue"
+		_location + "InputSettings/Column/MovementSpeedContainer/MovementSpeedValue"
 	)
 	movement_speed_text.set_text("Movement Speed: " + str(value))
 	controller.speed = value
@@ -232,7 +254,7 @@ func _on_CurrentFrameOptions_toggled(button_pressed: bool) -> void:
 	keypoint_view.set_physics_process(not button_pressed)
 	if debug_options_checkbox.pressed == true:
 		activate_popup("Can't go to the next frame in debug mode")
-		current_frame_options_checkbox.pressed = true
+		current_frame_checkbox.pressed = true
 
 
 func _on_PluginOptions_toggled(button_pressed: bool) -> void:
@@ -343,3 +365,151 @@ func _on_HandDebugOptions_item_selected(index: int) -> void:
 		debugger.set_hand_selection("left")
 	else:
 		debugger.set_hand_selection("right")
+
+
+func _on_InputFrameInfo_pressed() -> void:
+	activate_popup(
+		(
+			"Set the next frame of data that will be shown\n"
+			+ "The input field will always stay at -1"
+		)
+	)
+
+
+func _on_FPSInfo_pressed() -> void:
+	activate_popup(
+		"Change the frames per second (FPS) of data playback\nFPS can be from 1 to 90"
+	)
+
+
+func _on_CurrentFrameInfo_pressed() -> void:
+	activate_popup("Pause data playback and stay on the current frame")
+
+
+func _on_PluginInfo_pressed() -> void:
+	activate_popup(
+		(
+			"Keypoint data will be taken from the keypoints.c file "
+			+ "instead of the JSON input files"
+		)
+	)
+
+
+func _on_LeftHandViewInfo_pressed() -> void:
+	activate_popup("Show/hide the left hand model")
+
+
+func _on_RightHandViewInfo_pressed() -> void:
+	activate_popup("Show/hide the right hand model")
+
+
+func _on_KPInfo_pressed() -> void:
+	activate_popup(
+		(
+			"Activate keypoint visualization of the hand models\n"
+			+ "Only the keypoints will be visible\n"
+			+ "This is based on the hand models, not the data"
+		)
+	)
+
+
+func _on_SideKPInfo_pressed() -> void:
+	activate_popup(
+		(
+			"Show a keypoint visualization beside the hand models\n"
+			+ "This is based on the data input"
+		)
+	)
+
+
+func _on_DisplayTextInfo_pressed() -> void:
+	activate_popup("Show/hide the text that displays the current frame")
+
+
+func _on_ScreenInfo_pressed() -> void:
+	activate_popup("Change the application to be fullscreen or windowed")
+
+
+func _on_MouseSensitivityInfo_pressed() -> void:
+	activate_popup(
+		"Change the mouse sensitivity\nThis only affects the mouse outside of the menu"
+	)
+
+
+func _on_MovementSpeedInfo_pressed() -> void:
+	activate_popup("Change the movement speed of the camera")
+
+
+func _on_InputInfo_pressed() -> void:
+	activate_popup("Turn VR mode on or off\nThe menu is disabled in VR mode")
+
+
+func _on_FrameStartInfo_pressed() -> void:
+	activate_popup(
+		(
+			"Set the start frame of the .bvh file output\n"
+			+ "This must be less than or equal to the end frame"
+		)
+	)
+
+
+func _on_FrameEndInfo_pressed() -> void:
+	activate_popup(
+		(
+			"Set the end frame of the .bvh file output\n"
+			+ "This must be greater than or equal to the start frame"
+		)
+	)
+
+
+func _on_LeftHandBVHInfo_pressed() -> void:
+	activate_popup("Generate a .bvh file for the left hand")
+
+
+func _on_RightHandBVHInfo_pressed() -> void:
+	activate_popup("Generate a .bvh file for the right hand")
+
+
+func _on_BVHInfo_pressed() -> void:
+	activate_popup(
+		(
+			"Generate a .bvh file to the Output folder\n"
+			+ "This file will contain armature and animation data\n"
+			+ "The .bvh file can be imported to other software"
+		)
+	)
+
+
+func _on_Close_pressed():
+	popup.visible = false
+
+
+func _on_ResetFrameSettings_pressed():
+	input_frame.value = 0
+	fps_slider.value = 1
+	current_frame_checkbox.pressed = false
+	plugin_checkbox.pressed = false
+
+
+func _on_ResetViewSettings_pressed():
+	left_hand_view_checkbox.pressed = true
+	right_hand_view_checkbox.pressed = false
+	keypoint_view_checkbox.pressed = false
+	side_keypoints_checkbox.pressed = false
+	display_text_checkbox.pressed = true
+
+
+func _on_ResetDisplaySettings_pressed():
+	screen_options.select(0)
+
+
+func _on_ResetInputSettings_pressed():
+	mouse_sensitivity_slider.value = 5
+	movement_speed_slider.value = 3
+
+
+func _on_ResetBVHSettings_pressed():
+	bvh_frame_start_input.value = 1
+	bvh_frame_end_input.value = 1
+	bvh_left_hand_checkbox.pressed = true
+	bvh_right_hand_checkbox.pressed = false

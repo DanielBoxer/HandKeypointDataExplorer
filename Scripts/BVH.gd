@@ -1,7 +1,7 @@
 extends Node
 
 var location := "/root/Main/Pause/SettingsOverlay/Settings/BVHSettings/Column/"
-onready var bvh_button: Button = get_node(location + "BVHButton")
+onready var bvh_button: Button = get_node(location + "BVHContainer/BVHButton")
 onready var skeleton := get_node("/root/Main/Hands/LeftHand/Armature/Skeleton")
 onready var pause = get_node("/root/Main/Pause")
 
