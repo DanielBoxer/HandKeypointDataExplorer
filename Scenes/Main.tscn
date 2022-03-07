@@ -343,7 +343,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FrameSettings" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
+[node name="Frame" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -351,7 +351,7 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/FrameSettings"]
+[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Frame"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 520.0
@@ -362,19 +362,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NextFrameContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column"]
+[node name="NextFrameContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Frame/Column"]
 margin_right = 510.0
 margin_bottom = 24.0
 custom_constants/separation = 50
 
-[node name="InputFrameLabel" type="Label" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column/NextFrameContainer"]
+[node name="InputFrameLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer"]
 margin_top = 5.0
 margin_right = 196.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Next Frame: Not Set"
 
-[node name="InputFrame" type="SpinBox" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column/NextFrameContainer"]
+[node name="InputFrame" type="SpinBox" parent="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 24.0
@@ -383,28 +383,28 @@ min_value = -1.0
 max_value = 10.0
 value = -1.0
 
-[node name="InputFrameInfo" type="Button" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column/NextFrameContainer"]
+[node name="InputFrameInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="FPSContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column"]
+[node name="FPSContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Frame/Column"]
 margin_top = 69.0
 margin_right = 510.0
 margin_bottom = 89.0
 custom_constants/separation = 50
 
-[node name="FPSValue" type="Label" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column/FPSContainer"]
+[node name="FPSValue" type="Label" parent="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer"]
 margin_top = 3.0
-margin_right = 196.0
+margin_right = 114.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
 text = "FPS: 1"
 
-[node name="FPS" type="HSlider" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column/FPSContainer"]
-margin_left = 246.0
-margin_right = 442.0
+[node name="FPS" type="HSlider" parent="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer"]
+margin_left = 164.0
+margin_right = 278.0
 margin_bottom = 16.0
 size_flags_horizontal = 3
 min_value = 1.0
@@ -414,19 +414,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FPSInfo" type="Button" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column/FPSContainer"]
+[node name="FPSMaxButton" type="Button" parent="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer"]
+margin_left = 328.0
+margin_right = 442.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "MAX"
+
+[node name="FPSInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 20.0
 text = "?"
 
-[node name="CurrentFrameContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column"]
+[node name="CurrentFrameContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Frame/Column"]
 margin_top = 134.0
 margin_right = 510.0
 margin_bottom = 158.0
 custom_constants/separation = 50
 
-[node name="CurrentFrameLabel" type="Label" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column/CurrentFrameContainer"]
+[node name="CurrentFrameLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Frame/Column/CurrentFrameContainer"]
 margin_top = 5.0
 margin_right = 196.0
 margin_bottom = 19.0
@@ -436,26 +443,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CurrentFrameOptions" type="CheckBox" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column/CurrentFrameContainer"]
+[node name="CurrentFrameOptions" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Frame/Column/CurrentFrameContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_styles/focus = SubResource( 68 )
 
-[node name="CurrentFrameInfo" type="Button" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column/CurrentFrameContainer"]
+[node name="CurrentFrameInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Frame/Column/CurrentFrameContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="PluginContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column"]
+[node name="PluginContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Frame/Column"]
 margin_top = 203.0
 margin_right = 510.0
 margin_bottom = 227.0
 custom_constants/separation = 50
 
-[node name="PluginLabel" type="Label" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column/PluginContainer"]
+[node name="PluginLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Frame/Column/PluginContainer"]
 margin_top = 5.0
 margin_right = 196.0
 margin_bottom = 19.0
@@ -465,26 +472,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PluginOptions" type="CheckBox" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column/PluginContainer"]
+[node name="PluginOptions" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Frame/Column/PluginContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_styles/focus = SubResource( 69 )
 
-[node name="PluginInfo" type="Button" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column/PluginContainer"]
+[node name="PluginInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Frame/Column/PluginContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="ResetFrameSettings" type="Button" parent="Pause/SettingsOverlay/Settings/FrameSettings/Column"]
+[node name="ResetFrameSettings" type="Button" parent="Pause/SettingsOverlay/Settings/Frame/Column"]
 margin_top = 272.0
 margin_right = 510.0
 margin_bottom = 292.0
 text = "Reset"
 
-[node name="ViewSettings" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
+[node name="View" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -493,7 +500,7 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/ViewSettings"]
+[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/View"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 520.0
@@ -504,12 +511,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LeftHandViewContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column"]
+[node name="LeftHandViewContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/View/Column"]
 margin_right = 510.0
 margin_bottom = 24.0
 custom_constants/separation = 50
 
-[node name="LeftHandViewLabel" type="Label" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/LeftHandViewContainer"]
+[node name="LeftHandViewLabel" type="Label" parent="Pause/SettingsOverlay/Settings/View/Column/LeftHandViewContainer"]
 margin_top = 5.0
 margin_right = 196.0
 margin_bottom = 19.0
@@ -519,7 +526,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LeftHandView" type="CheckBox" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/LeftHandViewContainer"]
+[node name="LeftHandView" type="CheckBox" parent="Pause/SettingsOverlay/Settings/View/Column/LeftHandViewContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 24.0
@@ -527,19 +534,19 @@ size_flags_horizontal = 3
 custom_styles/focus = SubResource( 71 )
 pressed = true
 
-[node name="LeftHandViewInfo" type="Button" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/LeftHandViewContainer"]
+[node name="LeftHandViewInfo" type="Button" parent="Pause/SettingsOverlay/Settings/View/Column/LeftHandViewContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="RightHandViewContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column"]
+[node name="RightHandViewContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/View/Column"]
 margin_top = 69.0
 margin_right = 510.0
 margin_bottom = 93.0
 custom_constants/separation = 50
 
-[node name="RightHandViewLabel" type="Label" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/RightHandViewContainer"]
+[node name="RightHandViewLabel" type="Label" parent="Pause/SettingsOverlay/Settings/View/Column/RightHandViewContainer"]
 margin_top = 5.0
 margin_right = 196.0
 margin_bottom = 19.0
@@ -549,52 +556,52 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RightHandView" type="CheckBox" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/RightHandViewContainer"]
+[node name="RightHandView" type="CheckBox" parent="Pause/SettingsOverlay/Settings/View/Column/RightHandViewContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_styles/focus = SubResource( 71 )
 
-[node name="RightHandViewInfo" type="Button" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/RightHandViewContainer"]
+[node name="RightHandViewInfo" type="Button" parent="Pause/SettingsOverlay/Settings/View/Column/RightHandViewContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="KPContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column"]
+[node name="KPContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/View/Column"]
 margin_top = 138.0
 margin_right = 510.0
 margin_bottom = 162.0
 custom_constants/separation = 50
 
-[node name="KPLabel" type="Label" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/KPContainer"]
+[node name="KPLabel" type="Label" parent="Pause/SettingsOverlay/Settings/View/Column/KPContainer"]
 margin_top = 5.0
 margin_right = 196.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Keypoint View"
 
-[node name="KPOptions" type="CheckBox" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/KPContainer"]
+[node name="KPOptions" type="CheckBox" parent="Pause/SettingsOverlay/Settings/View/Column/KPContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_styles/focus = SubResource( 70 )
 
-[node name="KPInfo" type="Button" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/KPContainer"]
+[node name="KPInfo" type="Button" parent="Pause/SettingsOverlay/Settings/View/Column/KPContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="SideKPContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column"]
+[node name="SideKPContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/View/Column"]
 margin_top = 207.0
 margin_right = 510.0
 margin_bottom = 231.0
 custom_constants/separation = 50
 
-[node name="SideKPLabel" type="Label" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/SideKPContainer"]
+[node name="SideKPLabel" type="Label" parent="Pause/SettingsOverlay/Settings/View/Column/SideKPContainer"]
 margin_top = 5.0
 margin_right = 196.0
 margin_bottom = 19.0
@@ -604,26 +611,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SideKPOptions" type="CheckBox" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/SideKPContainer"]
+[node name="SideKPOptions" type="CheckBox" parent="Pause/SettingsOverlay/Settings/View/Column/SideKPContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_styles/focus = SubResource( 71 )
 
-[node name="SideKPInfo" type="Button" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/SideKPContainer"]
+[node name="SideKPInfo" type="Button" parent="Pause/SettingsOverlay/Settings/View/Column/SideKPContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="DisplayTextContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column"]
+[node name="DisplayTextContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/View/Column"]
 margin_top = 276.0
 margin_right = 510.0
 margin_bottom = 300.0
 custom_constants/separation = 50
 
-[node name="DisplayTextLabel" type="Label" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/DisplayTextContainer"]
+[node name="DisplayTextLabel" type="Label" parent="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer"]
 margin_top = 5.0
 margin_right = 196.0
 margin_bottom = 19.0
@@ -633,7 +640,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DisplayTextOptions" type="CheckBox" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/DisplayTextContainer"]
+[node name="DisplayTextOptions" type="CheckBox" parent="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 24.0
@@ -641,19 +648,19 @@ size_flags_horizontal = 3
 custom_styles/focus = SubResource( 71 )
 pressed = true
 
-[node name="DisplayTextInfo" type="Button" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column/DisplayTextContainer"]
+[node name="DisplayTextInfo" type="Button" parent="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="ResetViewSettings" type="Button" parent="Pause/SettingsOverlay/Settings/ViewSettings/Column"]
+[node name="ResetViewSettings" type="Button" parent="Pause/SettingsOverlay/Settings/View/Column"]
 margin_top = 345.0
 margin_right = 510.0
 margin_bottom = 365.0
 text = "Reset"
 
-[node name="DisplaySettings" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
+[node name="Display" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -662,7 +669,7 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/DisplaySettings"]
+[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Display"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 520.0
@@ -672,7 +679,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScreenContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/DisplaySettings/Column"]
+[node name="ScreenContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Display/Column"]
 margin_right = 510.0
 margin_bottom = 20.0
 custom_constants/separation = 50
@@ -680,7 +687,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScreenLabel" type="Label" parent="Pause/SettingsOverlay/Settings/DisplaySettings/Column/ScreenContainer"]
+[node name="ScreenLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer"]
 margin_top = 3.0
 margin_right = 196.0
 margin_bottom = 17.0
@@ -690,7 +697,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScreenOptions" type="OptionButton" parent="Pause/SettingsOverlay/Settings/DisplaySettings/Column/ScreenContainer"]
+[node name="ScreenOptions" type="OptionButton" parent="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 20.0
@@ -699,19 +706,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScreenInfo" type="Button" parent="Pause/SettingsOverlay/Settings/DisplaySettings/Column/ScreenContainer"]
+[node name="ScreenInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 20.0
 text = "?"
 
-[node name="ResetDisplaySettings" type="Button" parent="Pause/SettingsOverlay/Settings/DisplaySettings/Column"]
+[node name="ResetDisplaySettings" type="Button" parent="Pause/SettingsOverlay/Settings/Display/Column"]
 margin_top = 65.0
 margin_right = 510.0
 margin_bottom = 85.0
 text = "Reset"
 
-[node name="InputSettings" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
+[node name="Input" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -720,7 +727,7 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/InputSettings"]
+[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Input"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 520.0
@@ -731,19 +738,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MouseSensitivityContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/InputSettings/Column"]
+[node name="MouseSensitivityContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Input/Column"]
 margin_right = 510.0
 margin_bottom = 20.0
 custom_constants/separation = 50
 
-[node name="MouseSensitivityValue" type="Label" parent="Pause/SettingsOverlay/Settings/InputSettings/Column/MouseSensitivityContainer"]
+[node name="MouseSensitivityValue" type="Label" parent="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer"]
 margin_top = 3.0
 margin_right = 196.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
 text = "Mouse Sensitivity: 5"
 
-[node name="MouseSensitivity" type="HSlider" parent="Pause/SettingsOverlay/Settings/InputSettings/Column/MouseSensitivityContainer"]
+[node name="MouseSensitivity" type="HSlider" parent="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 16.0
@@ -755,19 +762,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MouseSensitivityInfo" type="Button" parent="Pause/SettingsOverlay/Settings/InputSettings/Column/MouseSensitivityContainer"]
+[node name="MouseSensitivityInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 20.0
 text = "?"
 
-[node name="MovementSpeedContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/InputSettings/Column"]
+[node name="MovementSpeedContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Input/Column"]
 margin_top = 65.0
 margin_right = 510.0
 margin_bottom = 85.0
 custom_constants/separation = 50
 
-[node name="MovementSpeedValue" type="Label" parent="Pause/SettingsOverlay/Settings/InputSettings/Column/MovementSpeedContainer"]
+[node name="MovementSpeedValue" type="Label" parent="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer"]
 margin_top = 3.0
 margin_right = 196.0
 margin_bottom = 17.0
@@ -777,7 +784,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MovementSpeed" type="HSlider" parent="Pause/SettingsOverlay/Settings/InputSettings/Column/MovementSpeedContainer"]
+[node name="MovementSpeed" type="HSlider" parent="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 16.0
@@ -789,44 +796,44 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="MovementSpeedInfo" type="Button" parent="Pause/SettingsOverlay/Settings/InputSettings/Column/MovementSpeedContainer"]
+[node name="MovementSpeedInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 20.0
 text = "?"
 
-[node name="InputContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/InputSettings/Column"]
+[node name="InputContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Input/Column"]
 margin_top = 130.0
 margin_right = 510.0
 margin_bottom = 150.0
 custom_constants/separation = 50
 
-[node name="InputLabel" type="Label" parent="Pause/SettingsOverlay/Settings/InputSettings/Column/InputContainer"]
+[node name="InputLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Input/Column/InputContainer"]
 margin_top = 3.0
 margin_right = 196.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
 text = "Input"
 
-[node name="InputOptions" type="OptionButton" parent="Pause/SettingsOverlay/Settings/InputSettings/Column/InputContainer"]
+[node name="InputOptions" type="OptionButton" parent="Pause/SettingsOverlay/Settings/Input/Column/InputContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
-[node name="InputInfo" type="Button" parent="Pause/SettingsOverlay/Settings/InputSettings/Column/InputContainer"]
+[node name="InputInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Input/Column/InputContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 20.0
 text = "?"
 
-[node name="ResetInputSettings" type="Button" parent="Pause/SettingsOverlay/Settings/InputSettings/Column"]
+[node name="ResetInputSettings" type="Button" parent="Pause/SettingsOverlay/Settings/Input/Column"]
 margin_top = 195.0
 margin_right = 510.0
 margin_bottom = 215.0
 text = "Reset"
 
-[node name="BVHSettings" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
+[node name="Output" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -835,7 +842,7 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/BVHSettings"]
+[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Output"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 520.0
@@ -845,20 +852,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FrameStartContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column"]
+[node name="FrameStartContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Output/Column"]
 margin_right = 510.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_constants/separation = 50
 
-[node name="FrameStartLabel" type="Label" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameStartContainer"]
+[node name="FrameStartLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer"]
 margin_top = 5.0
 margin_right = 114.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Frame Start: 1"
 
-[node name="FrameStartSlider" type="HSlider" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameStartContainer"]
+[node name="FrameStartSlider" type="HSlider" parent="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer"]
 margin_left = 164.0
 margin_right = 278.0
 margin_bottom = 16.0
@@ -869,7 +876,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FrameStartInput" type="SpinBox" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameStartContainer"]
+[node name="FrameStartInput" type="SpinBox" parent="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer"]
 margin_left = 328.0
 margin_right = 442.0
 margin_bottom = 24.0
@@ -877,27 +884,27 @@ size_flags_horizontal = 3
 min_value = 1.0
 value = 1.0
 
-[node name="FrameStartInfo" type="Button" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameStartContainer"]
+[node name="FrameStartInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="FrameEndContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column"]
+[node name="FrameEndContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Output/Column"]
 margin_top = 69.0
 margin_right = 510.0
 margin_bottom = 93.0
 size_flags_horizontal = 3
 custom_constants/separation = 50
 
-[node name="FrameEndLabel" type="Label" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameEndContainer"]
+[node name="FrameEndLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer"]
 margin_top = 5.0
 margin_right = 114.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Frame End: 1"
 
-[node name="FrameEndSlider" type="HSlider" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameEndContainer"]
+[node name="FrameEndSlider" type="HSlider" parent="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer"]
 margin_left = 164.0
 margin_right = 278.0
 margin_bottom = 16.0
@@ -908,7 +915,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FrameEndInput" type="SpinBox" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameEndContainer"]
+[node name="FrameEndInput" type="SpinBox" parent="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer"]
 margin_left = 328.0
 margin_right = 442.0
 margin_bottom = 24.0
@@ -916,26 +923,26 @@ size_flags_horizontal = 3
 min_value = 1.0
 value = 1.0
 
-[node name="FrameEndInfo" type="Button" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameEndContainer"]
+[node name="FrameEndInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="LeftHandBVHContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column"]
+[node name="LeftHandBVHContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Output/Column"]
 margin_top = 138.0
 margin_right = 510.0
 margin_bottom = 162.0
 custom_constants/separation = 50
 
-[node name="LeftHandBVHLabel" type="Label" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/LeftHandBVHContainer"]
+[node name="LeftHandBVHLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Output/Column/LeftHandBVHContainer"]
 margin_top = 5.0
 margin_right = 196.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Left Hand"
 
-[node name="LeftHandBVHCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/LeftHandBVHContainer"]
+[node name="LeftHandBVHCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Output/Column/LeftHandBVHContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 24.0
@@ -943,39 +950,39 @@ size_flags_horizontal = 3
 custom_styles/focus = SubResource( 78 )
 pressed = true
 
-[node name="LeftHandBVHInfo" type="Button" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/LeftHandBVHContainer"]
+[node name="LeftHandBVHInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Output/Column/LeftHandBVHContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="RightHandBVHContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column"]
+[node name="RightHandBVHContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Output/Column"]
 margin_top = 207.0
 margin_right = 510.0
 margin_bottom = 231.0
 custom_constants/separation = 50
 
-[node name="RightHandBVHLabel" type="Label" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/RightHandBVHContainer"]
+[node name="RightHandBVHLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Output/Column/RightHandBVHContainer"]
 margin_top = 5.0
 margin_right = 196.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Right Hand"
 
-[node name="RightHandBVHCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/RightHandBVHContainer"]
+[node name="RightHandBVHCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Output/Column/RightHandBVHContainer"]
 margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_styles/focus = SubResource( 79 )
 
-[node name="RightHandBVHInfo" type="Button" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/RightHandBVHContainer"]
+[node name="RightHandBVHInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Output/Column/RightHandBVHContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="BVHContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column"]
+[node name="BVHContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Output/Column"]
 margin_top = 276.0
 margin_right = 510.0
 margin_bottom = 296.0
@@ -984,7 +991,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BVHButton" type="Button" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/BVHContainer"]
+[node name="BVHButton" type="Button" parent="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer"]
 margin_right = 442.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
@@ -993,19 +1000,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BVHInfo" type="Button" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column/BVHContainer"]
+[node name="BVHInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer"]
 margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 20.0
 text = "?"
 
-[node name="ResetBVHSettings" type="Button" parent="Pause/SettingsOverlay/Settings/BVHSettings/Column"]
+[node name="ResetBVHSettings" type="Button" parent="Pause/SettingsOverlay/Settings/Output/Column"]
 margin_top = 341.0
 margin_right = 510.0
 margin_bottom = 361.0
 text = "Reset"
 
-[node name="DebugSettings" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
+[node name="Debug" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -1014,7 +1021,7 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/DebugSettings"]
+[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 520.0
@@ -1025,11 +1032,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DebugContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column"]
+[node name="DebugContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug/Column"]
 margin_right = 510.0
 margin_bottom = 24.0
 
-[node name="DebugLabel" type="Label" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column/DebugContainer"]
+[node name="DebugLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Debug/Column/DebugContainer"]
 margin_top = 5.0
 margin_right = 253.0
 margin_bottom = 19.0
@@ -1039,14 +1046,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DebugOptions" type="CheckBox" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column/DebugContainer"]
+[node name="DebugOptions" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Debug/Column/DebugContainer"]
 margin_left = 257.0
 margin_right = 510.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_styles/focus = SubResource( 71 )
 
-[node name="DebugFrameContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column"]
+[node name="DebugFrameContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug/Column"]
 margin_top = 74.0
 margin_right = 510.0
 margin_bottom = 98.0
@@ -1054,14 +1061,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DebugFrameLabel" type="Label" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column/DebugFrameContainer"]
+[node name="DebugFrameLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Debug/Column/DebugFrameContainer"]
 margin_top = 5.0
 margin_right = 253.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Frame To Debug: Unset"
 
-[node name="DebugFrame" type="SpinBox" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column/DebugFrameContainer"]
+[node name="DebugFrame" type="SpinBox" parent="Pause/SettingsOverlay/Settings/Debug/Column/DebugFrameContainer"]
 margin_left = 257.0
 margin_right = 510.0
 margin_bottom = 24.0
@@ -1069,7 +1076,7 @@ size_flags_horizontal = 3
 min_value = -1.0
 value = -1.0
 
-[node name="HandDebugContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column"]
+[node name="HandDebugContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug/Column"]
 margin_top = 148.0
 margin_right = 510.0
 margin_bottom = 168.0
@@ -1077,7 +1084,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HandDebugLabel" type="Label" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column/HandDebugContainer"]
+[node name="HandDebugLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Debug/Column/HandDebugContainer"]
 margin_top = 3.0
 margin_right = 253.0
 margin_bottom = 17.0
@@ -1087,33 +1094,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HandDebugOptions" type="OptionButton" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column/HandDebugContainer"]
+[node name="HandDebugOptions" type="OptionButton" parent="Pause/SettingsOverlay/Settings/Debug/Column/HandDebugContainer"]
 margin_left = 257.0
 margin_right = 510.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 custom_styles/focus = SubResource( 71 )
 
-[node name="ShowMarkerContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column"]
+[node name="ShowMarkerContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug/Column"]
 margin_top = 218.0
 margin_right = 510.0
 margin_bottom = 242.0
 
-[node name="ShowMarkerLabel" type="Label" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column/ShowMarkerContainer"]
+[node name="ShowMarkerLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Debug/Column/ShowMarkerContainer"]
 margin_top = 5.0
 margin_right = 253.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Show Marker"
 
-[node name="ShowMarkerCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column/ShowMarkerContainer"]
+[node name="ShowMarkerCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Debug/Column/ShowMarkerContainer"]
 margin_left = 257.0
 margin_right = 510.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_styles/focus = SubResource( 75 )
 
-[node name="ShowGlobalAxisContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column"]
+[node name="ShowGlobalAxisContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug/Column"]
 margin_top = 292.0
 margin_right = 510.0
 margin_bottom = 316.0
@@ -1121,33 +1128,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ShowGlobalAxisLabel" type="Label" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column/ShowGlobalAxisContainer"]
+[node name="ShowGlobalAxisLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Debug/Column/ShowGlobalAxisContainer"]
 margin_top = 5.0
 margin_right = 253.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Show Global Axis"
 
-[node name="ShowGlobalAxisCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column/ShowGlobalAxisContainer"]
+[node name="ShowGlobalAxisCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Debug/Column/ShowGlobalAxisContainer"]
 margin_left = 257.0
 margin_right = 510.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 custom_styles/focus = SubResource( 76 )
 
-[node name="ShowBoneAxisContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column"]
+[node name="ShowBoneAxisContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug/Column"]
 margin_top = 366.0
 margin_right = 510.0
 margin_bottom = 390.0
 
-[node name="ShowBoneAxisLabel" type="Label" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column/ShowBoneAxisContainer"]
+[node name="ShowBoneAxisLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Debug/Column/ShowBoneAxisContainer"]
 margin_top = 5.0
 margin_right = 253.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Show Bone Axis"
 
-[node name="ShowBoneAxisCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/DebugSettings/Column/ShowBoneAxisContainer"]
+[node name="ShowBoneAxisCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Debug/Column/ShowBoneAxisContainer"]
 margin_left = 257.0
 margin_right = 510.0
 margin_bottom = 24.0
@@ -1477,7 +1484,46 @@ material/0 = ExtResource( 15 )
 
 [node name="BVH" type="Control" parent="."]
 pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 27 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BVHOverlay" type="ColorRect" parent="BVH"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.196078 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BVHContainer" type="VBoxContainer" parent="BVH/BVHOverlay"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -68.5
+margin_top = -20.0
+margin_right = 68.5
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BVHLabel" type="Label" parent="BVH/BVHOverlay/BVHContainer"]
+margin_right = 137.0
+margin_bottom = 14.0
+text = "Generating .bvh file..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BVHBar" type="ProgressBar" parent="BVH/BVHOverlay/BVHContainer"]
+margin_top = 18.0
+margin_right = 137.0
+margin_bottom = 32.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -1677,52 +1723,53 @@ material/0 = null
 [connection signal="pressed" from="Pause/MenuOverlay/MenuContainer/Restart" to="Pause" method="_on_Restart_pressed"]
 [connection signal="pressed" from="Pause/MenuOverlay/MenuContainer/Quit" to="Pause" method="_on_Quit_pressed"]
 [connection signal="pressed" from="Pause/InstructionsOverlay/Back" to="Pause" method="_on_Back_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/FrameSettings/Column/NextFrameContainer/InputFrame" to="Pause" method="_on_InputFrame_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/FrameSettings/Column/NextFrameContainer/InputFrameInfo" to="Pause" method="_on_InputFrameInfo_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/FrameSettings/Column/FPSContainer/FPS" to="Pause" method="_on_FPS_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/FrameSettings/Column/FPSContainer/FPSInfo" to="Pause" method="_on_FPSInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/FrameSettings/Column/CurrentFrameContainer/CurrentFrameOptions" to="Pause" method="_on_CurrentFrameOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/FrameSettings/Column/CurrentFrameContainer/CurrentFrameInfo" to="Pause" method="_on_CurrentFrameInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/FrameSettings/Column/PluginContainer/PluginOptions" to="Pause" method="_on_PluginOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/FrameSettings/Column/PluginContainer/PluginInfo" to="Pause" method="_on_PluginInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/FrameSettings/Column/ResetFrameSettings" to="Pause" method="_on_ResetFrameSettings_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/ViewSettings/Column/LeftHandViewContainer/LeftHandView" to="Pause" method="_on_LeftHandView_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/ViewSettings/Column/LeftHandViewContainer/LeftHandViewInfo" to="Pause" method="_on_LeftHandViewInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/ViewSettings/Column/RightHandViewContainer/RightHandView" to="Pause" method="_on_RightHandView_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/ViewSettings/Column/RightHandViewContainer/RightHandViewInfo" to="Pause" method="_on_RightHandViewInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/ViewSettings/Column/KPContainer/KPOptions" to="Pause" method="_on_KPOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/ViewSettings/Column/KPContainer/KPInfo" to="Pause" method="_on_KPInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/ViewSettings/Column/SideKPContainer/SideKPOptions" to="Pause" method="_on_SideKPOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/ViewSettings/Column/SideKPContainer/SideKPInfo" to="Pause" method="_on_SideKPInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/ViewSettings/Column/DisplayTextContainer/DisplayTextOptions" to="Pause" method="_on_DisplayTextOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/ViewSettings/Column/DisplayTextContainer/DisplayTextInfo" to="Pause" method="_on_DisplayTextInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/ViewSettings/Column/ResetViewSettings" to="Pause" method="_on_ResetViewSettings_pressed"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/DisplaySettings/Column/ScreenContainer/ScreenOptions" to="Pause" method="_on_ScreenOptions_item_selected"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/DisplaySettings/Column/ScreenContainer/ScreenInfo" to="Pause" method="_on_ScreenInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/DisplaySettings/Column/ResetDisplaySettings" to="Pause" method="_on_ResetDisplaySettings_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/InputSettings/Column/MouseSensitivityContainer/MouseSensitivity" to="Pause" method="_on_MouseSensitivity_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/InputSettings/Column/MouseSensitivityContainer/MouseSensitivityInfo" to="Pause" method="_on_MouseSensitivityInfo_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/InputSettings/Column/MovementSpeedContainer/MovementSpeed" to="Pause" method="_on_MovementSpeed_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/InputSettings/Column/MovementSpeedContainer/MovementSpeedInfo" to="Pause" method="_on_MovementSpeedInfo_pressed"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/InputSettings/Column/InputContainer/InputOptions" to="Pause" method="_on_InputOptions_item_selected"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/InputSettings/Column/InputContainer/InputInfo" to="Pause" method="_on_InputInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/InputSettings/Column/ResetInputSettings" to="Pause" method="_on_ResetInputSettings_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameStartContainer/FrameStartSlider" to="BVH" method="_on_FrameStartSlider_value_changed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameStartContainer/FrameStartInput" to="BVH" method="_on_FrameStartInput_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameStartContainer/FrameStartInfo" to="Pause" method="_on_FrameStartInfo_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameEndContainer/FrameEndSlider" to="BVH" method="_on_FrameEndSlider_value_changed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameEndContainer/FrameEndInput" to="BVH" method="_on_FrameEndInput_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/BVHSettings/Column/FrameEndContainer/FrameEndInfo" to="Pause" method="_on_FrameEndInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/BVHSettings/Column/LeftHandBVHContainer/LeftHandBVHInfo" to="Pause" method="_on_LeftHandBVHInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/BVHSettings/Column/RightHandBVHContainer/RightHandBVHInfo" to="Pause" method="_on_RightHandBVHInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/BVHSettings/Column/BVHContainer/BVHButton" to="BVH" method="_on_BVH_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/BVHSettings/Column/BVHContainer/BVHInfo" to="Pause" method="_on_BVHInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/BVHSettings/Column/ResetBVHSettings" to="Pause" method="_on_ResetBVHSettings_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/DebugSettings/Column/DebugContainer/DebugOptions" to="Pause" method="_on_DebugOptions_toggled"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/DebugSettings/Column/DebugFrameContainer/DebugFrame" to="Pause" method="_on_DebugFrame_value_changed"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/DebugSettings/Column/HandDebugContainer/HandDebugOptions" to="Pause" method="_on_HandDebugOptions_item_selected"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/DebugSettings/Column/ShowMarkerContainer/ShowMarkerCheckbox" to="Pause" method="_on_ShowMarkerCheckbox_toggled"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/DebugSettings/Column/ShowGlobalAxisContainer/ShowGlobalAxisCheckbox" to="Pause" method="_on_ShowGlobalAxisCheckbox_toggled"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/DebugSettings/Column/ShowBoneAxisContainer/ShowBoneAxisCheckbox" to="Pause" method="_on_ShowBoneAxisCheckbox_toggled"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer/InputFrame" to="Pause" method="_on_InputFrame_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer/InputFrameInfo" to="Pause" method="_on_InputFrameInfo_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPS" to="Pause" method="_on_FPS_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPSMaxButton" to="Pause" method="_on_FPSMaxButton_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPSInfo" to="Pause" method="_on_FPSInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Frame/Column/CurrentFrameContainer/CurrentFrameOptions" to="Pause" method="_on_CurrentFrameOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/CurrentFrameContainer/CurrentFrameInfo" to="Pause" method="_on_CurrentFrameInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Frame/Column/PluginContainer/PluginOptions" to="Pause" method="_on_PluginOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/PluginContainer/PluginInfo" to="Pause" method="_on_PluginInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/ResetFrameSettings" to="Pause" method="_on_ResetFrameSettings_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/LeftHandViewContainer/LeftHandView" to="Pause" method="_on_LeftHandView_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/LeftHandViewContainer/LeftHandViewInfo" to="Pause" method="_on_LeftHandViewInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/RightHandViewContainer/RightHandView" to="Pause" method="_on_RightHandView_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/RightHandViewContainer/RightHandViewInfo" to="Pause" method="_on_RightHandViewInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/KPContainer/KPOptions" to="Pause" method="_on_KPOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/KPContainer/KPInfo" to="Pause" method="_on_KPInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/SideKPContainer/SideKPOptions" to="Pause" method="_on_SideKPOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/SideKPContainer/SideKPInfo" to="Pause" method="_on_SideKPInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer/DisplayTextOptions" to="Pause" method="_on_DisplayTextOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer/DisplayTextInfo" to="Pause" method="_on_DisplayTextInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/ResetViewSettings" to="Pause" method="_on_ResetViewSettings_pressed"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer/ScreenOptions" to="Pause" method="_on_ScreenOptions_item_selected"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer/ScreenInfo" to="Pause" method="_on_ScreenInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Display/Column/ResetDisplaySettings" to="Pause" method="_on_ResetDisplaySettings_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer/MouseSensitivity" to="Pause" method="_on_MouseSensitivity_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer/MouseSensitivityInfo" to="Pause" method="_on_MouseSensitivityInfo_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer/MovementSpeed" to="Pause" method="_on_MovementSpeed_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer/MovementSpeedInfo" to="Pause" method="_on_MovementSpeedInfo_pressed"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Input/Column/InputContainer/InputOptions" to="Pause" method="_on_InputOptions_item_selected"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/InputContainer/InputInfo" to="Pause" method="_on_InputInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/ResetInputSettings" to="Pause" method="_on_ResetInputSettings_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartSlider" to="BVH" method="_on_FrameStartSlider_value_changed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartInput" to="BVH" method="_on_FrameStartInput_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartInfo" to="Pause" method="_on_FrameStartInfo_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer/FrameEndSlider" to="BVH" method="_on_FrameEndSlider_value_changed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer/FrameEndInput" to="BVH" method="_on_FrameEndInput_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer/FrameEndInfo" to="Pause" method="_on_FrameEndInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/LeftHandBVHContainer/LeftHandBVHInfo" to="Pause" method="_on_LeftHandBVHInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/RightHandBVHContainer/RightHandBVHInfo" to="Pause" method="_on_RightHandBVHInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer/BVHButton" to="BVH" method="_on_BVH_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer/BVHInfo" to="Pause" method="_on_BVHInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/ResetBVHSettings" to="Pause" method="_on_ResetBVHSettings_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Debug/Column/DebugContainer/DebugOptions" to="Pause" method="_on_DebugOptions_toggled"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Debug/Column/DebugFrameContainer/DebugFrame" to="Pause" method="_on_DebugFrame_value_changed"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Debug/Column/HandDebugContainer/HandDebugOptions" to="Pause" method="_on_HandDebugOptions_item_selected"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Debug/Column/ShowMarkerContainer/ShowMarkerCheckbox" to="Pause" method="_on_ShowMarkerCheckbox_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Debug/Column/ShowGlobalAxisContainer/ShowGlobalAxisCheckbox" to="Pause" method="_on_ShowGlobalAxisCheckbox_toggled"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Debug/Column/ShowBoneAxisContainer/ShowBoneAxisCheckbox" to="Pause" method="_on_ShowBoneAxisCheckbox_toggled"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Popup/PopupContainer/Close" to="Pause" method="_on_Close_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Back" to="Pause" method="_on_Back_pressed"]

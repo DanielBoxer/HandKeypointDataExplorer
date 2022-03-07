@@ -14,80 +14,83 @@ onready var keypoint_view := get_node("/root/Main/KeypointView")
 onready var popup := get_node("SettingsOverlay/Popup")
 onready var dataset_text = get_node("/root/Main/Hands/DisplayContainer/DatasetText")
 onready var input_frame_label := get_node(
-	_location + "FrameSettings/Column/NextFrameContainer/InputFrameLabel"
+	_location + "Frame/Column/NextFrameContainer/InputFrameLabel"
 )
 onready var input_frame: SpinBox = get_node(
-	_location + "FrameSettings/Column/NextFrameContainer/InputFrame"
+	_location + "Frame/Column/NextFrameContainer/InputFrame"
 )
-onready var fps_slider := get_node(_location + "FrameSettings/Column/FPSContainer/FPS")
+onready var fps_text: Label = get_node(
+	_location + "Frame/Column/FPSContainer/FPSValue"
+)
+onready var fps_slider := get_node(_location + "Frame/Column/FPSContainer/FPS")
 onready var current_frame_checkbox: CheckBox = get_node(
-	_location + "FrameSettings/Column/CurrentFrameContainer/CurrentFrameOptions"
+	_location + "Frame/Column/CurrentFrameContainer/CurrentFrameOptions"
 )
 onready var plugin_checkbox: CheckBox = get_node(
-	_location + "FrameSettings/Column/PluginContainer/PluginOptions"
+	_location + "Frame/Column/PluginContainer/PluginOptions"
 )
 onready var left_hand_view_checkbox = get_node(
-	_location + "ViewSettings/Column/LeftHandViewContainer/LeftHandView"
+	_location + "View/Column/LeftHandViewContainer/LeftHandView"
 )
 onready var right_hand_view_checkbox = get_node(
-	_location + "ViewSettings/Column/RightHandViewContainer/RightHandView"
+	_location + "View/Column/RightHandViewContainer/RightHandView"
 )
 onready var keypoint_view_checkbox = get_node(
-	_location + "ViewSettings/Column/KPContainer/KPOptions"
+	_location + "View/Column/KPContainer/KPOptions"
 )
 onready var side_keypoints_checkbox: CheckBox = get_node(
-	_location + "ViewSettings/Column/SideKPContainer/SideKPOptions"
+	_location + "View/Column/SideKPContainer/SideKPOptions"
 )
 onready var display_text_checkbox := get_node(
-	_location + "ViewSettings/Column/DisplayTextContainer/DisplayTextOptions"
+	_location + "View/Column/DisplayTextContainer/DisplayTextOptions"
 )
 onready var screen_options := get_node(
-	_location + "DisplaySettings/Column/ScreenContainer/ScreenOptions"
+	_location + "Display/Column/ScreenContainer/ScreenOptions"
 )
 onready var mouse_sensitivity_slider: HSlider = get_node(
-	_location + "InputSettings/Column/MouseSensitivityContainer/MouseSensitivity"
+	_location + "Input/Column/MouseSensitivityContainer/MouseSensitivity"
 )
 onready var movement_speed_slider: HSlider = get_node(
-	_location + "InputSettings/Column/MovementSpeedContainer/MovementSpeed"
+	_location + "Input/Column/MovementSpeedContainer/MovementSpeed"
 )
 onready var input_options: OptionButton = get_node(
-	_location + "InputSettings/Column/InputContainer/InputOptions"
+	_location + "Input/Column/InputContainer/InputOptions"
 )
 onready var bvh_frame_start_input: SpinBox = get_node(
-	_location + "BVHSettings/Column/FrameStartContainer/FrameStartInput"
+	_location + "Output/Column/FrameStartContainer/FrameStartInput"
 )
 onready var bvh_frame_end_input: SpinBox = get_node(
-	_location + "BVHSettings/Column/FrameEndContainer/FrameEndInput"
+	_location + "Output/Column/FrameEndContainer/FrameEndInput"
 )
 onready var bvh_left_hand_checkbox: CheckBox = get_node(
-	_location + "BVHSettings/Column/LeftHandBVHContainer/LeftHandBVHCheckbox"
+	_location + "Output/Column/LeftHandBVHContainer/LeftHandBVHCheckbox"
 )
 onready var bvh_right_hand_checkbox: CheckBox = get_node(
-	_location + "BVHSettings/Column/RightHandBVHContainer/RightHandBVHCheckbox"
+	_location + "Output/Column/RightHandBVHContainer/RightHandBVHCheckbox"
 )
 onready var debug_options_checkbox = get_node(
-	_location + "DebugSettings/Column/DebugContainer/DebugOptions"
+	_location + "Debug/Column/DebugContainer/DebugOptions"
 )
 onready var debug_frame_text = get_node(
-	_location + "DebugSettings/Column/DebugFrameContainer/DebugFrameLabel"
+	_location + "Debug/Column/DebugFrameContainer/DebugFrameLabel"
 )
 onready var debug_frame = get_node(
-	_location + "DebugSettings/Column/DebugFrameContainer/DebugFrame"
+	_location + "Debug/Column/DebugFrameContainer/DebugFrame"
 )
 onready var hand_debug_options_text = get_node(
-	_location + "DebugSettings/Column/HandDebugContainer/HandDebugLabel"
+	_location + "Debug/Column/HandDebugContainer/HandDebugLabel"
 )
 onready var hand_debug_options: OptionButton = get_node(
-	_location + "DebugSettings/Column/HandDebugContainer/HandDebugOptions"
+	_location + "Debug/Column/HandDebugContainer/HandDebugOptions"
 )
 onready var marker_checkbox := get_node(
-	_location + "DebugSettings/Column/ShowMarkerContainer/ShowMarkerCheckbox"
+	_location + "Debug/Column/ShowMarkerContainer/ShowMarkerCheckbox"
 )
 onready var global_axis_checkbox := get_node(
-	_location + "DebugSettings/Column/ShowGlobalAxisContainer/ShowGlobalAxisCheckbox"
+	_location + "Debug/Column/ShowGlobalAxisContainer/ShowGlobalAxisCheckbox"
 )
 onready var bone_axis_checkbox := get_node(
-	_location + "DebugSettings/Column/ShowBoneAxisContainer/ShowBoneAxisCheckbox"
+	_location + "Debug/Column/ShowBoneAxisContainer/ShowBoneAxisCheckbox"
 )
 onready var debugger = get_node("/root/Main/Debugger")
 onready var debug_angle_text = get_node(
@@ -182,14 +185,8 @@ func _on_Back_pressed() -> void:
 
 
 func _on_FPS_value_changed(value: int) -> void:
-	if debug_options_checkbox.pressed == false:
-		var fps_text: Label = get_node(
-			_location + "FrameSettings/Column/FPSContainer/FPSValue"
-		)
-		Engine.iterations_per_second = value
-		fps_text.set_text("FPS: " + str(value))
-	else:
-		activate_popup("FPS unavailable in debug mode")
+	Engine.iterations_per_second = value
+	fps_text.set_text("FPS: " + str(value))
 
 
 func _on_ScreenOptions_item_selected(_index: int) -> void:
@@ -222,7 +219,7 @@ func _on_InputOptions_item_selected(_index: int) -> void:
 
 func _on_MouseSensitivity_value_changed(value: int) -> void:
 	var mouse_sensitivity_text := get_node(
-		_location + "InputSettings/Column/MouseSensitivityContainer/MouseSensitivityValue"
+		_location + "Input/Column/MouseSensitivityContainer/MouseSensitivityValue"
 	)
 	mouse_sensitivity_text.set_text("Mouse Sensitivity: " + str(value))
 	controller.mouse_sensitivity = value
@@ -230,7 +227,7 @@ func _on_MouseSensitivity_value_changed(value: int) -> void:
 
 func _on_MovementSpeed_value_changed(value: int) -> void:
 	var movement_speed_text := get_node(
-		_location + "InputSettings/Column/MovementSpeedContainer/MovementSpeedValue"
+		_location + "Input/Column/MovementSpeedContainer/MovementSpeedValue"
 	)
 	movement_speed_text.set_text("Movement Speed: " + str(value))
 	controller.speed = value
@@ -258,65 +255,48 @@ func _on_CurrentFrameOptions_toggled(button_pressed: bool) -> void:
 
 
 func _on_PluginOptions_toggled(button_pressed: bool) -> void:
-	if debug_options_checkbox.pressed == false:
-		hands.is_plugin_activated = button_pressed
-		if side_keypoints_checkbox.is_pressed():
-			side_keypoints_checkbox.pressed = false
-	else:
-		activate_popup("Plugin data unavailable in debug mode")
-		plugin_checkbox.pressed = false
+	hands.is_plugin_activated = button_pressed
+	if side_keypoints_checkbox.is_pressed():
+		side_keypoints_checkbox.pressed = false
 
 
 func _on_KPOptions_toggled(button_pressed: bool) -> void:
-	if debug_options_checkbox.pressed == false:
-		var hand_mesh_left: MeshInstance = get_node(
-			"/root/Main/Hands/LeftHand/Armature/Skeleton/Hand_L"
-		)
-		var hand_keypoints_left = get_node(
-			"/root/Main/Hands/LeftHand/Armature/Skeleton/Keypoints"
-		)
-		hand_mesh_left.visible = not button_pressed
-		hand_keypoints_left.visible = button_pressed
-		var hand_mesh_right: MeshInstance = get_node(
-			"/root/Main/Hands/RightHand/Armature/Skeleton/Hand_L"
-		)
-		var hand_keypoints_right = get_node(
-			"/root/Main/Hands/RightHand/Armature/Skeleton/Keypoints"
-		)
-		hand_mesh_right.visible = not button_pressed
-		hand_keypoints_right.visible = button_pressed
-	else:
-		activate_popup("Keypoint view unavailable in debug mode")
-		keypoint_view_checkbox.pressed = false
+	var hand_mesh_left: MeshInstance = get_node(
+		"/root/Main/Hands/LeftHand/Armature/Skeleton/Hand_L"
+	)
+	var hand_keypoints_left = get_node(
+		"/root/Main/Hands/LeftHand/Armature/Skeleton/Keypoints"
+	)
+	hand_mesh_left.visible = not button_pressed
+	hand_keypoints_left.visible = button_pressed
+	var hand_mesh_right: MeshInstance = get_node(
+		"/root/Main/Hands/RightHand/Armature/Skeleton/Hand_L"
+	)
+	var hand_keypoints_right = get_node(
+		"/root/Main/Hands/RightHand/Armature/Skeleton/Keypoints"
+	)
+	hand_mesh_right.visible = not button_pressed
+	hand_keypoints_right.visible = button_pressed
 
 
 func _on_SideKPOptions_toggled(button_pressed: bool) -> void:
-	if debug_options_checkbox.pressed == false:
-		var is_plugin_checked: bool = plugin_checkbox.is_pressed()
-		if is_plugin_checked:
-			keypoint_view.visible = false
-			side_keypoints_checkbox.pressed = false
-			activate_popup("Side Keypoint View unavailable while plugin is on")
-		else:
-			keypoint_view.visible = button_pressed
+	var is_plugin_checked: bool = plugin_checkbox.is_pressed()
+	if is_plugin_checked:
+		keypoint_view.visible = false
+		side_keypoints_checkbox.pressed = false
+		activate_popup("Side Keypoint View unavailable while plugin is on")
 	else:
-		get_node("/root/Main/Debugger/KeypointView").visible = button_pressed
+		keypoint_view.visible = button_pressed
 
 
 func _on_LeftHandView_toggled(button_pressed: bool) -> void:
 	get_node("/root/Main/Hands/LeftHand").visible = button_pressed
 	get_node("/root/Main/KeypointView/left_hand").visible = button_pressed
-	if debug_options_checkbox.pressed == true:
-		activate_popup("Show left hand unavailable in debug mode")
-		left_hand_view_checkbox.pressed = false
 
 
 func _on_RightHandView_toggled(button_pressed: bool) -> void:
 	get_node("/root/Main/Hands/RightHand").visible = button_pressed
 	get_node("/root/Main/KeypointView/right_hand").visible = button_pressed
-	if debug_options_checkbox.pressed == true:
-		activate_popup("Show right hand unavailable in debug mode")
-		right_hand_view_checkbox.pressed = false
 
 
 func _on_DisplayTextOptions_toggled(button_pressed: bool) -> void:
@@ -378,7 +358,11 @@ func _on_InputFrameInfo_pressed() -> void:
 
 func _on_FPSInfo_pressed() -> void:
 	activate_popup(
-		"Change the frames per second (FPS) of data playback\nFPS can be from 1 to 90"
+		(
+			"Change the frames per second (FPS) of data playback\n"
+			+ "FPS can be from 1 to 90 using the slider\n"
+			+ "Pressing the MAX button will set FPS to 1500"
+		)
 	)
 
 
@@ -513,3 +497,8 @@ func _on_ResetBVHSettings_pressed():
 	bvh_frame_end_input.value = 1
 	bvh_left_hand_checkbox.pressed = true
 	bvh_right_hand_checkbox.pressed = false
+
+
+func _on_FPSMaxButton_pressed():
+	Engine.iterations_per_second = 1500
+	fps_text.set_text("FPS: 1500")

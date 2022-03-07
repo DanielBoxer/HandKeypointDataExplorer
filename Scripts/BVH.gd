@@ -1,9 +1,13 @@
 extends Node
 
-var location := "/root/Main/Pause/SettingsOverlay/Settings/BVHSettings/Column/"
+var start_frame := 1
+var end_frame := 1
+
+var location := "/root/Main/Pause/SettingsOverlay/Settings/Output/Column/"
 onready var bvh_button: Button = get_node(location + "BVHContainer/BVHButton")
 onready var skeleton := get_node("/root/Main/Hands/LeftHand/Armature/Skeleton")
-onready var pause = get_node("/root/Main/Pause")
+onready var pause_script := get_node("/root/Main/Pause")
+onready var hand_script := get_node("/root/Main/Hands")
 
 onready var frame_start_label: Label = get_node(
 	location + "FrameStartContainer/FrameStartLabel"
@@ -24,14 +28,16 @@ onready var frame_end_input: SpinBox = get_node(
 	location + "FrameEndContainer/FrameEndInput"
 )
 
+var open_file_name := "" setget , get_open_file_name
+
 
 func _ready():
+	self.visible = false
 	var frame_count = get_node("/root/ImportData").keypoint_data["left_hand_data"].size()
-
-	frame_start_slider.max_value = frame_count
-	frame_end_slider.max_value = frame_count
-	frame_start_input.max_value = frame_count
-	frame_end_input.max_value = frame_count
+	frame_start_slider.max_value = frame_count - 1
+	frame_end_slider.max_value = frame_count - 1
+	frame_start_input.max_value = frame_count - 1
+	frame_end_input.max_value = frame_count - 1
 
 
 func insert_tabs(tab_number: int, input_string: String) -> String:
@@ -54,25 +60,13 @@ func calculate_offset(bone_child: int, bone_parent: int) -> Vector3:
 	return bone_offset
 
 
-func _on_BVH_pressed() -> void:
-	var file = File.new()
-	var file_name: String = (
-		str(OS.get_datetime().year)
-		+ "_"
-		+ str(OS.get_datetime().month)
-		+ "_"
-		+ str(OS.get_datetime().day)
-		+ "_"
-		+ str(OS.get_datetime().hour)
-		+ "_"
-		+ str(OS.get_datetime().minute)
-		+ "_"
-		+ str(OS.get_datetime().second)
-	)  # date time format avoids overwriting files
-	var file_location := "res://Output/"
-	var file_type := ".bvh"
-	file.open(file_location + file_name + file_type, File.WRITE)
+func get_open_file_name() -> String:
+	return open_file_name
 
+
+func generate_hierarchy(file_name: String) -> void:
+	var file = File.new()
+	file.open(file_name, File.WRITE)
 	file.store_line("HIERARCHY")
 	file.store_line("ROOT " + skeleton.get_bone_name(0))
 	file.store_line("{")
@@ -128,44 +122,89 @@ func _on_BVH_pressed() -> void:
 
 	file.store_line("}")
 	file.store_line("MOTION")
-	file.store_line("Frames: 1")
-	file.store_line("Frame Time: 0.033333")
-
-	var temp := ""
-	for _i in range(skeleton.get_bone_count() * 3 + 3):
-		temp += "0.00 "
-	file.store_line(temp)
-
+	file.store_line("Frames: " + str(end_frame - start_frame + 1))
+	file.store_line("Frame Time: " + str(1.0 / Engine.iterations_per_second))
 	file.close()
 
 
+func add_data(data: Dictionary) -> void:
+	var line := ""
+	for vector in data.keys():
+		for element in data[vector]:
+			line += element + " "
+	var file = File.new()
+	file.open(open_file_name, File.READ_WRITE)
+	file.seek_end()
+	file.store_line(line)
+	file.close()
+
+
+func stop_recording() -> void:
+	self.visible = false
+	Engine.iterations_per_second = 1
+	hand_script.is_recording_activated = false
+	pause_script.pause()
+	get_node("/root/Main/Pause/MenuOverlay/MenuContainer/Settings").emit_signal("pressed")
+
+
+func _on_BVH_pressed() -> void:
+	self.visible = true
+	var file_name: String = (
+		str(OS.get_datetime().year)
+		+ "_"
+		+ str(OS.get_datetime().month)
+		+ "_"
+		+ str(OS.get_datetime().day)
+		+ "_"
+		+ str(OS.get_datetime().hour)
+		+ "_"
+		+ str(OS.get_datetime().minute)
+		+ "_"
+		+ str(OS.get_datetime().second)
+	)  # date time format avoids overwriting files
+	var file_location := "res://Output/"
+	var file_type := ".bvh"
+	open_file_name = file_location + file_name + file_type
+	generate_hierarchy(open_file_name)
+	Engine.iterations_per_second = 1500
+	hand_script.set_frame_number(start_frame)
+	hand_script.set_end_frame_number(end_frame)
+	hand_script.set_progress_bar_increase(100.0 / (end_frame - start_frame + 1))
+	hand_script.is_recording_activated = true
+	pause_script.pause()
+
+
 func _on_FrameStartSlider_value_changed(value: int) -> void:
-	if value <= frame_end_slider.value:
+	if value <= end_frame:
 		frame_start_label.text = "Frame Start: " + str(value)
 		frame_start_input.value = value
+		start_frame = value
 	else:
-		pause.activate_popup("Start frame can't be greater than end frame")
+		pause_script.activate_popup("Start frame can't be greater than end frame")
 
 
 func _on_FrameEndSlider_value_changed(value: int) -> void:
-	if value >= frame_start_slider.value:
+	if value >= start_frame:
 		frame_end_label.text = "Frame End: " + str(value)
 		frame_end_input.value = value
+		end_frame = value
 	else:
-		pause.activate_popup("End frame can't be less than start frame")
+		pause_script.activate_popup("End frame can't be less than start frame")
 
 
 func _on_FrameStartInput_value_changed(value: int) -> void:
-	if value <= frame_end_input.value:
+	if value <= end_frame:
 		frame_start_label.text = "Frame Start: " + str(value)
 		frame_start_slider.value = value
+		start_frame = value
 	else:
-		pause.activate_popup("Start frame can't be less than end frame")
+		pause_script.activate_popup("Start frame can't be less than end frame")
 
 
 func _on_FrameEndInput_value_changed(value: int) -> void:
-	if value >= frame_start_input.value:
+	if value >= start_frame:
 		frame_end_label.text = "Frame End: " + str(value)
 		frame_end_slider.value = value
+		end_frame = value
 	else:
-		pause.activate_popup("End frame can't be greater than start frame")
+		pause_script.activate_popup("End frame can't be greater than start frame")

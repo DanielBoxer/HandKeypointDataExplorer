@@ -25,6 +25,9 @@ var keypoint_map := {
 } setget , get_keypoint_map
 var is_plugin_activated := false setget set_is_plugin_activated
 var frame_number := 0 setget set_frame_number
+var end_frame_number := 1 setget set_end_frame_number
+var is_recording_activated := false setget set_is_recording_activated
+var progress_bar_increase := 1.0 setget set_progress_bar_increase
 
 onready var hand_objects := {
 	"left_hand":
@@ -42,6 +45,8 @@ onready var hand_objects := {
 }
 onready var dataset_display_text: Label = get_node("DisplayContainer/DatasetText")
 onready var keypoint_data := preload("res://GDNative/bin/keypoints.gdns").new()
+onready var bvh_script := get_node("/root/Main/BVH")
+onready var progress_bar := get_node("/root/Main/BVH/BVHOverlay/BVHContainer/BVHBar")
 
 
 func _ready() -> void:
@@ -51,8 +56,15 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	transform_hand("left_hand")
-	transform_hand("right_hand")
+	if get_node("LeftHand").visible:
+		transform_hand("left_hand")
+		if is_recording_activated && frame_number == end_frame_number:
+			progress_bar.value = 0
+			bvh_script.stop_recording()
+		else:
+			progress_bar.value += progress_bar_increase
+	if get_node("RightHand").visible:
+		transform_hand("right_hand")
 	frame_number += 1
 
 
@@ -172,6 +184,10 @@ func calculate_global_rotation_axis(vector_start: Vector3, vector_end: Vector3) 
 
 func transform_hand(hand: String) -> void:
 	var next_frame := Dictionary()
+	var recording := Dictionary()
+	if is_recording_activated:
+		for bone in range(hand_objects["left_hand"]["hand_skeleton"].get_bone_count()):
+			recording[bone] = ["0.00", "0.00", "0.00"]
 	if is_plugin_activated:
 		next_frame = get_plugin_data(hand)
 	elif frame_number > hand_objects[hand]["data_frames"].size() - 1:
@@ -212,6 +228,12 @@ func transform_hand(hand: String) -> void:
 	hand_objects[hand]["hand_skeleton"].set_bone_global_pose_override(
 		keypoint_map["wrist"], translated_skeleton_wrist_pose, 1.0, true
 	)
+
+	if is_recording_activated:
+		for _i in range(6):
+			recording[keypoint_map["wrist"]] = [
+				"0.00", "0.00", "0.00", "0.00", "0.00", "0.00"
+			]
 
 	# bones are moved from bottom to top, so the array is reversed
 	var hand_keypoints := reverse_array(Array(next_frame.keys()))
@@ -279,6 +301,13 @@ func transform_hand(hand: String) -> void:
 			hand_objects[hand]["hand_skeleton"].set_bone_pose(
 				keypoint_map[hand_keypoints[starting_joint]], skeleton_bone_pose
 			)
+			if is_recording_activated:
+				for _i in range(3):
+					recording[keypoint_map[hand_keypoints[starting_joint]]] = [
+						"0.00", "0.00", "0.00"
+					]
+	if is_recording_activated:
+		bvh_script.add_data(recording)
 
 
 func get_keypoint_map() -> Dictionary:
@@ -291,3 +320,15 @@ func set_is_plugin_activated(state: bool) -> void:
 
 func set_frame_number(value: int) -> void:
 	frame_number = value
+
+
+func set_is_recording_activated(state: bool) -> void:
+	is_recording_activated = state
+
+
+func set_end_frame_number(value: int) -> void:
+	end_frame_number = value
+
+
+func set_progress_bar_increase(value: float) -> void:
+	progress_bar_increase = value
