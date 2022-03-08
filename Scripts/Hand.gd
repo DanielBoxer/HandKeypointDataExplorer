@@ -232,7 +232,12 @@ func transform_hand(hand: String) -> void:
 	if is_recording_activated:
 		for _i in range(6):
 			recording[keypoint_map["wrist"]] = [
-				"0.00", "0.00", "0.00", "0.00", "0.00", "0.00"
+				str(hand_end_position.x),
+				str(hand_end_position.y),
+				str(hand_end_position.z),
+				"0.00",
+				"0.00",
+				"0.00"
 			]
 
 	# bones are moved from bottom to top, so the array is reversed
