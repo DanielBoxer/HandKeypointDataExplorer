@@ -863,15 +863,13 @@ margin_top = 5.0
 margin_right = 114.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
-text = "Frame Start: 1"
+text = "Frame Start: 0"
 
 [node name="FrameStartSlider" type="HSlider" parent="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer"]
 margin_left = 164.0
 margin_right = 278.0
 margin_bottom = 16.0
 size_flags_horizontal = 3
-min_value = 1.0
-value = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -881,8 +879,6 @@ margin_left = 328.0
 margin_right = 442.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-min_value = 1.0
-value = 1.0
 
 [node name="FrameStartInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer"]
 margin_left = 492.0
@@ -902,15 +898,13 @@ margin_top = 5.0
 margin_right = 114.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
-text = "Frame End: 1"
+text = "Frame End: 0"
 
 [node name="FrameEndSlider" type="HSlider" parent="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer"]
 margin_left = 164.0
 margin_right = 278.0
 margin_bottom = 16.0
 size_flags_horizontal = 3
-min_value = 1.0
-value = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -920,8 +914,6 @@ margin_left = 328.0
 margin_right = 442.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-min_value = 1.0
-value = 1.0
 
 [node name="FrameEndInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer"]
 margin_left = 492.0

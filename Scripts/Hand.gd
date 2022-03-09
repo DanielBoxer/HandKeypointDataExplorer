@@ -25,7 +25,7 @@ var keypoint_map := {
 } setget , get_keypoint_map
 var is_plugin_activated := false setget set_is_plugin_activated
 var frame_number := 0 setget set_frame_number
-var end_frame_number := 1 setget set_end_frame_number
+var end_frame_number := 0 setget set_end_frame_number
 var is_recording_activated := false setget set_is_recording_activated
 var progress_bar_increase := 1.0 setget set_progress_bar_increase
 
@@ -215,6 +215,9 @@ func transform_hand(hand: String) -> void:
 		hand_correct_vector_up
 	)
 
+	var wrist_transform: Transform = hand_objects[hand]["hand_node"].global_transform
+	var wrist_euler: Vector3 = wrist_transform.basis.get_euler()
+
 	# the wrist translation moves the whole hand
 	var skeleton_wrist_pose: Transform
 	skeleton_wrist_pose = hand_objects[hand]["hand_skeleton"].get_bone_global_pose(
@@ -235,9 +238,9 @@ func transform_hand(hand: String) -> void:
 				str(hand_end_position.x),
 				str(hand_end_position.y),
 				str(hand_end_position.z),
-				"0.00",
-				"0.00",
-				"0.00"
+				str(rad2deg(wrist_euler.x)),
+				str(rad2deg(wrist_euler.y)),
+				str(rad2deg(wrist_euler.z))
 			]
 
 	# bones are moved from bottom to top, so the array is reversed

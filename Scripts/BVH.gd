@@ -1,7 +1,7 @@
 extends Node
 
-var start_frame := 1
-var end_frame := 1
+var start_frame := 0
+var end_frame := 0
 
 var location := "/root/Main/Pause/SettingsOverlay/Settings/Output/Column/"
 onready var bvh_button: Button = get_node(location + "BVHContainer/BVHButton")
@@ -72,7 +72,7 @@ func generate_hierarchy(file_name: String) -> void:
 	file.store_line("{")
 	file.store_line("\tOFFSET 0.00 0.00 0.00")
 	file.store_line(
-		"\tCHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation"
+		"\tCHANNELS 6 Xposition Yposition Zposition Xrotation Yrotation Zrotation"
 	)  # only the root has position channels
 
 	var depth := 0
@@ -108,7 +108,7 @@ func generate_hierarchy(file_name: String) -> void:
 			)
 		)
 		file.store_line(
-			insert_tabs(depth + 1, "CHANNELS 3 Zrotation Xrotation Yrotation")
+			insert_tabs(depth + 1, "CHANNELS 3 Xrotation Yrotation Zrotation")
 		)
 
 	depth += 1
