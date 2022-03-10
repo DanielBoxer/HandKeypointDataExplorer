@@ -309,10 +309,14 @@ func transform_hand(hand: String) -> void:
 			hand_objects[hand]["hand_skeleton"].set_bone_pose(
 				keypoint_map[hand_keypoints[starting_joint]], skeleton_bone_pose
 			)
+
 			if is_recording_activated:
+				var bone_euler: Vector3 = skeleton_bone_pose.basis.get_euler()
 				for _i in range(3):
 					recording[keypoint_map[hand_keypoints[starting_joint]]] = [
-						"0.00", "0.00", "0.00"
+						str(rad2deg(bone_euler.x)),
+						str(rad2deg(bone_euler.y)),
+						str(rad2deg(bone_euler.z))
 					]
 	if is_recording_activated:
 		bvh_script.add_data(recording)

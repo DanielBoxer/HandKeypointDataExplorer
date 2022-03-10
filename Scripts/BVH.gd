@@ -122,8 +122,17 @@ func generate_hierarchy(file_name: String) -> void:
 
 	file.store_line("}")
 	file.store_line("MOTION")
-	file.store_line("Frames: " + str(end_frame - start_frame + 1))
+	# +1 because frames are 0 indexed
+	# +1 for the first frame which is all 0.00
+	file.store_line("Frames: " + str(end_frame - start_frame + 2))
 	file.store_line("Frame Time: " + str(1.0 / Engine.iterations_per_second))
+
+	# the first frame has no rotation
+	var temp := ""
+	for _i in range(skeleton.get_bone_count() * 3 + 3):
+		temp += "0.00 "
+	file.store_line(temp)
+
 	file.close()
 
 
