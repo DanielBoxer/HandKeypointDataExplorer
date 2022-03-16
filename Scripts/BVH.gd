@@ -1,9 +1,11 @@
 extends Node
 
+var open_file_name := "" setget , get_open_file_name
+
 var start_frame := 0
 var end_frame := 0
-
 var location := "/root/Main/Pause/SettingsOverlay/Settings/Output/Column/"
+
 onready var bvh_button: Button = get_node(location + "BVHContainer/BVHButton")
 onready var skeleton := get_node("/root/Main/Hands/LeftHand/Armature/Skeleton")
 onready var pause_script := get_node("/root/Main/Pause")
@@ -28,10 +30,12 @@ onready var frame_end_input: SpinBox = get_node(
 	location + "FrameEndContainer/FrameEndInput"
 )
 
-var open_file_name := "" setget , get_open_file_name
-
 
 func _ready():
+	setup()
+
+
+func setup():
 	self.visible = false
 	var frame_count = get_node("/root/ImportData").keypoint_data["left_hand_data"].size()
 	frame_start_slider.max_value = frame_count - 1
@@ -81,14 +85,7 @@ func generate_hierarchy(file_name: String) -> void:
 		var bone_parent = skeleton.get_bone_parent(bone)
 		depth += 1
 		if bone_parent != bone - 1:  # check if the bone is a new branch
-			file.store_line(insert_tabs(depth, "End Site"))
-			file.store_line(insert_tabs(depth, "{"))
-			# the tip bones are only there to get tip location so offset doesn't matter
-			file.store_line(insert_tabs(depth + 1, "OFFSET 0.001 0.001 0.001"))
-			for _i in range(depth - 1):
-				file.store_line(insert_tabs(depth, "}"))
-				depth -= 1
-			file.store_line(insert_tabs(depth, "}"))
+			depth = end_site(file, depth)
 		file.store_line(insert_tabs(depth, "Joint " + skeleton.get_bone_name(bone)))
 		file.store_line(insert_tabs(depth, "{"))
 
@@ -112,13 +109,7 @@ func generate_hierarchy(file_name: String) -> void:
 		)
 
 	depth += 1
-	file.store_line(insert_tabs(depth, "End Site"))
-	file.store_line(insert_tabs(depth, "{"))
-	file.store_line(insert_tabs(depth + 1, "OFFSET 0.001 0.001 0.001"))
-	for _i in range(depth - 1):
-		file.store_line(insert_tabs(depth, "}"))
-		depth -= 1
-	file.store_line(insert_tabs(depth, "}"))
+	depth = end_site(file, depth)
 
 	file.store_line("}")
 	file.store_line("MOTION")
@@ -126,14 +117,28 @@ func generate_hierarchy(file_name: String) -> void:
 	# +1 for the first frame which is all 0.00
 	file.store_line("Frames: " + str(end_frame - start_frame + 2))
 	file.store_line("Frame Time: " + str(1.0 / Engine.iterations_per_second))
-
 	# the first frame has no rotation
+	add_empty_frame(file)
+	file.close()
+
+
+func add_empty_frame(file: File) -> void:
 	var temp := ""
 	for _i in range(skeleton.get_bone_count() * 3 + 3):
 		temp += "0.00 "
 	file.store_line(temp)
 
-	file.close()
+
+func end_site(file: File, depth: int) -> int:
+	file.store_line(insert_tabs(depth, "End Site"))
+	file.store_line(insert_tabs(depth, "{"))
+	# the tip bones are only there to get tip location so offset doesn't matter
+	file.store_line(insert_tabs(depth + 1, "OFFSET 0.001 0.001 0.001"))
+	for _i in range(depth - 1):
+		file.store_line(insert_tabs(depth, "}"))
+		depth -= 1
+	file.store_line(insert_tabs(depth, "}"))
+	return depth
 
 
 func add_data(data: Dictionary) -> void:
@@ -156,9 +161,8 @@ func stop_recording() -> void:
 	get_node("/root/Main/Pause/MenuOverlay/MenuContainer/Settings").emit_signal("pressed")
 
 
-func _on_BVH_pressed() -> void:
-	self.visible = true
-	var file_name: String = (
+func format_datetime() -> String:
+	var formatted: String = (
 		str(OS.get_datetime().year)
 		+ "_"
 		+ str(OS.get_datetime().month)
@@ -170,7 +174,13 @@ func _on_BVH_pressed() -> void:
 		+ str(OS.get_datetime().minute)
 		+ "_"
 		+ str(OS.get_datetime().second)
-	)  # date time format avoids overwriting files
+	)
+	return formatted
+
+
+func _on_BVH_pressed() -> void:
+	self.visible = true
+	var file_name: String = format_datetime()  # date time format avoids overwriting files
 	var file_location := "res://Output/"
 	var file_type := ".bvh"
 	open_file_name = file_location + file_name + file_type
