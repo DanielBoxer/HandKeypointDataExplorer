@@ -24,7 +24,7 @@
 [ext_resource path="res://Scripts/ViewSettings.gd" type="Script" id=22]
 [ext_resource path="res://Scripts/DisplaySettings.gd" type="Script" id=23]
 [ext_resource path="res://Scripts/InputSettings.gd" type="Script" id=24]
-[ext_resource path="res://Scripts/BVH.gd" type="Script" id=27]
+[ext_resource path="res://Scripts/OutputSettings.gd" type="Script" id=27]
 [ext_resource path="res://Scripts/FrameSettings.gd" type="Script" id=28]
 
 [sub_resource type="StyleBoxEmpty" id=68]
