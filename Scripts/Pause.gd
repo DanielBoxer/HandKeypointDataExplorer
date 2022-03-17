@@ -1,16 +1,16 @@
 extends Control
 
 export var menu_overlay_path: NodePath
-onready var menu_overlay := get_node(menu_overlay_path)
 export var instructions_overlay_path: NodePath
-onready var instructions_overlay := get_node(instructions_overlay_path)
 export var settings_overlay_path: NodePath
-onready var settings_overlay := get_node(settings_overlay_path)
 export var popup_path: NodePath
-onready var popup := get_node(popup_path)
 export var popup_text_path: NodePath
-onready var popup_text := get_node(popup_text_path)
 export var dataset_text_path: NodePath
+onready var menu_overlay := get_node(menu_overlay_path)
+onready var instructions_overlay := get_node(instructions_overlay_path)
+onready var settings_overlay := get_node(settings_overlay_path)
+onready var popup := get_node(popup_path)
+onready var popup_text := get_node(popup_text_path)
 onready var dataset_text = get_node(dataset_text_path)
 
 

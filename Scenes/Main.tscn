@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Assets/sunset_environment.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=2]
@@ -21,8 +21,11 @@
 [ext_resource path="res://Assets/button_hover.tres" type="Texture" id=19]
 [ext_resource path="res://Assets/button_pressed.tres" type="Texture" id=20]
 [ext_resource path="res://Scenes/RightHand.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Scripts/ViewSettings.gd" type="Script" id=22]
+[ext_resource path="res://Scripts/DisplaySettings.gd" type="Script" id=23]
+[ext_resource path="res://Scripts/InputSettings.gd" type="Script" id=24]
 [ext_resource path="res://Scripts/BVH.gd" type="Script" id=27]
-[ext_resource path="res://Scripts/Settings.gd" type="Script" id=28]
+[ext_resource path="res://Scripts/FrameSettings.gd" type="Script" id=28]
 
 [sub_resource type="StyleBoxEmpty" id=68]
 
@@ -301,27 +304,9 @@ pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.784314 )
-script = ExtResource( 28 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-input_frame_label_path = NodePath("Settings/Frame/Column/NextFrameContainer/InputFrameLabel")
-input_frame_path = NodePath("Settings/Frame/Column/NextFrameContainer/InputFrame")
-fps_text_path = NodePath("Settings/Frame/Column/FPSContainer/FPSValue")
-fps_slider_path = NodePath("Settings/Frame/Column/FPSContainer/FPS")
-current_frame_checkbox_path = NodePath("Settings/Frame/Column/CurrentFrameContainer/CurrentFrameOptions")
-plugin_checkbox_path = NodePath("Settings/Frame/Column/PluginContainer/PluginOptions")
-left_hand_view_checkbox_path = NodePath("Settings/View/Column/LeftHandViewContainer/LeftHandView")
-right_hand_view_checkbox_path = NodePath("Settings/View/Column/RightHandViewContainer/RightHandView")
-keypoint_view_checkbox_path = NodePath("Settings/View/Column/KPContainer/KPOptions")
-side_keypoints_checkbox_path = NodePath("Settings/View/Column/SideKPContainer/SideKPOptions")
-display_text_checkbox_path = NodePath("Settings/View/Column/DisplayTextContainer/DisplayTextOptions")
-screen_options_path = NodePath("Settings/Display/Column/ScreenContainer/ScreenOptions")
-mouse_sensitivity_text_path = NodePath("Settings/Input/Column/MouseSensitivityContainer/MouseSensitivityValue")
-mouse_sensitivity_slider_path = NodePath("Settings/Input/Column/MouseSensitivityContainer/MouseSensitivity")
-movement_speed_text_path = NodePath("Settings/Input/Column/MovementSpeedContainer/MovementSpeedValue")
-movement_speed_slider_path = NodePath("Settings/Input/Column/MovementSpeedContainer/MovementSpeed")
-input_options_path = NodePath("Settings/Input/Column/InputContainer/InputOptions")
 
 [node name="SettingsTitleText" type="RichTextLabel" parent="Pause/SettingsOverlay"]
 anchor_right = 1.0
@@ -344,13 +329,20 @@ __meta__ = {
 }
 
 [node name="Frame" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
-visible = false
+pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
+script = ExtResource( 28 )
+input_frame_label_path = NodePath("Column/NextFrameContainer/InputFrameLabel")
+input_frame_path = NodePath("Column/NextFrameContainer/InputFrame")
+fps_text_path = NodePath("Column/FPSContainer/FPSValue")
+fps_slider_path = NodePath("Column/FPSContainer/FPS")
+current_frame_checkbox_path = NodePath("Column/CurrentFrameContainer/CurrentFrameOptions")
+plugin_checkbox_path = NodePath("Column/PluginContainer/PluginOptions")
 
 [node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Frame"]
 margin_left = 10.0
@@ -493,6 +485,7 @@ margin_bottom = 292.0
 text = "Reset"
 
 [node name="View" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
+pause_mode = 2
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -500,6 +493,12 @@ margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
+script = ExtResource( 22 )
+left_hand_view_checkbox_path = NodePath("Column/LeftHandViewContainer/LeftHandView")
+right_hand_view_checkbox_path = NodePath("Column/RightHandViewContainer/RightHandView")
+keypoint_view_checkbox_path = NodePath("Column/KPContainer/KPOptions")
+side_keypoints_checkbox_path = NodePath("Column/SideKPContainer/SideKPOptions")
+display_text_checkbox_path = NodePath("Column/DisplayTextContainer/DisplayTextOptions")
 
 [node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/View"]
 margin_left = 10.0
@@ -662,6 +661,7 @@ margin_bottom = 365.0
 text = "Reset"
 
 [node name="Display" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
+pause_mode = 2
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -669,6 +669,8 @@ margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
+script = ExtResource( 23 )
+screen_options_path = NodePath("Column/ScreenContainer/ScreenOptions")
 
 [node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Display"]
 margin_left = 10.0
@@ -720,6 +722,7 @@ margin_bottom = 85.0
 text = "Reset"
 
 [node name="Input" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
+pause_mode = 2
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -727,6 +730,12 @@ margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
+script = ExtResource( 24 )
+mouse_sensitivity_text_path = NodePath("Column/MouseSensitivityContainer/MouseSensitivityValue")
+mouse_sensitivity_slider_path = NodePath("Column/MouseSensitivityContainer/MouseSensitivity")
+movement_speed_text_path = NodePath("Column/MovementSpeedContainer/MovementSpeedValue")
+movement_speed_slider_path = NodePath("Column/MovementSpeedContainer/MovementSpeed")
+input_options_path = NodePath("Column/InputContainer/InputOptions")
 
 [node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Input"]
 margin_left = 10.0
@@ -835,6 +844,7 @@ margin_bottom = 215.0
 text = "Reset"
 
 [node name="Output" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -1393,37 +1403,37 @@ material/0 = null
 [connection signal="pressed" from="Pause/MenuOverlay/MenuContainer/Restart" to="Pause" method="_on_Restart_pressed"]
 [connection signal="pressed" from="Pause/MenuOverlay/MenuContainer/Quit" to="Pause" method="_on_Quit_pressed"]
 [connection signal="pressed" from="Pause/InstructionsOverlay/Back" to="Pause" method="_on_Back_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer/InputFrame" to="Pause/SettingsOverlay" method="_on_InputFrame_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer/InputFrameInfo" to="Pause/SettingsOverlay" method="_on_InputFrameInfo_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPS" to="Pause/SettingsOverlay" method="_on_FPS_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPSMaxButton" to="Pause/SettingsOverlay" method="_on_FPSMaxButton_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPSInfo" to="Pause/SettingsOverlay" method="_on_FPSInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Frame/Column/CurrentFrameContainer/CurrentFrameOptions" to="Pause/SettingsOverlay" method="_on_CurrentFrameOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/CurrentFrameContainer/CurrentFrameInfo" to="Pause/SettingsOverlay" method="_on_CurrentFrameInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Frame/Column/PluginContainer/PluginOptions" to="Pause/SettingsOverlay" method="_on_PluginOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/PluginContainer/PluginInfo" to="Pause/SettingsOverlay" method="_on_PluginInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/ResetFrameSettings" to="Pause/SettingsOverlay" method="_on_ResetFrameSettings_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/LeftHandViewContainer/LeftHandView" to="Pause/SettingsOverlay" method="_on_LeftHandView_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/LeftHandViewContainer/LeftHandViewInfo" to="Pause/SettingsOverlay" method="_on_LeftHandViewInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/RightHandViewContainer/RightHandView" to="Pause/SettingsOverlay" method="_on_RightHandView_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/RightHandViewContainer/RightHandViewInfo" to="Pause/SettingsOverlay" method="_on_RightHandViewInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/KPContainer/KPOptions" to="Pause/SettingsOverlay" method="_on_KPOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/KPContainer/KPInfo" to="Pause/SettingsOverlay" method="_on_KPInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/SideKPContainer/SideKPOptions" to="Pause/SettingsOverlay" method="_on_SideKPOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/SideKPContainer/SideKPInfo" to="Pause/SettingsOverlay" method="_on_SideKPInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer/DisplayTextOptions" to="Pause/SettingsOverlay" method="_on_DisplayTextOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer/DisplayTextInfo" to="Pause/SettingsOverlay" method="_on_DisplayTextInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/ResetViewSettings" to="Pause/SettingsOverlay" method="_on_ResetViewSettings_pressed"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer/ScreenOptions" to="Pause/SettingsOverlay" method="_on_ScreenOptions_item_selected"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer/ScreenInfo" to="Pause/SettingsOverlay" method="_on_ScreenInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Display/Column/ResetDisplaySettings" to="Pause/SettingsOverlay" method="_on_ResetDisplaySettings_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer/MouseSensitivity" to="Pause/SettingsOverlay" method="_on_MouseSensitivity_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer/MouseSensitivityInfo" to="Pause/SettingsOverlay" method="_on_MouseSensitivityInfo_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer/MovementSpeed" to="Pause/SettingsOverlay" method="_on_MovementSpeed_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer/MovementSpeedInfo" to="Pause/SettingsOverlay" method="_on_MovementSpeedInfo_pressed"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Input/Column/InputContainer/InputOptions" to="Pause/SettingsOverlay" method="_on_InputOptions_item_selected"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/InputContainer/InputInfo" to="Pause/SettingsOverlay" method="_on_InputInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/ResetInputSettings" to="Pause/SettingsOverlay" method="_on_ResetInputSettings_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer/InputFrame" to="Pause/SettingsOverlay/Settings/Frame" method="_on_InputFrame_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer/InputFrameInfo" to="Pause/SettingsOverlay/Settings/Frame" method="_on_InputFrameInfo_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPS" to="Pause/SettingsOverlay/Settings/Frame" method="_on_FPS_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPSMaxButton" to="Pause/SettingsOverlay/Settings/Frame" method="_on_FPSMaxButton_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPSInfo" to="Pause/SettingsOverlay/Settings/Frame" method="_on_FPSInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Frame/Column/CurrentFrameContainer/CurrentFrameOptions" to="Pause/SettingsOverlay/Settings/Frame" method="_on_CurrentFrameOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/CurrentFrameContainer/CurrentFrameInfo" to="Pause/SettingsOverlay/Settings/Frame" method="_on_CurrentFrameInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Frame/Column/PluginContainer/PluginOptions" to="Pause/SettingsOverlay/Settings/Frame" method="_on_PluginOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/PluginContainer/PluginInfo" to="Pause/SettingsOverlay/Settings/Frame" method="_on_PluginInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/ResetFrameSettings" to="Pause/SettingsOverlay/Settings/Frame" method="_on_ResetFrameSettings_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/LeftHandViewContainer/LeftHandView" to="Pause/SettingsOverlay/Settings/View" method="_on_LeftHandView_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/LeftHandViewContainer/LeftHandViewInfo" to="Pause/SettingsOverlay/Settings/View" method="_on_LeftHandViewInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/RightHandViewContainer/RightHandView" to="Pause/SettingsOverlay/Settings/View" method="_on_RightHandView_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/RightHandViewContainer/RightHandViewInfo" to="Pause/SettingsOverlay/Settings/View" method="_on_RightHandViewInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/KPContainer/KPOptions" to="Pause/SettingsOverlay/Settings/View" method="_on_KPOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/KPContainer/KPInfo" to="Pause/SettingsOverlay/Settings/View" method="_on_KPInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/SideKPContainer/SideKPOptions" to="Pause/SettingsOverlay/Settings/View" method="_on_SideKPOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/SideKPContainer/SideKPInfo" to="Pause/SettingsOverlay/Settings/View" method="_on_SideKPInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer/DisplayTextOptions" to="Pause/SettingsOverlay/Settings/View" method="_on_DisplayTextOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer/DisplayTextInfo" to="Pause/SettingsOverlay/Settings/View" method="_on_DisplayTextInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/ResetViewSettings" to="Pause/SettingsOverlay/Settings/View" method="_on_ResetViewSettings_pressed"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer/ScreenOptions" to="Pause/SettingsOverlay/Settings/Display" method="_on_ScreenOptions_item_selected"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer/ScreenInfo" to="Pause/SettingsOverlay/Settings/Display" method="_on_ScreenInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Display/Column/ResetDisplaySettings" to="Pause/SettingsOverlay/Settings/Display" method="_on_ResetDisplaySettings_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer/MouseSensitivity" to="Pause/SettingsOverlay/Settings/Input" method="_on_MouseSensitivity_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer/MouseSensitivityInfo" to="Pause/SettingsOverlay/Settings/Input" method="_on_MouseSensitivityInfo_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer/MovementSpeed" to="Pause/SettingsOverlay/Settings/Input" method="_on_MovementSpeed_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer/MovementSpeedInfo" to="Pause/SettingsOverlay/Settings/Input" method="_on_MovementSpeedInfo_pressed"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Input/Column/InputContainer/InputOptions" to="Pause/SettingsOverlay/Settings/Input" method="_on_InputOptions_item_selected"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/InputContainer/InputInfo" to="Pause/SettingsOverlay/Settings/Input" method="_on_InputInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/ResetInputSettings" to="Pause/SettingsOverlay/Settings/Input" method="_on_ResetInputSettings_pressed"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartSlider" to="BVH" method="_on_FrameStartSlider_value_changed"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartInput" to="BVH" method="_on_FrameStartInput_value_changed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartInfo" to="Pause" method="_on_FrameStartInfo_pressed"]
