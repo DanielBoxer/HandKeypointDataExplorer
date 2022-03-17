@@ -193,6 +193,16 @@ func _on_BVH_pressed() -> void:
 	pause_script.pause()
 
 
+func _on_BVHInfo_pressed() -> void:
+	pause_script.activate_popup(
+		(
+			"Generate a .bvh file to the Output folder\n"
+			+ "This file will contain armature and animation data\n"
+			+ "The .bvh file can be imported to other software"
+		)
+	)
+
+
 func _on_FrameStartSlider_value_changed(value: int) -> void:
 	if value <= end_frame:
 		frame_start_label.text = "Frame Start: " + str(value)
@@ -200,15 +210,6 @@ func _on_FrameStartSlider_value_changed(value: int) -> void:
 		start_frame = value
 	else:
 		pause_script.activate_popup("Start frame can't be greater than end frame")
-
-
-func _on_FrameEndSlider_value_changed(value: int) -> void:
-	if value >= start_frame:
-		frame_end_label.text = "Frame End: " + str(value)
-		frame_end_input.value = value
-		end_frame = value
-	else:
-		pause_script.activate_popup("End frame can't be less than start frame")
 
 
 func _on_FrameStartInput_value_changed(value: int) -> void:
@@ -220,6 +221,24 @@ func _on_FrameStartInput_value_changed(value: int) -> void:
 		pause_script.activate_popup("Start frame can't be less than end frame")
 
 
+func _on_FrameStartInfo_pressed() -> void:
+	pause_script.activate_popup(
+		(
+			"Set the start frame of the .bvh file output\n"
+			+ "This must be less than or equal to the end frame"
+		)
+	)
+
+
+func _on_FrameEndSlider_value_changed(value: int) -> void:
+	if value >= start_frame:
+		frame_end_label.text = "Frame End: " + str(value)
+		frame_end_input.value = value
+		end_frame = value
+	else:
+		pause_script.activate_popup("End frame can't be less than start frame")
+
+
 func _on_FrameEndInput_value_changed(value: int) -> void:
 	if value >= start_frame:
 		frame_end_label.text = "Frame End: " + str(value)
@@ -227,3 +246,25 @@ func _on_FrameEndInput_value_changed(value: int) -> void:
 		end_frame = value
 	else:
 		pause_script.activate_popup("End frame can't be greater than start frame")
+
+
+func _on_FrameEndInfo_pressed() -> void:
+	pause_script.activate_popup(
+		(
+			"Set the end frame of the .bvh file output\n"
+			+ "This must be greater than or equal to the start frame"
+		)
+	)
+
+
+func _on_LeftHandBVHInfo_pressed() -> void:
+	pause_script.activate_popup("Generate a .bvh file for the left hand")
+
+
+func _on_RightHandBVHInfo_pressed() -> void:
+	pause_script.activate_popup("Generate a .bvh file for the right hand")
+
+
+func _on_ResetBVHSettings_pressed():
+	frame_start_input.value = 1
+	frame_end_input.value = 1

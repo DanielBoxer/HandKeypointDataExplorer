@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Assets/sunset_environment.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=2]
@@ -21,12 +21,8 @@
 [ext_resource path="res://Assets/button_hover.tres" type="Texture" id=19]
 [ext_resource path="res://Assets/button_pressed.tres" type="Texture" id=20]
 [ext_resource path="res://Scenes/RightHand.tscn" type="PackedScene" id=21]
-[ext_resource path="res://Scripts/Debugger.gd" type="Script" id=22]
-[ext_resource path="res://Assets/marker_y_axis_material.tres" type="Material" id=23]
-[ext_resource path="res://Assets/axis_material.tres" type="Material" id=24]
-[ext_resource path="res://Assets/marker_z_axis_material.tres" type="Material" id=25]
-[ext_resource path="res://Assets/marker_x_axis_material.tres" type="Material" id=26]
 [ext_resource path="res://Scripts/BVH.gd" type="Script" id=27]
+[ext_resource path="res://Scripts/Settings.gd" type="Script" id=28]
 
 [sub_resource type="StyleBoxEmpty" id=68]
 
@@ -40,20 +36,10 @@
 
 [sub_resource type="StyleBoxEmpty" id=79]
 
-[sub_resource type="StyleBoxEmpty" id=75]
-
-[sub_resource type="StyleBoxEmpty" id=76]
-
-[sub_resource type="StyleBoxEmpty" id=77]
-
 [sub_resource type="CapsuleShape" id=61]
 height = 3.0
 
 [sub_resource type="SphereMesh" id=67]
-
-[sub_resource type="CapsuleMesh" id=74]
-
-[sub_resource type="CapsuleMesh" id=73]
 
 [sub_resource type="CubeMesh" id=66]
 
@@ -91,17 +77,6 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="DebugAngleText" type="Label" parent="Hands/DisplayContainer"]
-margin_left = 135.0
-margin_top = 5.0
-margin_right = 212.0
-margin_bottom = 35.0
-custom_fonts/font = ExtResource( 10 )
-text = "Angle: "
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
 [node name="Pause" type="Control" parent="."]
 pause_mode = 2
 anchor_right = 1.0
@@ -110,6 +85,12 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+menu_overlay_path = NodePath("MenuOverlay")
+instructions_overlay_path = NodePath("InstructionsOverlay")
+settings_overlay_path = NodePath("SettingsOverlay")
+popup_path = NodePath("Popup")
+popup_text_path = NodePath("Popup/PopupContainer/PopupText")
+dataset_text_path = NodePath("../Hands/DisplayContainer/DatasetText")
 
 [node name="MenuOverlay" type="ColorRect" parent="Pause"]
 anchor_right = 1.0
@@ -316,12 +297,31 @@ __meta__ = {
 }
 
 [node name="SettingsOverlay" type="ColorRect" parent="Pause"]
+pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.784314 )
+script = ExtResource( 28 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+input_frame_label_path = NodePath("Settings/Frame/Column/NextFrameContainer/InputFrameLabel")
+input_frame_path = NodePath("Settings/Frame/Column/NextFrameContainer/InputFrame")
+fps_text_path = NodePath("Settings/Frame/Column/FPSContainer/FPSValue")
+fps_slider_path = NodePath("Settings/Frame/Column/FPSContainer/FPS")
+current_frame_checkbox_path = NodePath("Settings/Frame/Column/CurrentFrameContainer/CurrentFrameOptions")
+plugin_checkbox_path = NodePath("Settings/Frame/Column/PluginContainer/PluginOptions")
+left_hand_view_checkbox_path = NodePath("Settings/View/Column/LeftHandViewContainer/LeftHandView")
+right_hand_view_checkbox_path = NodePath("Settings/View/Column/RightHandViewContainer/RightHandView")
+keypoint_view_checkbox_path = NodePath("Settings/View/Column/KPContainer/KPOptions")
+side_keypoints_checkbox_path = NodePath("Settings/View/Column/SideKPContainer/SideKPOptions")
+display_text_checkbox_path = NodePath("Settings/View/Column/DisplayTextContainer/DisplayTextOptions")
+screen_options_path = NodePath("Settings/Display/Column/ScreenContainer/ScreenOptions")
+mouse_sensitivity_text_path = NodePath("Settings/Input/Column/MouseSensitivityContainer/MouseSensitivityValue")
+mouse_sensitivity_slider_path = NodePath("Settings/Input/Column/MouseSensitivityContainer/MouseSensitivity")
+movement_speed_text_path = NodePath("Settings/Input/Column/MovementSpeedContainer/MovementSpeedValue")
+movement_speed_slider_path = NodePath("Settings/Input/Column/MovementSpeedContainer/MovementSpeed")
+input_options_path = NodePath("Settings/Input/Column/InputContainer/InputOptions")
 
 [node name="SettingsTitleText" type="RichTextLabel" parent="Pause/SettingsOverlay"]
 anchor_right = 1.0
@@ -344,6 +344,7 @@ __meta__ = {
 }
 
 [node name="Frame" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -834,7 +835,6 @@ margin_bottom = 215.0
 text = "Reset"
 
 [node name="Output" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -1004,194 +1004,6 @@ margin_right = 510.0
 margin_bottom = 361.0
 text = "Reset"
 
-[node name="Debug" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-
-[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 520.0
-margin_bottom = 400.0
-size_flags_horizontal = 3
-custom_constants/separation = 50
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="DebugContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug/Column"]
-margin_right = 510.0
-margin_bottom = 24.0
-
-[node name="DebugLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Debug/Column/DebugContainer"]
-margin_top = 5.0
-margin_right = 253.0
-margin_bottom = 19.0
-size_flags_horizontal = 3
-text = "Debug Mode"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="DebugOptions" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Debug/Column/DebugContainer"]
-margin_left = 257.0
-margin_right = 510.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-custom_styles/focus = SubResource( 71 )
-
-[node name="DebugFrameContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug/Column"]
-margin_top = 74.0
-margin_right = 510.0
-margin_bottom = 98.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="DebugFrameLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Debug/Column/DebugFrameContainer"]
-margin_top = 5.0
-margin_right = 253.0
-margin_bottom = 19.0
-size_flags_horizontal = 3
-text = "Frame To Debug: Unset"
-
-[node name="DebugFrame" type="SpinBox" parent="Pause/SettingsOverlay/Settings/Debug/Column/DebugFrameContainer"]
-margin_left = 257.0
-margin_right = 510.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-min_value = -1.0
-value = -1.0
-
-[node name="HandDebugContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug/Column"]
-margin_top = 148.0
-margin_right = 510.0
-margin_bottom = 168.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HandDebugLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Debug/Column/HandDebugContainer"]
-margin_top = 3.0
-margin_right = 253.0
-margin_bottom = 17.0
-size_flags_horizontal = 3
-text = "Choose Hand To Debug"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HandDebugOptions" type="OptionButton" parent="Pause/SettingsOverlay/Settings/Debug/Column/HandDebugContainer"]
-margin_left = 257.0
-margin_right = 510.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-custom_styles/focus = SubResource( 71 )
-
-[node name="ShowMarkerContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug/Column"]
-margin_top = 218.0
-margin_right = 510.0
-margin_bottom = 242.0
-
-[node name="ShowMarkerLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Debug/Column/ShowMarkerContainer"]
-margin_top = 5.0
-margin_right = 253.0
-margin_bottom = 19.0
-size_flags_horizontal = 3
-text = "Show Marker"
-
-[node name="ShowMarkerCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Debug/Column/ShowMarkerContainer"]
-margin_left = 257.0
-margin_right = 510.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-custom_styles/focus = SubResource( 75 )
-
-[node name="ShowGlobalAxisContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug/Column"]
-margin_top = 292.0
-margin_right = 510.0
-margin_bottom = 316.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ShowGlobalAxisLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Debug/Column/ShowGlobalAxisContainer"]
-margin_top = 5.0
-margin_right = 253.0
-margin_bottom = 19.0
-size_flags_horizontal = 3
-text = "Show Global Axis"
-
-[node name="ShowGlobalAxisCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Debug/Column/ShowGlobalAxisContainer"]
-margin_left = 257.0
-margin_right = 510.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-custom_styles/focus = SubResource( 76 )
-
-[node name="ShowBoneAxisContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Debug/Column"]
-margin_top = 366.0
-margin_right = 510.0
-margin_bottom = 390.0
-
-[node name="ShowBoneAxisLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Debug/Column/ShowBoneAxisContainer"]
-margin_top = 5.0
-margin_right = 253.0
-margin_bottom = 19.0
-size_flags_horizontal = 3
-text = "Show Bone Axis"
-
-[node name="ShowBoneAxisCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Debug/Column/ShowBoneAxisContainer"]
-margin_left = 257.0
-margin_right = 510.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-custom_styles/focus = SubResource( 77 )
-
-[node name="Popup" type="ColorRect" parent="Pause/SettingsOverlay"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -250.0
-margin_top = -90.0
-margin_right = 250.0
-color = Color( 0.133333, 0.133333, 0.345098, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PopupContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Popup"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PopupText" type="Label" parent="Pause/SettingsOverlay/Popup/PopupContainer"]
-margin_top = 38.0
-margin_right = 449.0
-margin_bottom = 52.0
-size_flags_horizontal = 3
-align = 1
-valign = 1
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Close" type="Button" parent="Pause/SettingsOverlay/Popup/PopupContainer"]
-margin_left = 453.0
-margin_right = 500.0
-margin_bottom = 90.0
-custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
-text = "Close"
-
 [node name="Back" type="TextureButton" parent="Pause/SettingsOverlay"]
 anchor_left = 1.0
 anchor_top = 1.0
@@ -1221,6 +1033,45 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Popup" type="ColorRect" parent="Pause"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -250.0
+margin_top = -90.0
+margin_right = 250.0
+color = Color( 0.133333, 0.133333, 0.345098, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PopupContainer" type="HBoxContainer" parent="Pause/Popup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PopupText" type="Label" parent="Pause/Popup/PopupContainer"]
+margin_top = 38.0
+margin_right = 449.0
+margin_bottom = 52.0
+size_flags_horizontal = 3
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Close" type="Button" parent="Pause/Popup/PopupContainer"]
+margin_left = 453.0
+margin_right = 500.0
+margin_bottom = 90.0
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+text = "Close"
 
 [node name="Controller" type="KinematicBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 1.5 )
@@ -1476,6 +1327,7 @@ material/0 = ExtResource( 15 )
 
 [node name="BVH" type="Control" parent="."]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 27 )
@@ -1520,180 +1372,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Debugger" type="Spatial" parent="."]
-script = ExtResource( 22 )
-
-[node name="Hands" type="Spatial" parent="Debugger"]
-
-[node name="LeftHand" parent="Debugger/Hands" instance=ExtResource( 5 )]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
-
-[node name="RightHand" parent="Debugger/Hands" instance=ExtResource( 21 )]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
-visible = false
-
-[node name="KeypointView" type="Spatial" parent="Debugger"]
-
-[node name="wrist" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 14 )
-
-[node name="thumb_tip" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 12 )
-
-[node name="thumb_dst" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 12 )
-
-[node name="thumb_pxm" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 12 )
-
-[node name="thumb_mcp" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 12 )
-
-[node name="index_tip" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 13 )
-
-[node name="index_dst" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 13 )
-
-[node name="index_int" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 13 )
-
-[node name="index_pxm" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 13 )
-
-[node name="middle_tip" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 16 )
-
-[node name="middle_dst" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 16 )
-
-[node name="middle_int" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 16 )
-
-[node name="middle_pxm" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 16 )
-
-[node name="ring_tip" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 17 )
-
-[node name="ring_dst" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 17 )
-
-[node name="ring_int" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 17 )
-
-[node name="ring_pxm" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 17 )
-
-[node name="little_tip" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 15 )
-
-[node name="little_dst" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 15 )
-
-[node name="little_int" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 15 )
-
-[node name="little_pxm" type="MeshInstance" parent="Debugger/KeypointView"]
-transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
-mesh = SubResource( 67 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 15 )
-
-[node name="Tools" type="Spatial" parent="Debugger"]
-
-[node name="Marker" type="Spatial" parent="Debugger/Tools"]
-
-[node name="MarkerX" type="MeshInstance" parent="Debugger/Tools/Marker"]
-transform = Transform( -4.37114e-11, 0, 0.025, 0, 0.001, 0, -0.001, 0, -1.09278e-09, 0, 0, 0 )
-mesh = SubResource( 74 )
-skeleton = NodePath("../../..")
-material/0 = ExtResource( 26 )
-
-[node name="MarkerY" type="MeshInstance" parent="Debugger/Tools/Marker"]
-transform = Transform( 0.001, 0, 0, 0, -4.37114e-11, -0.025, 0, 0.001, -1.09278e-09, 0, 0, 0 )
-mesh = SubResource( 74 )
-skeleton = NodePath("../../..")
-material/0 = ExtResource( 23 )
-
-[node name="MarkerZ" type="MeshInstance" parent="Debugger/Tools/Marker"]
-transform = Transform( -4.37114e-11, -0.001, 0, 0.001, -4.37114e-11, 0, 0, 0, 0.025, 0, 0, 0 )
-mesh = SubResource( 74 )
-skeleton = NodePath("../../..")
-material/0 = ExtResource( 25 )
-
-[node name="GlobalAxis" type="MeshInstance" parent="Debugger/Tools"]
-transform = Transform( 0.003, 0, 0, 0, 0.003, 0, 0, 0, 0.04, 0, 0, 0 )
-mesh = SubResource( 73 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 24 )
-
-[node name="BoneAxis" type="MeshInstance" parent="Debugger/Tools"]
-transform = Transform( 0.003, 0, 0, 0, 0.003, 0, 0, 0, 0.04, 0, 0, 0 )
-mesh = SubResource( 73 )
-skeleton = NodePath("../..")
-material/0 = null
-
 [node name="Objects" type="Spatial" parent="."]
 
 [node name="Sunset" type="WorldEnvironment" parent="Objects"]
@@ -1715,37 +1393,37 @@ material/0 = null
 [connection signal="pressed" from="Pause/MenuOverlay/MenuContainer/Restart" to="Pause" method="_on_Restart_pressed"]
 [connection signal="pressed" from="Pause/MenuOverlay/MenuContainer/Quit" to="Pause" method="_on_Quit_pressed"]
 [connection signal="pressed" from="Pause/InstructionsOverlay/Back" to="Pause" method="_on_Back_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer/InputFrame" to="Pause" method="_on_InputFrame_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer/InputFrameInfo" to="Pause" method="_on_InputFrameInfo_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPS" to="Pause" method="_on_FPS_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPSMaxButton" to="Pause" method="_on_FPSMaxButton_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPSInfo" to="Pause" method="_on_FPSInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Frame/Column/CurrentFrameContainer/CurrentFrameOptions" to="Pause" method="_on_CurrentFrameOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/CurrentFrameContainer/CurrentFrameInfo" to="Pause" method="_on_CurrentFrameInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Frame/Column/PluginContainer/PluginOptions" to="Pause" method="_on_PluginOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/PluginContainer/PluginInfo" to="Pause" method="_on_PluginInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/ResetFrameSettings" to="Pause" method="_on_ResetFrameSettings_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/LeftHandViewContainer/LeftHandView" to="Pause" method="_on_LeftHandView_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/LeftHandViewContainer/LeftHandViewInfo" to="Pause" method="_on_LeftHandViewInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/RightHandViewContainer/RightHandView" to="Pause" method="_on_RightHandView_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/RightHandViewContainer/RightHandViewInfo" to="Pause" method="_on_RightHandViewInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/KPContainer/KPOptions" to="Pause" method="_on_KPOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/KPContainer/KPInfo" to="Pause" method="_on_KPInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/SideKPContainer/SideKPOptions" to="Pause" method="_on_SideKPOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/SideKPContainer/SideKPInfo" to="Pause" method="_on_SideKPInfo_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer/DisplayTextOptions" to="Pause" method="_on_DisplayTextOptions_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer/DisplayTextInfo" to="Pause" method="_on_DisplayTextInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/ResetViewSettings" to="Pause" method="_on_ResetViewSettings_pressed"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer/ScreenOptions" to="Pause" method="_on_ScreenOptions_item_selected"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer/ScreenInfo" to="Pause" method="_on_ScreenInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Display/Column/ResetDisplaySettings" to="Pause" method="_on_ResetDisplaySettings_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer/MouseSensitivity" to="Pause" method="_on_MouseSensitivity_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer/MouseSensitivityInfo" to="Pause" method="_on_MouseSensitivityInfo_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer/MovementSpeed" to="Pause" method="_on_MovementSpeed_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer/MovementSpeedInfo" to="Pause" method="_on_MovementSpeedInfo_pressed"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Input/Column/InputContainer/InputOptions" to="Pause" method="_on_InputOptions_item_selected"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/InputContainer/InputInfo" to="Pause" method="_on_InputInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/ResetInputSettings" to="Pause" method="_on_ResetInputSettings_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer/InputFrame" to="Pause/SettingsOverlay" method="_on_InputFrame_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer/InputFrameInfo" to="Pause/SettingsOverlay" method="_on_InputFrameInfo_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPS" to="Pause/SettingsOverlay" method="_on_FPS_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPSMaxButton" to="Pause/SettingsOverlay" method="_on_FPSMaxButton_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/FPSContainer/FPSInfo" to="Pause/SettingsOverlay" method="_on_FPSInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Frame/Column/CurrentFrameContainer/CurrentFrameOptions" to="Pause/SettingsOverlay" method="_on_CurrentFrameOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/CurrentFrameContainer/CurrentFrameInfo" to="Pause/SettingsOverlay" method="_on_CurrentFrameInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Frame/Column/PluginContainer/PluginOptions" to="Pause/SettingsOverlay" method="_on_PluginOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/PluginContainer/PluginInfo" to="Pause/SettingsOverlay" method="_on_PluginInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Frame/Column/ResetFrameSettings" to="Pause/SettingsOverlay" method="_on_ResetFrameSettings_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/LeftHandViewContainer/LeftHandView" to="Pause/SettingsOverlay" method="_on_LeftHandView_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/LeftHandViewContainer/LeftHandViewInfo" to="Pause/SettingsOverlay" method="_on_LeftHandViewInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/RightHandViewContainer/RightHandView" to="Pause/SettingsOverlay" method="_on_RightHandView_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/RightHandViewContainer/RightHandViewInfo" to="Pause/SettingsOverlay" method="_on_RightHandViewInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/KPContainer/KPOptions" to="Pause/SettingsOverlay" method="_on_KPOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/KPContainer/KPInfo" to="Pause/SettingsOverlay" method="_on_KPInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/SideKPContainer/SideKPOptions" to="Pause/SettingsOverlay" method="_on_SideKPOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/SideKPContainer/SideKPInfo" to="Pause/SettingsOverlay" method="_on_SideKPInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer/DisplayTextOptions" to="Pause/SettingsOverlay" method="_on_DisplayTextOptions_toggled"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer/DisplayTextInfo" to="Pause/SettingsOverlay" method="_on_DisplayTextInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/ResetViewSettings" to="Pause/SettingsOverlay" method="_on_ResetViewSettings_pressed"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer/ScreenOptions" to="Pause/SettingsOverlay" method="_on_ScreenOptions_item_selected"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer/ScreenInfo" to="Pause/SettingsOverlay" method="_on_ScreenInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Display/Column/ResetDisplaySettings" to="Pause/SettingsOverlay" method="_on_ResetDisplaySettings_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer/MouseSensitivity" to="Pause/SettingsOverlay" method="_on_MouseSensitivity_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer/MouseSensitivityInfo" to="Pause/SettingsOverlay" method="_on_MouseSensitivityInfo_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer/MovementSpeed" to="Pause/SettingsOverlay" method="_on_MovementSpeed_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer/MovementSpeedInfo" to="Pause/SettingsOverlay" method="_on_MovementSpeedInfo_pressed"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Input/Column/InputContainer/InputOptions" to="Pause/SettingsOverlay" method="_on_InputOptions_item_selected"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/InputContainer/InputInfo" to="Pause/SettingsOverlay" method="_on_InputInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/ResetInputSettings" to="Pause/SettingsOverlay" method="_on_ResetInputSettings_pressed"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartSlider" to="BVH" method="_on_FrameStartSlider_value_changed"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartInput" to="BVH" method="_on_FrameStartInput_value_changed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartInfo" to="Pause" method="_on_FrameStartInfo_pressed"]
@@ -1757,11 +1435,5 @@ material/0 = null
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer/BVHButton" to="BVH" method="_on_BVH_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer/BVHInfo" to="Pause" method="_on_BVHInfo_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/ResetBVHSettings" to="Pause" method="_on_ResetBVHSettings_pressed"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Debug/Column/DebugContainer/DebugOptions" to="Pause" method="_on_DebugOptions_toggled"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Debug/Column/DebugFrameContainer/DebugFrame" to="Pause" method="_on_DebugFrame_value_changed"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Debug/Column/HandDebugContainer/HandDebugOptions" to="Pause" method="_on_HandDebugOptions_item_selected"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Debug/Column/ShowMarkerContainer/ShowMarkerCheckbox" to="Pause" method="_on_ShowMarkerCheckbox_toggled"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Debug/Column/ShowGlobalAxisContainer/ShowGlobalAxisCheckbox" to="Pause" method="_on_ShowGlobalAxisCheckbox_toggled"]
-[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Debug/Column/ShowBoneAxisContainer/ShowBoneAxisCheckbox" to="Pause" method="_on_ShowBoneAxisCheckbox_toggled"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Popup/PopupContainer/Close" to="Pause" method="_on_Close_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Back" to="Pause" method="_on_Back_pressed"]
+[connection signal="pressed" from="Pause/Popup/PopupContainer/Close" to="Pause" method="_on_Close_pressed"]
