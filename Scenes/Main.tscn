@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Assets/sunset_environment.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=2]
@@ -34,10 +34,6 @@
 [sub_resource type="StyleBoxEmpty" id=71]
 
 [sub_resource type="StyleBoxEmpty" id=70]
-
-[sub_resource type="StyleBoxEmpty" id=78]
-
-[sub_resource type="StyleBoxEmpty" id=79]
 
 [sub_resource type="CapsuleShape" id=61]
 height = 3.0
@@ -330,6 +326,7 @@ __meta__ = {
 
 [node name="Frame" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -844,13 +841,21 @@ margin_bottom = 215.0
 text = "Reset"
 
 [node name="Output" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
-visible = false
+pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
+script = ExtResource( 27 )
+bvh_button_path = NodePath("Column/BVHContainer/BVHButton")
+frame_start_label_path = NodePath("Column/FrameStartContainer/FrameStartLabel")
+frame_end_label_path = NodePath("Column/FrameEndContainer/FrameEndLabel")
+frame_start_slider_path = NodePath("Column/FrameStartContainer/FrameStartSlider")
+frame_end_slider_path = NodePath("Column/FrameEndContainer/FrameEndSlider")
+frame_start_input_path = NodePath("Column/FrameStartContainer/FrameStartInput")
+frame_end_input_path = NodePath("Column/FrameEndContainer/FrameEndInput")
 
 [node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Output"]
 margin_left = 10.0
@@ -931,63 +936,35 @@ margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="LeftHandBVHContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Output/Column"]
+[node name="HandBVHContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Output/Column"]
 margin_top = 138.0
 margin_right = 510.0
-margin_bottom = 162.0
+margin_bottom = 158.0
 custom_constants/separation = 50
 
-[node name="LeftHandBVHLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Output/Column/LeftHandBVHContainer"]
-margin_top = 5.0
+[node name="HandBVHLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Output/Column/HandBVHContainer"]
+margin_top = 3.0
 margin_right = 196.0
-margin_bottom = 19.0
+margin_bottom = 17.0
 size_flags_horizontal = 3
-text = "Left Hand"
+text = "Hand:"
 
-[node name="LeftHandBVHCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Output/Column/LeftHandBVHContainer"]
+[node name="HandBVHOptionButton" type="OptionButton" parent="Pause/SettingsOverlay/Settings/Output/Column/HandBVHContainer"]
 margin_left = 246.0
 margin_right = 442.0
-margin_bottom = 24.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
-custom_styles/focus = SubResource( 78 )
-pressed = true
 
-[node name="LeftHandBVHInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Output/Column/LeftHandBVHContainer"]
+[node name="LeftHandBVHInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Output/Column/HandBVHContainer"]
 margin_left = 492.0
 margin_right = 510.0
-margin_bottom = 24.0
-text = "?"
-
-[node name="RightHandBVHContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Output/Column"]
-margin_top = 207.0
-margin_right = 510.0
-margin_bottom = 231.0
-custom_constants/separation = 50
-
-[node name="RightHandBVHLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Output/Column/RightHandBVHContainer"]
-margin_top = 5.0
-margin_right = 196.0
-margin_bottom = 19.0
-size_flags_horizontal = 3
-text = "Right Hand"
-
-[node name="RightHandBVHCheckbox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Output/Column/RightHandBVHContainer"]
-margin_left = 246.0
-margin_right = 442.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-custom_styles/focus = SubResource( 79 )
-
-[node name="RightHandBVHInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Output/Column/RightHandBVHContainer"]
-margin_left = 492.0
-margin_right = 510.0
-margin_bottom = 24.0
+margin_bottom = 20.0
 text = "?"
 
 [node name="BVHContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Output/Column"]
-margin_top = 276.0
+margin_top = 203.0
 margin_right = 510.0
-margin_bottom = 296.0
+margin_bottom = 223.0
 custom_constants/separation = 50
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1009,9 +986,9 @@ margin_bottom = 20.0
 text = "?"
 
 [node name="ResetBVHSettings" type="Button" parent="Pause/SettingsOverlay/Settings/Output/Column"]
-margin_top = 341.0
+margin_top = 268.0
 margin_right = 510.0
-margin_bottom = 361.0
+margin_bottom = 288.0
 text = "Reset"
 
 [node name="Back" type="TextureButton" parent="Pause/SettingsOverlay"]
@@ -1040,6 +1017,44 @@ custom_fonts/font = ExtResource( 4 )
 text = "Back"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BVHOverlay" type="ColorRect" parent="Pause"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.196078 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BVHContainer" type="VBoxContainer" parent="Pause/BVHOverlay"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -68.5
+margin_top = -20.0
+margin_right = 68.5
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BVHLabel" type="Label" parent="Pause/BVHOverlay/BVHContainer"]
+margin_right = 137.0
+margin_bottom = 14.0
+text = "Generating .bvh file..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BVHBar" type="ProgressBar" parent="Pause/BVHOverlay/BVHContainer"]
+margin_top = 18.0
+margin_right = 137.0
+margin_bottom = 32.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -1335,53 +1350,6 @@ transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 15 )
 
-[node name="BVH" type="Control" parent="."]
-pause_mode = 2
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource( 27 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BVHOverlay" type="ColorRect" parent="BVH"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0.196078 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BVHContainer" type="VBoxContainer" parent="BVH/BVHOverlay"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -68.5
-margin_top = -20.0
-margin_right = 68.5
-margin_bottom = 20.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BVHLabel" type="Label" parent="BVH/BVHOverlay/BVHContainer"]
-margin_right = 137.0
-margin_bottom = 14.0
-text = "Generating .bvh file..."
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BVHBar" type="ProgressBar" parent="BVH/BVHOverlay/BVHContainer"]
-margin_top = 18.0
-margin_right = 137.0
-margin_bottom = 32.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Objects" type="Spatial" parent="."]
 
 [node name="Sunset" type="WorldEnvironment" parent="Objects"]
@@ -1434,16 +1402,14 @@ material/0 = null
 [connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Input/Column/InputContainer/InputOptions" to="Pause/SettingsOverlay/Settings/Input" method="_on_InputOptions_item_selected"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/InputContainer/InputInfo" to="Pause/SettingsOverlay/Settings/Input" method="_on_InputInfo_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/ResetInputSettings" to="Pause/SettingsOverlay/Settings/Input" method="_on_ResetInputSettings_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartSlider" to="BVH" method="_on_FrameStartSlider_value_changed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartInput" to="BVH" method="_on_FrameStartInput_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartInfo" to="Pause" method="_on_FrameStartInfo_pressed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer/FrameEndSlider" to="BVH" method="_on_FrameEndSlider_value_changed"]
-[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer/FrameEndInput" to="BVH" method="_on_FrameEndInput_value_changed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer/FrameEndInfo" to="Pause" method="_on_FrameEndInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/LeftHandBVHContainer/LeftHandBVHInfo" to="Pause" method="_on_LeftHandBVHInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/RightHandBVHContainer/RightHandBVHInfo" to="Pause" method="_on_RightHandBVHInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer/BVHButton" to="BVH" method="_on_BVH_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer/BVHInfo" to="Pause" method="_on_BVHInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/ResetBVHSettings" to="Pause" method="_on_ResetBVHSettings_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartSlider" to="Pause/SettingsOverlay/Settings/Output" method="_on_FrameStartSlider_value_changed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartInput" to="Pause/SettingsOverlay/Settings/Output" method="_on_FrameStartInput_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameStartContainer/FrameStartInfo" to="Pause/SettingsOverlay/Settings/Output" method="_on_FrameStartInfo_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer/FrameEndSlider" to="Pause/SettingsOverlay/Settings/Output" method="_on_FrameEndSlider_value_changed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer/FrameEndInput" to="Pause/SettingsOverlay/Settings/Output" method="_on_FrameEndInput_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer/FrameEndInfo" to="Pause/SettingsOverlay/Settings/Output" method="_on_FrameEndInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer/BVHButton" to="Pause/SettingsOverlay/Settings/Output" method="_on_BVH_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer/BVHInfo" to="Pause/SettingsOverlay/Settings/Output" method="_on_BVHInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/ResetBVHSettings" to="Pause/SettingsOverlay/Settings/Output" method="_on_ResetBVHSettings_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Back" to="Pause" method="_on_Back_pressed"]
 [connection signal="pressed" from="Pause/Popup/PopupContainer/Close" to="Pause" method="_on_Close_pressed"]

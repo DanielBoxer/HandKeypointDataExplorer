@@ -1,34 +1,27 @@
-extends Node
+extends Control
+
+export var bvh_button_path: NodePath
+export var frame_start_label_path: NodePath
+export var frame_end_label_path: NodePath
+export var frame_start_slider_path: NodePath
+export var frame_end_slider_path: NodePath
+export var frame_start_input_path: NodePath
+export var frame_end_input_path: NodePath
 
 var open_file_name := "" setget , get_open_file_name
-
 var start_frame := 0
 var end_frame := 0
-var location := "/root/Main/Pause/SettingsOverlay/Settings/Output/Column/"
 
-onready var bvh_button: Button = get_node(location + "BVHContainer/BVHButton")
+onready var bvh_button: Button = get_node(bvh_button_path)
+onready var frame_start_label: Label = get_node(frame_start_label_path)
+onready var frame_end_label: Label = get_node(frame_end_label_path)
+onready var frame_start_slider: HSlider = get_node(frame_start_slider_path)
+onready var frame_end_slider: HSlider = get_node(frame_end_slider_path)
+onready var frame_start_input: SpinBox = get_node(frame_start_input_path)
+onready var frame_end_input: SpinBox = get_node(frame_end_input_path)
 onready var skeleton := get_node("/root/Main/Hands/LeftHand/Armature/Skeleton")
-onready var pause_script := get_node("/root/Main/Pause")
-onready var hand_script := get_node("/root/Main/Hands")
-
-onready var frame_start_label: Label = get_node(
-	location + "FrameStartContainer/FrameStartLabel"
-)
-onready var frame_end_label: Label = get_node(
-	location + "FrameEndContainer/FrameEndLabel"
-)
-onready var frame_start_slider: HSlider = get_node(
-	location + "FrameStartContainer/FrameStartSlider"
-)
-onready var frame_end_slider: HSlider = get_node(
-	location + "FrameEndContainer/FrameEndSlider"
-)
-onready var frame_start_input: SpinBox = get_node(
-	location + "FrameStartContainer/FrameStartInput"
-)
-onready var frame_end_input: SpinBox = get_node(
-	location + "FrameEndContainer/FrameEndInput"
-)
+onready var Pause := get_node("/root/Main/Pause")
+onready var Hand := get_node("/root/Main/Hands")
 
 
 func _ready():
@@ -156,8 +149,8 @@ func add_data(data: Dictionary) -> void:
 func stop_recording() -> void:
 	self.visible = false
 	Engine.iterations_per_second = 1
-	hand_script.is_recording_activated = false
-	pause_script.pause()
+	Hand.is_recording_activated = false
+	Pause.pause()
 	get_node("/root/Main/Pause/MenuOverlay/MenuContainer/Settings").emit_signal("pressed")
 
 
@@ -186,15 +179,15 @@ func _on_BVH_pressed() -> void:
 	open_file_name = file_location + file_name + file_type
 	generate_hierarchy(open_file_name)
 	Engine.iterations_per_second = 1500
-	hand_script.set_frame_number(start_frame)
-	hand_script.set_end_frame_number(end_frame)
-	hand_script.set_progress_bar_increase(100.0 / (end_frame - start_frame + 1))
-	hand_script.is_recording_activated = true
-	pause_script.pause()
+	Hand.set_frame_number(start_frame)
+	Hand.set_end_frame_number(end_frame)
+	Hand.set_progress_bar_increase(100.0 / (end_frame - start_frame + 1))
+	Hand.is_recording_activated = true
+	Pause.pause()
 
 
 func _on_BVHInfo_pressed() -> void:
-	pause_script.activate_popup(
+	Pause.activate_popup(
 		(
 			"Generate a .bvh file to the Output folder\n"
 			+ "This file will contain armature and animation data\n"
@@ -209,7 +202,7 @@ func _on_FrameStartSlider_value_changed(value: int) -> void:
 		frame_start_input.value = value
 		start_frame = value
 	else:
-		pause_script.activate_popup("Start frame can't be greater than end frame")
+		Pause.activate_popup("Start frame can't be greater than end frame")
 
 
 func _on_FrameStartInput_value_changed(value: int) -> void:
@@ -218,11 +211,11 @@ func _on_FrameStartInput_value_changed(value: int) -> void:
 		frame_start_slider.value = value
 		start_frame = value
 	else:
-		pause_script.activate_popup("Start frame can't be less than end frame")
+		Pause.activate_popup("Start frame can't be less than end frame")
 
 
 func _on_FrameStartInfo_pressed() -> void:
-	pause_script.activate_popup(
+	Pause.activate_popup(
 		(
 			"Set the start frame of the .bvh file output\n"
 			+ "This must be less than or equal to the end frame"
@@ -236,7 +229,7 @@ func _on_FrameEndSlider_value_changed(value: int) -> void:
 		frame_end_input.value = value
 		end_frame = value
 	else:
-		pause_script.activate_popup("End frame can't be less than start frame")
+		Pause.activate_popup("End frame can't be less than start frame")
 
 
 func _on_FrameEndInput_value_changed(value: int) -> void:
@@ -245,24 +238,16 @@ func _on_FrameEndInput_value_changed(value: int) -> void:
 		frame_end_slider.value = value
 		end_frame = value
 	else:
-		pause_script.activate_popup("End frame can't be greater than start frame")
+		Pause.activate_popup("End frame can't be greater than start frame")
 
 
 func _on_FrameEndInfo_pressed() -> void:
-	pause_script.activate_popup(
+	Pause.activate_popup(
 		(
 			"Set the end frame of the .bvh file output\n"
 			+ "This must be greater than or equal to the start frame"
 		)
 	)
-
-
-func _on_LeftHandBVHInfo_pressed() -> void:
-	pause_script.activate_popup("Generate a .bvh file for the left hand")
-
-
-func _on_RightHandBVHInfo_pressed() -> void:
-	pause_script.activate_popup("Generate a .bvh file for the right hand")
 
 
 func _on_ResetBVHSettings_pressed():

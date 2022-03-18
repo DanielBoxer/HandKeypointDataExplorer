@@ -23,7 +23,7 @@ var keypoint_map := {
 	"little_int": 3,
 	"little_pxm": 2,
 } setget , get_keypoint_map
-var is_plugin_activated := false setget set_is_plugin_activated
+var is_plugin_activated := false setget set_is_plugin_activated, get_is_plugin_activated
 var frame_number := 0 setget set_frame_number
 var end_frame_number := 0 setget set_end_frame_number
 var is_recording_activated := false setget set_is_recording_activated
@@ -45,8 +45,8 @@ onready var hand_objects := {
 }
 onready var dataset_display_text: Label = get_node("DisplayContainer/DatasetText")
 onready var keypoint_data := preload("res://GDNative/bin/keypoints.gdns").new()
-onready var bvh_script := get_node("/root/Main/BVH")
-onready var progress_bar := get_node("/root/Main/BVH/BVHOverlay/BVHContainer/BVHBar")
+onready var bvh_script := get_node("/root/Main/Pause/SettingsOverlay/Settings/Output")
+onready var progress_bar := get_node("/root/Main/Pause/BVHOverlay/BVHContainer/BVHBar")
 
 
 func _ready() -> void:
@@ -328,6 +328,10 @@ func get_keypoint_map() -> Dictionary:
 
 func set_is_plugin_activated(state: bool) -> void:
 	is_plugin_activated = state
+
+
+func get_is_plugin_activated() -> bool:
+	return is_plugin_activated
 
 
 func set_frame_number(value: int) -> void:

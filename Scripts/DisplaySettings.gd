@@ -4,7 +4,7 @@ export var screen_options_path: NodePath
 
 onready var screen_options := get_node(screen_options_path)
 
-onready var pause_script := get_node("/root/Main/Pause")
+onready var Pause := get_node("/root/Main/Pause")
 
 
 func _ready():
@@ -23,7 +23,7 @@ func _on_ScreenOptions_item_selected(_index: int) -> void:
 
 
 func _on_ScreenInfo_pressed() -> void:
-	pause_script.activate_popup("Change the application to be fullscreen or windowed")
+	Pause.activate_popup("Change the application to be fullscreen or windowed")
 
 
 func _on_ResetDisplaySettings_pressed():

@@ -5,32 +5,37 @@ export var right_hand_view_checkbox_path: NodePath
 export var keypoint_view_checkbox_path: NodePath
 export var side_keypoints_checkbox_path: NodePath
 export var display_text_checkbox_path: NodePath
-
 onready var left_hand_view_checkbox = get_node(left_hand_view_checkbox_path)
 onready var right_hand_view_checkbox = get_node(right_hand_view_checkbox_path)
 onready var keypoint_view_checkbox = get_node(keypoint_view_checkbox_path)
 onready var side_keypoints_checkbox: CheckBox = get_node(side_keypoints_checkbox_path)
 onready var display_text_checkbox := get_node(display_text_checkbox_path)
+onready var keypoint_view := get_node("/root/Main/KeypointView")
 
-onready var pause_script := get_node("/root/Main/Pause")
+onready var Pause := get_node("/root/Main/Pause")
+onready var Hand := get_node("/root/Main/Hands")
 
 
 func _ready():
 	pass
 
 
-# func _on_SideKPOptions_toggled(button_pressed: bool) -> void:
-# 	var is_plugin_checked: bool = plugin_checkbox.is_pressed()
-# 	if is_plugin_checked:
-# 		keypoint_view.visible = false
-# 		side_keypoints_checkbox.pressed = false
-# 		pause_script.activate_popup("Side Keypoint View unavailable while plugin is on")
-# 	else:
-# 		keypoint_view.visible = button_pressed
+func uncheck_side_keypoints_checkbox() -> void:
+	side_keypoints_checkbox.pressed = false
+
+
+func _on_SideKPOptions_toggled(button_pressed: bool) -> void:
+	var is_plugin_checked: bool = Hand.get_is_plugin_checked()
+	if is_plugin_checked:
+		keypoint_view.visible = false
+		side_keypoints_checkbox.pressed = false
+		Pause.activate_popup("Side Keypoint View unavailable while plugin is on")
+	else:
+		keypoint_view.visible = button_pressed
 
 
 func _on_SideKPInfo_pressed() -> void:
-	pause_script.activate_popup(
+	Pause.activate_popup(
 		(
 			"Show a keypoint visualization beside the hand models\n"
 			+ "This is based on the data input"
@@ -58,7 +63,7 @@ func _on_KPOptions_toggled(button_pressed: bool) -> void:
 
 
 func _on_KPInfo_pressed() -> void:
-	pause_script.activate_popup(
+	Pause.activate_popup(
 		(
 			"Activate keypoint visualization of the hand models\n"
 			+ "Only the keypoints will be visible\n"
@@ -73,7 +78,7 @@ func _on_LeftHandView_toggled(button_pressed: bool) -> void:
 
 
 func _on_LeftHandViewInfo_pressed() -> void:
-	pause_script.activate_popup("Show/hide the left hand model")
+	Pause.activate_popup("Show/hide the left hand model")
 
 
 func _on_RightHandView_toggled(button_pressed: bool) -> void:
@@ -82,15 +87,15 @@ func _on_RightHandView_toggled(button_pressed: bool) -> void:
 
 
 func _on_RightHandViewInfo_pressed() -> void:
-	pause_script.activate_popup("Show/hide the right hand model")
+	Pause.activate_popup("Show/hide the right hand model")
 
 
-#func _on_DisplayTextOptions_toggled(button_pressed: bool) -> void:
-#	_is_dataset_text_visible = button_pressed
+func _on_DisplayTextOptions_toggled(button_pressed: bool) -> void:
+	Pause.set_is_dataset_text_visible(button_pressed)
 
 
 func _on_DisplayTextInfo_pressed() -> void:
-	pause_script.activate_popup("Show/hide the text that displays the current frame")
+	Pause.activate_popup("Show/hide the text that displays the current frame")
 
 
 func _on_ResetViewSettings_pressed():
