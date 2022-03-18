@@ -326,7 +326,6 @@ __meta__ = {
 
 [node name="Frame" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -842,6 +841,7 @@ text = "Reset"
 
 [node name="Output" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -856,6 +856,7 @@ frame_start_slider_path = NodePath("Column/FrameStartContainer/FrameStartSlider"
 frame_end_slider_path = NodePath("Column/FrameEndContainer/FrameEndSlider")
 frame_start_input_path = NodePath("Column/FrameStartContainer/FrameStartInput")
 frame_end_input_path = NodePath("Column/FrameEndContainer/FrameEndInput")
+bvh_overlay_path = NodePath("../../../BVHOverlay")
 
 [node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Output"]
 margin_left = 10.0
@@ -1022,7 +1023,6 @@ __meta__ = {
 }
 
 [node name="BVHOverlay" type="ColorRect" parent="Pause"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.196078 )

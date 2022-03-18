@@ -7,11 +7,13 @@ export var frame_start_slider_path: NodePath
 export var frame_end_slider_path: NodePath
 export var frame_start_input_path: NodePath
 export var frame_end_input_path: NodePath
+export var bvh_overlay_path: NodePath
 
 var open_file_name := "" setget , get_open_file_name
 var start_frame := 0
 var end_frame := 0
 
+onready var bvh_overlay: ColorRect = get_node(bvh_overlay_path)
 onready var bvh_button: Button = get_node(bvh_button_path)
 onready var frame_start_label: Label = get_node(frame_start_label_path)
 onready var frame_end_label: Label = get_node(frame_end_label_path)
@@ -29,7 +31,7 @@ func _ready():
 
 
 func setup():
-	self.visible = false
+	bvh_overlay.visible = false
 	var frame_count = get_node("/root/ImportData").keypoint_data["left_hand_data"].size()
 	frame_start_slider.max_value = frame_count - 1
 	frame_end_slider.max_value = frame_count - 1

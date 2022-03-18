@@ -29,24 +29,19 @@ var end_frame_number := 0 setget set_end_frame_number
 var is_recording_activated := false setget set_is_recording_activated
 var progress_bar_increase := 1.0 setget set_progress_bar_increase
 
-onready var hand_objects := {
-	"left_hand":
-	{
-		"hand_node": get_node("LeftHand"),
-		"hand_skeleton": get_node("LeftHand/Armature/Skeleton"),
-		"data_frames": Array()
-	},
-	"right_hand":
-	{
-		"hand_node": get_node("RightHand"),
-		"hand_skeleton": get_node("RightHand/Armature/Skeleton"),
-		"data_frames": Array()
-	}
-}
+onready var left_hand: Spatial = get_node("LeftHand")
+onready var left_hand_skeleton: Skeleton = get_node("LeftHand/Armature/Skeleton")
+onready var left_hand_data := Array()
+onready var right_hand: Spatial = get_node("RightHand")
+onready var right_hand_skeleton: Skeleton = get_node("RightHand/Armature/Skeleton")
+onready var right_hand_data := Array()
+
 onready var dataset_display_text: Label = get_node("DisplayContainer/DatasetText")
 onready var keypoint_data := preload("res://GDNative/bin/keypoints.gdns").new()
-onready var bvh_script := get_node("/root/Main/Pause/SettingsOverlay/Settings/Output")
-onready var progress_bar := get_node("/root/Main/Pause/BVHOverlay/BVHContainer/BVHBar")
+onready var OutputSettings := get_node("/root/Main/Pause/SettingsOverlay/Settings/Output")
+onready var progress_bar: ProgressBar = get_node(
+	"/root/Main/Pause/BVHOverlay/BVHContainer/BVHBar"
+)
 
 
 func _ready() -> void:
@@ -57,19 +52,19 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if get_node("LeftHand").visible:
-		transform_hand("left_hand")
+		transform_hand(left_hand, left_hand_skeleton, left_hand_data)
 		if is_recording_activated && frame_number == end_frame_number:
 			progress_bar.value = 0
-			bvh_script.stop_recording()
+			OutputSettings.stop_recording()
 		else:
 			progress_bar.value += progress_bar_increase
 	if get_node("RightHand").visible:
-		transform_hand("right_hand")
+		transform_hand(right_hand, right_hand_skeleton, right_hand_data)
 	frame_number += 1
 
 
 func setup() -> void:
-	hand_objects["right_hand"]["hand_node"].visible = false
+	right_hand.visible = false
 	dataset_display_text.visible = false
 	dataset_display_text.set_text("Dataset: None")
 	get_node("LeftHand/Armature/Skeleton/Keypoints").visible = false
@@ -78,14 +73,14 @@ func setup() -> void:
 
 func get_data() -> void:
 	var import_data: Dictionary = get_node("/root/ImportData").keypoint_data
-	hand_objects["left_hand"]["data_frames"] = import_data["left_hand_data"]
-	hand_objects["right_hand"]["data_frames"] = import_data["right_hand_data"]
+	left_hand_data = import_data["left_hand_data"]
+	right_hand_data = import_data["right_hand_data"]
 
 
-func reset_frames(hand: String) -> Dictionary:
+func reset_frames(hand_data: Array) -> Dictionary:
 	frame_number = 0
 	dataset_display_text.set_text("Dataset: " + str(frame_number))
-	return hand_objects[hand]["data_frames"][0]
+	return hand_data[0]
 
 
 func calculate_palm_direction(
@@ -125,14 +120,14 @@ func f_position(frame: Dictionary, key: String) -> Vector3:
 	return output_position
 
 
-func get_plugin_data(hand: String) -> Dictionary:
+func get_plugin_data(hand: Spatial) -> Dictionary:
 	dataset_display_text.set_text("Dataset: Plugin Data")
 	var next_frame := Dictionary()
 	# get data from plugin
 	var data = keypoint_data.get_data()
 	var data_length = data.size()
 	var middle_index = data_length / 2
-	if hand == "left_hand":
+	if hand == left_hand:
 		data = data.slice(0, middle_index)
 	else:
 		data = data.slice(middle_index, data_length)
@@ -147,10 +142,10 @@ func get_plugin_data(hand: String) -> Dictionary:
 	return next_frame
 
 
-func get_json_data(hand: String) -> Dictionary:
+func get_json_data(hand_data: Array) -> Dictionary:
 	var next_frame := Dictionary()
 	# get data from json file
-	next_frame = hand_objects[hand]["data_frames"][frame_number]
+	next_frame = hand_data[frame_number]
 	dataset_display_text.set_text("Dataset: " + str(frame_number))
 	return next_frame
 
@@ -160,11 +155,11 @@ func d_vector(start: Vector3, end: Vector3) -> Vector3:
 
 
 func calculate_local_rotation_axis(
-	hand: String, keypoint: String, rotation_axis_global: Vector3
+	hand_skeleton: Skeleton, keypoint: String, rotation_axis_global: Vector3
 ) -> Vector3:
 	var bone_to_global: Transform = (
-		hand_objects[hand]["hand_skeleton"].global_transform
-		* hand_objects[hand]["hand_skeleton"].get_bone_global_pose(keypoint_map[keypoint])
+		hand_skeleton.global_transform
+		* hand_skeleton.get_bone_global_pose(keypoint_map[keypoint])
 	)
 	var rotation_axis_local: Vector3 = (
 		bone_to_global.basis.transposed()
@@ -182,18 +177,18 @@ func calculate_global_rotation_axis(vector_start: Vector3, vector_end: Vector3) 
 	return vector_start.cross(vector_end)
 
 
-func transform_hand(hand: String) -> void:
+func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) -> void:
 	var next_frame := Dictionary()
 	var recording := Dictionary()
 	if is_recording_activated:
-		for bone in range(hand_objects["left_hand"]["hand_skeleton"].get_bone_count()):
+		for bone in range(hand_skeleton.get_bone_count()):
 			recording[bone] = ["0.00", "0.00", "0.00"]
 	if is_plugin_activated:
 		next_frame = get_plugin_data(hand)
-	elif frame_number > hand_objects[hand]["data_frames"].size() - 1:
-		next_frame = reset_frames(hand)
+	elif frame_number > hand_data.size() - 1:
+		next_frame = reset_frames(hand_data)
 	else:
-		next_frame = get_json_data(hand)
+		next_frame = get_json_data(hand_data)
 
 	var data_wrist_position := f_position(next_frame, "wrist")
 	var data_middle_pxm_position := f_position(next_frame, "middle_pxm")
@@ -210,25 +205,21 @@ func transform_hand(hand: String) -> void:
 		data_middle_pxm_position
 	)
 
-	hand_objects[hand]["hand_node"].look_at(
-		hand_objects[hand]["hand_node"].global_transform.origin + hand_vector_target,
-		hand_correct_vector_up
+	hand.look_at(
+		hand.global_transform.origin + hand_vector_target, hand_correct_vector_up
 	)
 
-	var wrist_transform: Transform = hand_objects[hand]["hand_node"].global_transform
+	var wrist_transform: Transform = hand.global_transform
 	var wrist_euler: Vector3 = wrist_transform.basis.get_euler()
 
 	# the wrist translation moves the whole hand
 	var skeleton_wrist_pose: Transform
-	skeleton_wrist_pose = hand_objects[hand]["hand_skeleton"].get_bone_global_pose(
-		keypoint_map["wrist"]
-	)
+	skeleton_wrist_pose = hand_skeleton.get_bone_global_pose(keypoint_map["wrist"])
 	var hand_end_position := f_position(next_frame, "wrist")
 	var translated_skeleton_wrist_pose := Transform(
-		skeleton_wrist_pose.basis,
-		hand_objects[hand]["hand_skeleton"].to_local(hand_end_position)
+		skeleton_wrist_pose.basis, hand_skeleton.to_local(hand_end_position)
 	)
-	hand_objects[hand]["hand_skeleton"].set_bone_global_pose_override(
+	hand_skeleton.set_bone_global_pose_override(
 		keypoint_map["wrist"], translated_skeleton_wrist_pose, 1.0, true
 	)
 
@@ -264,14 +255,14 @@ func transform_hand(hand: String) -> void:
 			var ending_joint: int = starting_joint + 1
 
 			var hand_start_joint_pos: Vector3
-			hand_start_joint_pos = hand_objects[hand]["hand_skeleton"].to_global(
-				hand_objects[hand]["hand_skeleton"].get_bone_global_pose(
+			hand_start_joint_pos = hand_skeleton.to_global(
+				hand_skeleton.get_bone_global_pose(
 					keypoint_map[hand_keypoints[starting_joint]]
 				).origin
 			)
 			var hand_end_joint_pos: Vector3
-			hand_end_joint_pos = hand_objects[hand]["hand_skeleton"].to_global(
-				hand_objects[hand]["hand_skeleton"].get_bone_global_pose(
+			hand_end_joint_pos = hand_skeleton.to_global(
+				hand_skeleton.get_bone_global_pose(
 					keypoint_map[hand_keypoints[ending_joint]]
 				).origin
 			)
@@ -297,16 +288,16 @@ func transform_hand(hand: String) -> void:
 
 			# axis is calculated in global space and must be converted to local
 			var rotation_axis_local := calculate_local_rotation_axis(
-				hand, hand_keypoints[starting_joint], rotation_axis_global
+				hand_skeleton, hand_keypoints[starting_joint], rotation_axis_global
 			)
-			var hand_node: Spatial = hand_objects[hand]["hand_skeleton"]
+			var hand_node: Spatial = hand_skeleton
 			var skeleton_bone_pose: Transform = hand_node.get_bone_pose(
 				keypoint_map[hand_keypoints[starting_joint]]
 			)
 			skeleton_bone_pose = skeleton_bone_pose.rotated(
 				rotation_axis_local.normalized(), rotation_angle
 			)
-			hand_objects[hand]["hand_skeleton"].set_bone_pose(
+			hand_skeleton.set_bone_pose(
 				keypoint_map[hand_keypoints[starting_joint]], skeleton_bone_pose
 			)
 
@@ -319,7 +310,7 @@ func transform_hand(hand: String) -> void:
 						str(rad2deg(bone_euler.z))
 					]
 	if is_recording_activated:
-		bvh_script.add_data(recording)
+		OutputSettings.add_data(recording)
 
 
 func get_keypoint_map() -> Dictionary:
