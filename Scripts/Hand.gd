@@ -83,43 +83,6 @@ func reset_frames(hand_data: Array) -> Dictionary:
 	return hand_data[0]
 
 
-func calculate_palm_direction(
-	hand_vector: Vector3,
-	perpendicular_v1: Vector3,
-	perpendicular_v2: Vector3,
-	middle_tip: Vector3,
-	middle_pxm: Vector3
-) -> Vector3:
-	# form a plane with the target vector, used for palm direction
-	var hand_vector_forwards := perpendicular_v2 - perpendicular_v1
-	var hand_vector_backwards := perpendicular_v1 - perpendicular_v2
-	# palm is facing in the direction of either one up vector or the other
-	var hand_vector_up_forwards := hand_vector.cross(hand_vector_forwards)
-	var hand_vector_up_backwards := hand_vector.cross(hand_vector_backwards)
-	var palm_direction := Vector3()
-	# the middle tip is the keypoint most likely to be in front of the palm
-	var hand_facing_direction := middle_pxm.direction_to(middle_tip)
-	# find out the palm direction
-	if hand_vector_up_forwards.dot(hand_facing_direction) > 0:
-		palm_direction = hand_vector_up_backwards
-	else:
-		palm_direction = hand_vector_up_forwards
-	return palm_direction
-
-
-func reverse_array(input_array: Array) -> Array:
-	var output_array := Array()
-	for element in input_array.size():
-		var current_element: String = input_array[-element - 1]
-		output_array.append(current_element)
-	return output_array
-
-
-func f_position(frame: Dictionary, key: String) -> Vector3:
-	var output_position := Vector3(frame[key][0], frame[key][1], frame[key][2])
-	return output_position
-
-
 func get_plugin_data(hand: Spatial) -> Dictionary:
 	dataset_display_text.set_text("Dataset: Plugin Data")
 	var next_frame := Dictionary()
@@ -150,33 +113,6 @@ func get_json_data(hand_data: Array) -> Dictionary:
 	return next_frame
 
 
-func d_vector(start: Vector3, end: Vector3) -> Vector3:
-	return end - start
-
-
-func calculate_local_rotation_axis(
-	hand_skeleton: Skeleton, keypoint: String, rotation_axis_global: Vector3
-) -> Vector3:
-	var bone_to_global: Transform = (
-		hand_skeleton.global_transform
-		* hand_skeleton.get_bone_global_pose(keypoint_map[keypoint])
-	)
-	var rotation_axis_local: Vector3 = (
-		bone_to_global.basis.transposed()
-		* rotation_axis_global
-	)
-	return rotation_axis_local
-
-
-func calculate_rotation_angle(vector_start: Vector3, vector_end: Vector3) -> float:
-	return vector_start.angle_to(vector_end)
-
-
-func calculate_global_rotation_axis(vector_start: Vector3, vector_end: Vector3) -> Vector3:
-	# the axis is perpendicular to the vectors making the angle
-	return vector_start.cross(vector_end)
-
-
 func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) -> void:
 	var next_frame := Dictionary()
 	var recording := Dictionary()
@@ -190,14 +126,16 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 	else:
 		next_frame = get_json_data(hand_data)
 
-	var data_wrist_position := f_position(next_frame, "wrist")
-	var data_middle_pxm_position := f_position(next_frame, "middle_pxm")
-	var data_index_pxm_position := f_position(next_frame, "index_pxm")
-	var data_little_pxm_position := f_position(next_frame, "little_pxm")
-	var data_middle_tip_position := f_position(next_frame, "middle_tip")
+	var data_wrist_position := HandCalculator.f_position(next_frame, "wrist")
+	var data_middle_pxm_position := HandCalculator.f_position(next_frame, "middle_pxm")
+	var data_index_pxm_position := HandCalculator.f_position(next_frame, "index_pxm")
+	var data_little_pxm_position := HandCalculator.f_position(next_frame, "little_pxm")
+	var data_middle_tip_position := HandCalculator.f_position(next_frame, "middle_tip")
 
-	var hand_vector_target := d_vector(data_wrist_position, data_middle_pxm_position)
-	var hand_correct_vector_up := calculate_palm_direction(
+	var hand_vector_target := HandCalculator.d_vector(
+		data_wrist_position, data_middle_pxm_position
+	)
+	var hand_correct_vector_up := HandCalculator.calculate_palm_direction(
 		hand_vector_target,
 		data_little_pxm_position,
 		data_index_pxm_position,
@@ -215,7 +153,7 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 	# the wrist translation moves the whole hand
 	var skeleton_wrist_pose: Transform
 	skeleton_wrist_pose = hand_skeleton.get_bone_global_pose(keypoint_map["wrist"])
-	var hand_end_position := f_position(next_frame, "wrist")
+	var hand_end_position := HandCalculator.f_position(next_frame, "wrist")
 	var translated_skeleton_wrist_pose := Transform(
 		skeleton_wrist_pose.basis, hand_skeleton.to_local(hand_end_position)
 	)
@@ -235,7 +173,7 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 			]
 
 	# bones are moved from bottom to top, so the array is reversed
-	var hand_keypoints := reverse_array(Array(next_frame.keys()))
+	var hand_keypoints := HandCalculator.reverse_array(Array(next_frame.keys()))
 
 	# these values are skipped because they can't be rotated
 	var skipped_keypoints := [
@@ -266,29 +204,34 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 					keypoint_map[hand_keypoints[ending_joint]]
 				).origin
 			)
-			var data_start_joint_position := f_position(
+			var data_start_joint_position := HandCalculator.f_position(
 				next_frame, hand_keypoints[starting_joint]
 			)
-			var data_end_joint_position := f_position(
+			var data_end_joint_position := HandCalculator.f_position(
 				next_frame, hand_keypoints[ending_joint]
 			)
 
-			var hand_bone_vector := d_vector(hand_start_joint_pos, hand_end_joint_pos)
-			var data_bone_vector := d_vector(
+			var hand_bone_vector := HandCalculator.d_vector(
+				hand_start_joint_pos, hand_end_joint_pos
+			)
+			var data_bone_vector := HandCalculator.d_vector(
 				data_start_joint_position, data_end_joint_position
 			)
 
-			var rotation_angle := calculate_rotation_angle(
+			var rotation_angle := HandCalculator.calculate_rotation_angle(
 				hand_bone_vector, data_bone_vector
 			)
 
-			var rotation_axis_global := calculate_global_rotation_axis(
+			var rotation_axis_global := HandCalculator.calculate_global_rotation_axis(
 				data_bone_vector, hand_bone_vector
 			)
 
 			# axis is calculated in global space and must be converted to local
-			var rotation_axis_local := calculate_local_rotation_axis(
-				hand_skeleton, hand_keypoints[starting_joint], rotation_axis_global
+			var rotation_axis_local := HandCalculator.calculate_local_rotation_axis(
+				hand_skeleton,
+				hand_keypoints[starting_joint],
+				rotation_axis_global,
+				keypoint_map
 			)
 			var hand_node: Spatial = hand_skeleton
 			var skeleton_bone_pose: Transform = hand_node.get_bone_pose(
