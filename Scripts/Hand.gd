@@ -38,7 +38,7 @@ onready var right_hand_data := Array()
 
 onready var dataset_display_text: Label = get_node("DisplayContainer/DatasetText")
 onready var keypoint_data := preload("res://GDNative/bin/keypoints.gdns").new()
-onready var OutputSettings := get_node("/root/Main/Pause/SettingsOverlay/Settings/Output")
+onready var BvhExport := get_node("/root/Main/Pause/BVHOverlay")
 onready var progress_bar: ProgressBar = get_node(
 	"/root/Main/Pause/BVHOverlay/BVHContainer/BVHBar"
 )
@@ -55,7 +55,7 @@ func _physics_process(_delta: float) -> void:
 		transform_hand(left_hand, left_hand_skeleton, left_hand_data)
 		if is_recording_activated && frame_number == end_frame_number:
 			progress_bar.value = 0
-			OutputSettings.stop_recording()
+			BvhExport.stop_recording()
 		else:
 			progress_bar.value += progress_bar_increase
 	if get_node("RightHand").visible:
@@ -253,7 +253,7 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 						str(rad2deg(bone_euler.z))
 					]
 	if is_recording_activated:
-		OutputSettings.add_data(recording)
+		BvhExport.add_data(recording)
 
 
 func get_keypoint_map() -> Dictionary:
