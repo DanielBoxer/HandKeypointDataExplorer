@@ -1,3 +1,4 @@
+# Imports JSON data and converts to a text dictionary.
 extends Node
 
 var keypoint_data: Dictionary setget , get_keypoint_data
@@ -10,10 +11,12 @@ func _ready() -> void:
 	keypoint_data["right_hand_data"] = import_data(file_2)["hand_array"]
 
 
+# Returns keypoint_data Dictionary.
 func get_keypoint_data() -> Dictionary:
 	return keypoint_data
 
 
+# Returns a Dictionary made from a JSON file.
 func import_data(file_name: String) -> Dictionary:
 	# get keypoint data from file
 	var data_file := File.new()

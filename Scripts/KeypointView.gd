@@ -1,3 +1,5 @@
+# Manages the keypoint visualization that appears beside the hand meshes.
+# This is based on the data input.
 extends Spatial
 
 const KEYPOINTS_OFFSET: Dictionary = {
@@ -24,6 +26,7 @@ func _physics_process(_delta) -> void:
 	frame_number += 1
 
 
+# Moves keypoints to the positions specified by the data.
 func transform_keypoints(hand: String) -> void:
 	if frame_number > frames["left_hand"].size() - 1:
 		frame_number = 0
@@ -47,5 +50,6 @@ func transform_keypoints(hand: String) -> void:
 			keypoint_node.show()
 
 
+# Sets `frame_number` to input value.
 func set_frame_number(value: int) -> void:
 	frame_number = value

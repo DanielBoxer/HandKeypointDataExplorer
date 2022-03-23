@@ -1,3 +1,4 @@
+# Manages the frame tab in the settings menu.
 extends Control
 
 export var input_frame_label_path: NodePath
@@ -27,20 +28,24 @@ func _ready():
 	)
 
 
+# Resets input frame text.
 func reset_input_frame() -> void:
 	input_frame_label.set_text("Next Frame: Not Set")
 
 
+# Sets FPS to input value.
 func _on_FPS_value_changed(value: int) -> void:
 	Engine.iterations_per_second = value
 	fps_text.set_text("FPS: " + str(value))
 
 
+# Changes FPS to 1500.
 func _on_FPSMaxButton_pressed():
 	Engine.iterations_per_second = 1500
 	fps_text.set_text("FPS: 1500")
 
 
+# Shows information.
 func _on_FPSInfo_pressed() -> void:
 	Pause.activate_popup(
 		(
@@ -51,6 +56,7 @@ func _on_FPSInfo_pressed() -> void:
 	)
 
 
+# Sets next frame of data.
 func _on_InputFrame_value_changed(value: int) -> void:
 	if plugin_checkbox.pressed == false:
 		if value >= 0:
@@ -64,6 +70,7 @@ func _on_InputFrame_value_changed(value: int) -> void:
 		input_frame.value = -1
 
 
+# Shows information.
 func _on_InputFrameInfo_pressed() -> void:
 	Pause.activate_popup(
 		(
@@ -73,11 +80,13 @@ func _on_InputFrameInfo_pressed() -> void:
 	)
 
 
+# Turns plugin data on.
 func _on_PluginOptions_toggled(button_pressed: bool) -> void:
 	Hand.is_plugin_activated = button_pressed
 	ViewSettings.uncheck_side_keypoints_checkbox()
 
 
+# Shows information.
 func _on_PluginInfo_pressed() -> void:
 	Pause.activate_popup(
 		(
@@ -87,15 +96,18 @@ func _on_PluginInfo_pressed() -> void:
 	)
 
 
+# Stops `_physics_process` in Hand script which makes it stay on the current frame.
 func _on_CurrentFrameOptions_toggled(button_pressed: bool) -> void:
 	Hand.set_physics_process(not button_pressed)
 	keypoint_view.set_physics_process(not button_pressed)
 
 
+# Shows information.
 func _on_CurrentFrameInfo_pressed() -> void:
 	Pause.activate_popup("Pause data playback and stay on the current frame")
 
 
+# Resets all frame tab settings to default value.
 func _on_ResetFrameSettings_pressed():
 	input_frame.value = 0
 	fps_slider.value = 1

@@ -1,20 +1,20 @@
-extends Node
+# Performs the vector calculations needed for hand transformations.
 class_name HandCalculator
+extends Node
 
 
+# Returns the vector position from a Dictionary.
 static func f_position(frame: Dictionary, key: String) -> Vector3:
 	var output_position := Vector3(frame[key][0], frame[key][1], frame[key][2])
 	return output_position
 
 
+# Returns the direction vector using a starting point and an ending point.
 static func d_vector(start: Vector3, end: Vector3) -> Vector3:
 	return end - start
 
 
-static func calculate_rotation_angle(vector_start: Vector3, vector_end: Vector3) -> float:
-	return vector_start.angle_to(vector_end)
-
-
+# Returns a vector representing the up vector of the hand.
 static func calculate_palm_direction(
 	hand_vector: Vector3,
 	perpendicular_v1: Vector3,
@@ -22,7 +22,7 @@ static func calculate_palm_direction(
 	middle_tip: Vector3,
 	middle_pxm: Vector3
 ) -> Vector3:
-	# form a plane with the target vector, used for palm direction
+	# form a plane with the target vector, used for palm direction.
 	var hand_vector_forwards := perpendicular_v2 - perpendicular_v1
 	var hand_vector_backwards := perpendicular_v1 - perpendicular_v2
 	# palm is facing in the direction of either one up vector or the other
@@ -39,11 +39,7 @@ static func calculate_palm_direction(
 	return palm_direction
 
 
-static func calculate_global_rotation_axis(vector1: Vector3, vector2: Vector3) -> Vector3:
-	# the axis is perpendicular to the vectors making the angle
-	return vector1.cross(vector2)
-
-
+# Returns the local rotation axis of a bone.
 static func calculate_local_rotation_axis(
 	hand_skeleton: Skeleton,
 	keypoint: String,
@@ -61,6 +57,7 @@ static func calculate_local_rotation_axis(
 	return rotation_axis_local
 
 
+# Returns the input array in reverse order.
 static func reverse_array(input_array: Array) -> Array:
 	var output_array := Array()
 	for element in input_array.size():

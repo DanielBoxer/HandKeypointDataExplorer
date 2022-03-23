@@ -1,3 +1,4 @@
+# Manages the input tab in the settings menu.
 extends Control
 
 export var mouse_sensitivity_text_path: NodePath
@@ -20,32 +21,37 @@ func _ready():
 	add_button_items()
 
 
+# Adds items to sliders.
 func add_button_items() -> void:
-	# add items to sliders
 	input_options.add_item("Keyboard")
 	input_options.add_item("VR")
 
 
+# Sets mouse sensitivity to input value.
 func _on_MouseSensitivity_value_changed(value: int) -> void:
 	mouse_sensitivity_text.set_text("Mouse Sensitivity: " + str(value))
 	Controller.mouse_sensitivity = value
 
 
+# Shows information.
 func _on_MouseSensitivityInfo_pressed() -> void:
 	Pause.activate_popup(
 		"Change the mouse sensitivity\nThis only affects the mouse outside of the menu"
 	)
 
 
+# Sets movement speed to input value.
 func _on_MovementSpeed_value_changed(value: int) -> void:
 	movement_speed_text.set_text("Movement Speed: " + str(value))
 	Controller.speed = value
 
 
+# Shows information.
 func _on_MovementSpeedInfo_pressed() -> void:
 	Pause.activate_popup("Change the movement speed of the camera")
 
 
+# Switches to VR mode.
 func _on_InputOptions_item_selected(_index: int) -> void:
 	var camera: Camera = get_node("/root/Main/Controller/Head/Camera")
 	var vr_camera: ARVRCamera = get_node("/root/Main/Objects/ARVROrigin/ARVRCamera")
@@ -68,10 +74,12 @@ func _on_InputOptions_item_selected(_index: int) -> void:
 		camera.current = true
 
 
+# Shows information.
 func _on_InputInfo_pressed() -> void:
 	Pause.activate_popup("Turn VR mode on or off\nThe menu is disabled in VR mode")
 
 
+# Resets all input tab settings to default values.
 func _on_ResetInputSettings_pressed():
 	mouse_sensitivity_slider.value = 5
 	movement_speed_slider.value = 3

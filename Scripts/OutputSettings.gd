@@ -1,3 +1,4 @@
+# Manages the output tab in the settings menu.
 extends Control
 
 export var bvh_button_path: NodePath
@@ -29,6 +30,7 @@ func _ready():
 	setup()
 
 
+# Initializes starting variables.
 func setup():
 	var frame_count = get_node("/root/ImportData").keypoint_data["left_hand_data"].size()
 	frame_start_slider.max_value = frame_count - 1
@@ -37,14 +39,17 @@ func setup():
 	frame_end_input.max_value = frame_count - 1
 
 
+# Returns starting frame of the recording.
 func get_start_frame() -> int:
 	return start_frame
 
 
+# Returns ending frame of the recording.
 func get_end_frame() -> int:
 	return end_frame
 
 
+# Returns the current date and time for a file name.
 func format_datetime() -> String:
 	var formatted: String = (
 		str(OS.get_datetime().year)
@@ -62,6 +67,7 @@ func format_datetime() -> String:
 	return formatted
 
 
+# Creates file and start recording.
 func _on_BVH_pressed() -> void:
 	self.visible = true
 	var file_name: String = format_datetime()  # date time format avoids overwriting files
@@ -77,6 +83,7 @@ func _on_BVH_pressed() -> void:
 	Pause.pause()
 
 
+# Shows information.
 func _on_BVHInfo_pressed() -> void:
 	Pause.activate_popup(
 		(
@@ -87,6 +94,7 @@ func _on_BVHInfo_pressed() -> void:
 	)
 
 
+# Sets frame start to input value.
 func _on_FrameStartSlider_value_changed(value: int) -> void:
 	if value <= end_frame:
 		frame_start_label.text = "Frame Start: " + str(value)
@@ -96,6 +104,7 @@ func _on_FrameStartSlider_value_changed(value: int) -> void:
 		Pause.activate_popup("Start frame can't be greater than end frame")
 
 
+# Sets frame start to input value.
 func _on_FrameStartInput_value_changed(value: int) -> void:
 	if value <= end_frame:
 		frame_start_label.text = "Frame Start: " + str(value)
@@ -105,6 +114,7 @@ func _on_FrameStartInput_value_changed(value: int) -> void:
 		Pause.activate_popup("Start frame can't be less than end frame")
 
 
+# Shows information.
 func _on_FrameStartInfo_pressed() -> void:
 	Pause.activate_popup(
 		(
@@ -114,6 +124,7 @@ func _on_FrameStartInfo_pressed() -> void:
 	)
 
 
+# Sets frame end to input value.
 func _on_FrameEndSlider_value_changed(value: int) -> void:
 	if value >= start_frame:
 		frame_end_label.text = "Frame End: " + str(value)
@@ -123,6 +134,7 @@ func _on_FrameEndSlider_value_changed(value: int) -> void:
 		Pause.activate_popup("End frame can't be less than start frame")
 
 
+# Sets frame end to input value.
 func _on_FrameEndInput_value_changed(value: int) -> void:
 	if value >= start_frame:
 		frame_end_label.text = "Frame End: " + str(value)
@@ -132,6 +144,7 @@ func _on_FrameEndInput_value_changed(value: int) -> void:
 		Pause.activate_popup("End frame can't be greater than start frame")
 
 
+# Shows information.
 func _on_FrameEndInfo_pressed() -> void:
 	Pause.activate_popup(
 		(
@@ -141,6 +154,7 @@ func _on_FrameEndInfo_pressed() -> void:
 	)
 
 
+# Resets all output tab settings to default value.
 func _on_ResetBVHSettings_pressed():
 	frame_start_input.value = 1
 	frame_end_input.value = 1

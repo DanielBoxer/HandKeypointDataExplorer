@@ -1,3 +1,4 @@
+# Manages setup.
 extends Spatial
 
 

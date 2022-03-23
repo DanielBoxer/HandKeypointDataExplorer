@@ -1,3 +1,4 @@
+# Manages pausing and opening the menu.
 extends Control
 
 export var menu_overlay_path: NodePath
@@ -21,17 +22,17 @@ onready var FrameSettings := get_node("SettingsOverlay/Settings/Frame")
 
 func _ready() -> void:
 	# start paused
-	pause()
+	toggle_pause()
 	popup.visible = false
 
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("menu") and not _is_vr_mode_activated:
-		pause()
+		toggle_pause()
 
 
-func pause() -> void:
-	# open menu and pause
+# Toggles menu and toggles pause.
+func toggle_pause() -> void:
 	var new_pause_state: bool = not get_tree().paused
 	get_tree().paused = new_pause_state
 	menu_overlay.show()
@@ -48,46 +49,56 @@ func pause() -> void:
 		FrameSettings.reset_input_frame()
 
 
+# Makes information popup visible and displays input text.
 func activate_popup(text: String) -> void:
 	popup.visible = true
 	popup_text.set_text(text)
 
 
+# Sets _is_dataset_text_visible to input state.
 func set_is_dataset_text_visible(state: bool) -> void:
 	_is_dataset_text_visible = state
 
 
+# Sets _is_vr_mode_activated to input state.
 func set_is_vr_mode_activated(state: bool) -> void:
 	_is_vr_mode_activated = state
 
 
+# Closes popup by hiding it.
 func _on_Close_pressed():
 	popup.visible = false
 
 
+# Switches to the instructions menu.
 func _on_Instructions_pressed() -> void:
 	menu_overlay.hide()
 	instructions_overlay.show()
 
 
+# Switches to the settings menu.
 func _on_Settings_pressed() -> void:
 	menu_overlay.hide()
 	settings_overlay.show()
 
 
+# Toggle pause.
 func _on_Unpause_pressed():
-	pause()
+	toggle_pause()
 
 
+# Reloads the current scene. This resets everything.
 func _on_Restart_pressed():
 	var _error_message: int = get_tree().reload_current_scene()
-	pause()
+	toggle_pause()
 
 
+# Closes the program.
 func _on_Quit_pressed() -> void:
 	get_tree().quit()
 
 
+# Switches to the pause menu.
 func _on_Back_pressed() -> void:
 	menu_overlay.show()
 	instructions_overlay.hide()

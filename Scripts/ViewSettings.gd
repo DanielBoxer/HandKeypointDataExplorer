@@ -1,3 +1,4 @@
+# Manages the view tab in the settings menu.
 extends Control
 
 export var left_hand_view_checkbox_path: NodePath
@@ -20,10 +21,12 @@ func _ready():
 	pass
 
 
+# Sets side_keypoints_checkbox to false.
 func uncheck_side_keypoints_checkbox() -> void:
 	side_keypoints_checkbox.pressed = false
 
 
+# Sets the side keypoints to be visible or invisible. This appears beside the hand mesh.
 func _on_SideKPOptions_toggled(button_pressed: bool) -> void:
 	var is_plugin_checked: bool = Hand.get_is_plugin_checked()
 	if is_plugin_checked:
@@ -34,6 +37,7 @@ func _on_SideKPOptions_toggled(button_pressed: bool) -> void:
 		keypoint_view.visible = button_pressed
 
 
+# Shows information.
 func _on_SideKPInfo_pressed() -> void:
 	Pause.activate_popup(
 		(
@@ -43,6 +47,7 @@ func _on_SideKPInfo_pressed() -> void:
 	)
 
 
+# Sets the keypoints to be visible or invisible. This also hides the hand meshes.
 func _on_KPOptions_toggled(button_pressed: bool) -> void:
 	var hand_mesh_left: MeshInstance = get_node(
 		"/root/Main/Hands/LeftHand/Armature/Skeleton/Hand_L"
@@ -62,6 +67,7 @@ func _on_KPOptions_toggled(button_pressed: bool) -> void:
 	hand_keypoints_right.visible = button_pressed
 
 
+# Shows information.
 func _on_KPInfo_pressed() -> void:
 	Pause.activate_popup(
 		(
@@ -72,32 +78,39 @@ func _on_KPInfo_pressed() -> void:
 	)
 
 
+# Shows or hides left hand.
 func _on_LeftHandView_toggled(button_pressed: bool) -> void:
 	get_node("/root/Main/Hands/LeftHand").visible = button_pressed
 	get_node("/root/Main/KeypointView/left_hand").visible = button_pressed
 
 
+# Shows information.
 func _on_LeftHandViewInfo_pressed() -> void:
 	Pause.activate_popup("Show/hide the left hand model")
 
 
+# Shows or hides right hand.
 func _on_RightHandView_toggled(button_pressed: bool) -> void:
 	get_node("/root/Main/Hands/RightHand").visible = button_pressed
 	get_node("/root/Main/KeypointView/right_hand").visible = button_pressed
 
 
+# Shows information.
 func _on_RightHandViewInfo_pressed() -> void:
 	Pause.activate_popup("Show/hide the right hand model")
 
 
+# Shows or hides the frame count text.
 func _on_DisplayTextOptions_toggled(button_pressed: bool) -> void:
 	Pause.set_is_dataset_text_visible(button_pressed)
 
 
+# Shows information.
 func _on_DisplayTextInfo_pressed() -> void:
 	Pause.activate_popup("Show/hide the text that displays the current frame")
 
 
+# Resets all view tab settings to default values.
 func _on_ResetViewSettings_pressed():
 	left_hand_view_checkbox.pressed = true
 	right_hand_view_checkbox.pressed = false

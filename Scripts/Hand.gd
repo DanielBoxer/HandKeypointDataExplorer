@@ -1,3 +1,5 @@
+# Manages the transformation of the left and right hands based on data input.
+# Most calculations are done in the HandCalculator script.
 extends Spatial
 
 var keypoint_map := {
@@ -63,6 +65,7 @@ func _physics_process(_delta: float) -> void:
 	frame_number += 1
 
 
+# Called at start of program to set variables.
 func setup() -> void:
 	right_hand.visible = false
 	dataset_display_text.visible = false
@@ -71,18 +74,21 @@ func setup() -> void:
 	get_node("RightHand/Armature/Skeleton/Keypoints").visible = false
 
 
+# Gets right and left hand data from ImportData script.
 func get_data() -> void:
 	var import_data: Dictionary = get_node("/root/ImportData").keypoint_data
 	left_hand_data = import_data["left_hand_data"]
 	right_hand_data = import_data["right_hand_data"]
 
 
+# Returns the first frame of data and resets the current frame to the start.
 func reset_frames(hand_data: Array) -> Dictionary:
 	frame_number = 0
 	dataset_display_text.set_text("Dataset: " + str(frame_number))
 	return hand_data[0]
 
 
+# Returns the next frame of data from the keypoints from the GDNative plugin.
 func get_plugin_data(hand: Spatial) -> Dictionary:
 	dataset_display_text.set_text("Dataset: Plugin Data")
 	var next_frame := Dictionary()
@@ -105,14 +111,17 @@ func get_plugin_data(hand: Spatial) -> Dictionary:
 	return next_frame
 
 
+# Returns the next frame of data from the JSON file which has been converted into text.
+# The data is stored in a Dictionary.
 func get_json_data(hand_data: Array) -> Dictionary:
 	var next_frame := Dictionary()
-	# get data from json file
+	# get data from dictionary
 	next_frame = hand_data[frame_number]
 	dataset_display_text.set_text("Dataset: " + str(frame_number))
 	return next_frame
 
 
+# Transforms hand mesh and hand skeleton based on data input.
 func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) -> void:
 	var next_frame := Dictionary()
 	var recording := Dictionary()
@@ -218,13 +227,10 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 				data_start_joint_position, data_end_joint_position
 			)
 
-			var rotation_angle := HandCalculator.calculate_rotation_angle(
-				hand_bone_vector, data_bone_vector
-			)
+			var rotation_angle := hand_bone_vector.angle_to(data_bone_vector)
 
-			var rotation_axis_global := HandCalculator.calculate_global_rotation_axis(
-				data_bone_vector, hand_bone_vector
-			)
+			# the axis is perpendicular to the vectors making the angle
+			var rotation_axis_global := data_bone_vector.cross(hand_bone_vector)
 
 			# axis is calculated in global space and must be converted to local
 			var rotation_axis_local := HandCalculator.calculate_local_rotation_axis(
@@ -256,29 +262,36 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 		BvhExport.add_data(recording)
 
 
+# Returns keypoint_map Dictionary.
 func get_keypoint_map() -> Dictionary:
 	return keypoint_map
 
 
+# Sets is_plugin_activated to input state.
 func set_is_plugin_activated(state: bool) -> void:
 	is_plugin_activated = state
 
 
+# Returns is_plugin_activated boolean.
 func get_is_plugin_activated() -> bool:
 	return is_plugin_activated
 
 
+# Sets frame_number to input value.
 func set_frame_number(value: int) -> void:
 	frame_number = value
 
 
+# Sets is_recording_activated to input state.
 func set_is_recording_activated(state: bool) -> void:
 	is_recording_activated = state
 
 
+# Sets end_frame_number to input value.
 func set_end_frame_number(value: int) -> void:
 	end_frame_number = value
 
 
+# Sets progress_bar_increase to input value.
 func set_progress_bar_increase(value: float) -> void:
 	progress_bar_increase = value

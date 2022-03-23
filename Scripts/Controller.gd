@@ -1,3 +1,4 @@
+# Manages camera control through mouse and keyboard input.
 extends KinematicBody
 
 export var acceleration := 6.0
@@ -24,6 +25,8 @@ func _input(event: InputEvent) -> void:
 		controller.rotation.x = clamp(controller.rotation.x, deg2rad(-89), deg2rad(89))
 
 
+# _process is used here instead of _physics_process so when the FPS is changed it won't
+# make the controller speed up.
 func _process(delta: float) -> void:
 	direction = Vector3()
 	# get direction of movement based on key press
@@ -49,9 +52,12 @@ func _process(delta: float) -> void:
 	var _velocity: Vector3 = move_and_slide(movement, Vector3.UP)
 
 
+# Sets `mouse_sensitivity` to input value.
 func set_mouse(value: float) -> void:
+	# value is multiplied by 0.02 to allow for whole number input
 	mouse_sensitivity = value * 0.02
 
 
+# Sets movement speed to input value;
 func set_speed(value: int) -> void:
 	speed = value
