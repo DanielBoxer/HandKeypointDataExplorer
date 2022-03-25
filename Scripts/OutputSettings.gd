@@ -80,7 +80,7 @@ func _on_BVH_pressed() -> void:
 	Hand.set_end_frame_number(end_frame)
 	Hand.set_progress_bar_increase(100.0 / (end_frame - start_frame + 1))
 	Hand.is_recording_activated = true
-	Pause.pause()
+	Pause.toggle_pause()
 
 
 # Shows information.

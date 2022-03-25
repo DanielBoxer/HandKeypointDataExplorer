@@ -1,7 +1,7 @@
 # Exports hand animations as a .bvh file.
 extends Control
 
-onready var skeleton := get_node("/root/Main/Hands/LeftHand/Armature/Skeleton")
+onready var skeleton := get_node("/root/Main/Hands/LeftHand/Left_Hand/Skeleton")
 
 onready var OutputSettings := get_node("/root/Main/Pause/SettingsOverlay/Settings/Output")
 onready var Pause := get_node("/root/Main/Pause")

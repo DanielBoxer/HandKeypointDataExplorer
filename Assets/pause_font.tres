@@ -1,9 +1,0 @@
-[gd_resource type="DynamicFont" load_steps=2 format=2]
-
-[ext_resource path="res://Assets/raleway_variable_font_wght.ttf" type="DynamicFontData" id=1]
-
-[resource]
-size = 70
-outline_size = 1
-outline_color = Color( 0.25098, 0.12549, 0.843137, 1 )
-font_data = ExtResource( 1 )

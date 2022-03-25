@@ -32,10 +32,10 @@ var is_recording_activated := false setget set_is_recording_activated
 var progress_bar_increase := 1.0 setget set_progress_bar_increase
 
 onready var left_hand: Spatial = get_node("LeftHand")
-onready var left_hand_skeleton: Skeleton = get_node("LeftHand/Armature/Skeleton")
+onready var left_hand_skeleton: Skeleton = get_node("LeftHand/Left_Hand/Skeleton")
 onready var left_hand_data := Array()
 onready var right_hand: Spatial = get_node("RightHand")
-onready var right_hand_skeleton: Skeleton = get_node("RightHand/Armature/Skeleton")
+onready var right_hand_skeleton: Skeleton = get_node("RightHand/Right_Hand/Skeleton")
 onready var right_hand_data := Array()
 
 onready var dataset_display_text: Label = get_node("DisplayContainer/DatasetText")
@@ -70,8 +70,8 @@ func setup() -> void:
 	right_hand.visible = false
 	dataset_display_text.visible = false
 	dataset_display_text.set_text("Dataset: None")
-	get_node("LeftHand/Armature/Skeleton/Keypoints").visible = false
-	get_node("RightHand/Armature/Skeleton/Keypoints").visible = false
+	get_node("LeftHand/Left_Hand/Skeleton/Keypoints_L").visible = false
+	get_node("RightHand/Right_Hand/Skeleton/Keypoints_R").visible = false
 
 
 # Gets right and left hand data from ImportData script.
@@ -230,13 +230,9 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 			# the axis is perpendicular to the vectors making the angle
 			var rotation_axis_global := data_bone_vector.cross(hand_bone_vector)
 
-			var rotation_angle: float
-			if hand == left_hand:
-				rotation_angle = hand_bone_vector.angle_to(data_bone_vector)
-			else:
-				rotation_angle = hand_bone_vector.signed_angle_to(
-					data_bone_vector, rotation_axis_global
-				)
+			var rotation_angle = hand_bone_vector.signed_angle_to(
+				data_bone_vector, rotation_axis_global
+			)
 
 			# axis is calculated in global space and must be converted to local
 			var rotation_axis_local := HandCalculator.calculate_local_rotation_axis(

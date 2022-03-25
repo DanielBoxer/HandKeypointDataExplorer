@@ -72,4 +72,5 @@ move_down={
 
 [rendering]
 
+quality/filters/use_fxaa=true
 environment/default_environment="res://Assets/sunset_environment.tres"

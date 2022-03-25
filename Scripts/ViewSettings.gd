@@ -28,7 +28,7 @@ func uncheck_side_keypoints_checkbox() -> void:
 
 # Sets the side keypoints to be visible or invisible. This appears beside the hand mesh.
 func _on_SideKPOptions_toggled(button_pressed: bool) -> void:
-	var is_plugin_checked: bool = Hand.get_is_plugin_checked()
+	var is_plugin_checked: bool = Hand.get_is_plugin_activated()
 	if is_plugin_checked:
 		keypoint_view.visible = false
 		side_keypoints_checkbox.pressed = false
@@ -50,18 +50,18 @@ func _on_SideKPInfo_pressed() -> void:
 # Sets the keypoints to be visible or invisible. This also hides the hand meshes.
 func _on_KPOptions_toggled(button_pressed: bool) -> void:
 	var hand_mesh_left: MeshInstance = get_node(
-		"/root/Main/Hands/LeftHand/Armature/Skeleton/Hand_L"
+		"/root/Main/Hands/LeftHand/Left_Hand/Skeleton/Hand_Mesh_L"
 	)
 	var hand_keypoints_left = get_node(
-		"/root/Main/Hands/LeftHand/Armature/Skeleton/Keypoints"
+		"/root/Main/Hands/LeftHand/Left_Hand/Skeleton/Keypoints_L"
 	)
 	hand_mesh_left.visible = not button_pressed
 	hand_keypoints_left.visible = button_pressed
 	var hand_mesh_right: MeshInstance = get_node(
-		"/root/Main/Hands/RightHand/Armature/Skeleton/Hand_L"
+		"/root/Main/Hands/RightHand/Right_Hand/Skeleton/Hand_Mesh_R"
 	)
 	var hand_keypoints_right = get_node(
-		"/root/Main/Hands/RightHand/Armature/Skeleton/Keypoints"
+		"/root/Main/Hands/RightHand/Right_Hand/Skeleton/Keypoints_R"
 	)
 	hand_mesh_right.visible = not button_pressed
 	hand_keypoints_right.visible = button_pressed

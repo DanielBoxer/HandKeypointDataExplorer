@@ -3,23 +3,23 @@
 [ext_resource path="res://Assets/sunset_environment.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/Pause.gd" type="Script" id=3]
-[ext_resource path="res://Assets/button_font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://Assets/Fonts/button_font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://Scenes/LeftHand.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/Hand.gd" type="Script" id=6]
-[ext_resource path="res://Assets/instructions_font.tres" type="DynamicFont" id=7]
+[ext_resource path="res://Assets/Fonts/instructions_font.tres" type="DynamicFont" id=7]
 [ext_resource path="res://Scripts/Controller.gd" type="Script" id=8]
-[ext_resource path="res://Assets/pause_font.tres" type="DynamicFont" id=9]
-[ext_resource path="res://Assets/display_font.tres" type="DynamicFont" id=10]
+[ext_resource path="res://Assets/Fonts/pause_font.tres" type="DynamicFont" id=9]
+[ext_resource path="res://Assets/Fonts/display_font.tres" type="DynamicFont" id=10]
 [ext_resource path="res://Scripts/KeypointView.gd" type="Script" id=11]
-[ext_resource path="res://Assets/keypoint_thumb_material.tres" type="Material" id=12]
-[ext_resource path="res://Assets/keypoint_index_material.tres" type="Material" id=13]
-[ext_resource path="res://Assets/keypoint_wrist_material.tres" type="Material" id=14]
-[ext_resource path="res://Assets/keypoint_little_material.tres" type="Material" id=15]
-[ext_resource path="res://Assets/keypoint_middle_material.tres" type="Material" id=16]
-[ext_resource path="res://Assets/keypoint_ring_material.tres" type="Material" id=17]
-[ext_resource path="res://Assets/button_normal.tres" type="Texture" id=18]
-[ext_resource path="res://Assets/button_hover.tres" type="Texture" id=19]
-[ext_resource path="res://Assets/button_pressed.tres" type="Texture" id=20]
+[ext_resource path="res://Assets/KeypointMaterials/keypoint_thumb_material.tres" type="Material" id=12]
+[ext_resource path="res://Assets/KeypointMaterials/keypoint_index_material.tres" type="Material" id=13]
+[ext_resource path="res://Assets/KeypointMaterials/keypoint_wrist_material.tres" type="Material" id=14]
+[ext_resource path="res://Assets/KeypointMaterials/keypoint_little_material.tres" type="Material" id=15]
+[ext_resource path="res://Assets/KeypointMaterials/keypoint_middle_material.tres" type="Material" id=16]
+[ext_resource path="res://Assets/KeypointMaterials/keypoint_ring_material.tres" type="Material" id=17]
+[ext_resource path="res://Assets/ButtonMaterials/button_normal.tres" type="Texture" id=18]
+[ext_resource path="res://Assets/ButtonMaterials/button_hover.tres" type="Texture" id=19]
+[ext_resource path="res://Assets/ButtonMaterials/button_pressed.tres" type="Texture" id=20]
 [ext_resource path="res://Scenes/RightHand.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Scripts/ViewSettings.gd" type="Script" id=22]
 [ext_resource path="res://Scripts/DisplaySettings.gd" type="Script" id=23]
@@ -50,11 +50,8 @@ script = ExtResource( 2 )
 script = ExtResource( 6 )
 
 [node name="LeftHand" parent="Hands" instance=ExtResource( 5 )]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 
 [node name="RightHand" parent="Hands" instance=ExtResource( 21 )]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
-visible = false
 
 [node name="DisplayContainer" type="HBoxContainer" parent="Hands"]
 anchor_top = 1.0
