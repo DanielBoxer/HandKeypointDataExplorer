@@ -9,11 +9,6 @@ static func f_position(frame: Dictionary, key: String) -> Vector3:
 	return output_position
 
 
-# Returns the direction vector using a starting point and an ending point.
-static func d_vector(start: Vector3, end: Vector3) -> Vector3:
-	return end - start
-
-
 # Returns a vector representing the up vector of the hand.
 static func calculate_palm_direction(
 	hand_vector: Vector3,

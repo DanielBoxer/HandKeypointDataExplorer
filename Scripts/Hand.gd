@@ -141,9 +141,8 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 	var data_little_pxm_position := HandCalculator.f_position(next_frame, "little_pxm")
 	var data_middle_tip_position := HandCalculator.f_position(next_frame, "middle_tip")
 
-	var hand_vector_target := HandCalculator.d_vector(
-		data_wrist_position, data_middle_pxm_position
-	)
+	var hand_vector_target := data_wrist_position.direction_to(data_middle_pxm_position)
+
 	var hand_correct_vector_up := HandCalculator.calculate_palm_direction(
 		hand_vector_target,
 		data_little_pxm_position,
@@ -220,11 +219,10 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 				next_frame, hand_keypoints[ending_joint]
 			)
 
-			var hand_bone_vector := HandCalculator.d_vector(
-				hand_start_joint_pos, hand_end_joint_pos
-			)
-			var data_bone_vector := HandCalculator.d_vector(
-				data_start_joint_position, data_end_joint_position
+			var hand_bone_vector := hand_start_joint_pos.direction_to(hand_end_joint_pos)
+
+			var data_bone_vector := data_start_joint_position.direction_to(
+				data_end_joint_position
 			)
 
 			# the axis is perpendicular to the vectors making the angle
