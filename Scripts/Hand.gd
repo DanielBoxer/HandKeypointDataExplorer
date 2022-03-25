@@ -227,10 +227,16 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 				data_start_joint_position, data_end_joint_position
 			)
 
-			var rotation_angle := hand_bone_vector.angle_to(data_bone_vector)
-
 			# the axis is perpendicular to the vectors making the angle
 			var rotation_axis_global := data_bone_vector.cross(hand_bone_vector)
+
+			var rotation_angle: float
+			if hand == left_hand:
+				rotation_angle = hand_bone_vector.angle_to(data_bone_vector)
+			else:
+				rotation_angle = hand_bone_vector.signed_angle_to(
+					data_bone_vector, rotation_axis_global
+				)
 
 			# axis is calculated in global space and must be converted to local
 			var rotation_axis_local := HandCalculator.calculate_local_rotation_axis(
