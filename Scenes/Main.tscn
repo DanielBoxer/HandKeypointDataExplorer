@@ -855,6 +855,7 @@ frame_end_slider_path = NodePath("Column/FrameEndContainer/FrameEndSlider")
 frame_start_input_path = NodePath("Column/FrameStartContainer/FrameStartInput")
 frame_end_input_path = NodePath("Column/FrameEndContainer/FrameEndInput")
 bvh_overlay_path = NodePath("../../../BVHOverlay")
+hand_bvh_option_button_path = NodePath("Column/HandBVHContainer/HandBVHOptionButton")
 
 [node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Output"]
 margin_left = 10.0
@@ -1407,6 +1408,7 @@ material/0 = null
 [connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer/FrameEndSlider" to="Pause/SettingsOverlay/Settings/Output" method="_on_FrameEndSlider_value_changed"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer/FrameEndInput" to="Pause/SettingsOverlay/Settings/Output" method="_on_FrameEndInput_value_changed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/FrameEndContainer/FrameEndInfo" to="Pause/SettingsOverlay/Settings/Output" method="_on_FrameEndInfo_pressed"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Output/Column/HandBVHContainer/HandBVHOptionButton" to="Pause/SettingsOverlay/Settings/Output" method="_on_HandBVHOptionButton_item_selected"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer/BVHButton" to="Pause/SettingsOverlay/Settings/Output" method="_on_BVH_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer/BVHInfo" to="Pause/SettingsOverlay/Settings/Output" method="_on_BVHInfo_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/ResetBVHSettings" to="Pause/SettingsOverlay/Settings/Output" method="_on_ResetBVHSettings_pressed"]

@@ -1,8 +1,6 @@
 # Exports hand animations as a .bvh file.
 extends Control
 
-onready var skeleton := get_node("/root/Main/Hands/LeftHand/Left_Hand/Skeleton")
-
 onready var OutputSettings := get_node("/root/Main/Pause/SettingsOverlay/Settings/Output")
 onready var Pause := get_node("/root/Main/Pause")
 onready var Hand := get_node("/root/Main/Hands")
@@ -15,7 +13,7 @@ func _ready():
 
 
 # Produces the skeleton hierarchy that appears at the start of a .bvh file.
-func generate_hierarchy(file_name: String) -> void:
+func generate_hierarchy(file_name: String, skeleton) -> void:
 	var file = File.new()
 	file.open(file_name, File.WRITE)
 	file.store_line("HIERARCHY")
@@ -36,7 +34,7 @@ func generate_hierarchy(file_name: String) -> void:
 		file.store_line(insert_tabs(depth, "Joint " + skeleton.get_bone_name(bone)))
 		file.store_line(insert_tabs(depth, "{"))
 
-		var bone_offset: Vector3 = calculate_offset(bone, bone_parent)
+		var bone_offset: Vector3 = calculate_offset(bone, bone_parent, skeleton)
 
 		file.store_line(
 			insert_tabs(
@@ -67,7 +65,7 @@ func generate_hierarchy(file_name: String) -> void:
 	)
 	file.store_line("Frame Time: " + str(1.0 / Engine.iterations_per_second))
 	# the first frame has no rotation
-	add_empty_frame(file)
+	add_empty_frame(file, skeleton)
 	file.close()
 
 
@@ -94,7 +92,7 @@ func end_site(file: File, depth: int) -> int:
 
 
 # Adds empty frame to input file.
-func add_empty_frame(file: File) -> void:
+func add_empty_frame(file: File, skeleton) -> void:
 	var temp := ""
 	for _i in range(skeleton.get_bone_count() * 3 + 3):
 		temp += "0.00 "
@@ -115,7 +113,7 @@ func add_data(data: Dictionary) -> void:
 
 
 # Returns offset between two bones.
-func calculate_offset(bone_child: int, bone_parent: int) -> Vector3:
+func calculate_offset(bone_child: int, bone_parent: int, skeleton) -> Vector3:
 	# get distance between two bones
 	var bone_child_position = skeleton.to_global(
 		skeleton.get_bone_global_pose(bone_child).origin

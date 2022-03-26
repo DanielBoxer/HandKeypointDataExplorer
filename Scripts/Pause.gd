@@ -55,6 +55,13 @@ func activate_popup(text: String) -> void:
 	popup_text.set_text(text)
 
 
+# Hides all pause overlays
+func hide_overlays() -> void:
+	menu_overlay.hide()
+	instructions_overlay.hide()
+	settings_overlay.hide()
+
+
 # Sets _is_dataset_text_visible to input state.
 func set_is_dataset_text_visible(state: bool) -> void:
 	_is_dataset_text_visible = state

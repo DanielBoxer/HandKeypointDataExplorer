@@ -53,14 +53,9 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if get_node("LeftHand").visible:
+	if left_hand.visible:
 		transform_hand(left_hand, left_hand_skeleton, left_hand_data)
-		if is_recording_activated && frame_number == end_frame_number:
-			progress_bar.value = 0
-			BvhExport.stop_recording()
-		else:
-			progress_bar.value += progress_bar_increase
-	if get_node("RightHand").visible:
+	if right_hand.visible:
 		transform_hand(right_hand, right_hand_skeleton, right_hand_data)
 	frame_number += 1
 
@@ -260,6 +255,11 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 					]
 	if is_recording_activated:
 		BvhExport.add_data(recording)
+		if frame_number == end_frame_number:
+			progress_bar.value = 0
+			BvhExport.stop_recording()
+		else:
+			progress_bar.value += progress_bar_increase
 
 
 # Returns keypoint_map Dictionary.
@@ -295,3 +295,11 @@ func set_end_frame_number(value: int) -> void:
 # Sets progress_bar_increase to input value.
 func set_progress_bar_increase(value: float) -> void:
 	progress_bar_increase = value
+
+
+func set_left_hand_visibility(state: bool) -> void:
+	left_hand.visible = state
+
+
+func set_right_hand_visibility(state: bool) -> void:
+	right_hand.visible = state
