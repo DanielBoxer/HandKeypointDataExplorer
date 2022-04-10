@@ -176,7 +176,7 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 			]
 
 	# bones are moved from bottom to top, so the array is reversed
-	var hand_keypoints := HandCalculator.reverse_array(Array(next_frame.keys()))
+	var hand_keypoints := HandCalculator.reverse_array(Array(keypoint_map.keys()))
 
 	# these values are skipped because they can't be rotated
 	var skipped_keypoints := [
