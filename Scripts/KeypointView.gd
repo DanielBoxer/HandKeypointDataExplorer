@@ -34,20 +34,15 @@ func transform_keypoints(hand: String) -> void:
 
 	# this shows the keypoints beside the hand
 	for keypoint in keypoints:
-		if keypoint != "dataset":
-			var position: Vector3 = (
-				KEYPOINTS_OFFSET[hand]
-				+ Vector3(
-					next_frame[keypoint][0],
-					next_frame[keypoint][1],
-					next_frame[keypoint][2]
-				)
+		var position: Vector3 = (
+			KEYPOINTS_OFFSET[hand]
+			+ Vector3(
+				next_frame[keypoint][0], next_frame[keypoint][1], next_frame[keypoint][2]
 			)
-			var keypoint_node := get_node(
-				"/root/Main/KeypointView/" + hand + "/" + keypoint
-			)
-			keypoint_node.transform.origin = position
-			keypoint_node.show()
+		)
+		var keypoint_node := get_node("/root/Main/KeypointView/" + hand + "/" + keypoint)
+		keypoint_node.transform.origin = position
+		keypoint_node.show()
 
 
 # Sets `frame_number` to input value.

@@ -180,7 +180,6 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 
 	# these values are skipped because they can't be rotated
 	var skipped_keypoints := [
-		"dataset",
 		"wrist",
 		"thumb_tip",
 		"index_tip",
