@@ -118,6 +118,9 @@ func get_json_data(hand_data: Array) -> Dictionary:
 
 # Transforms hand mesh and hand skeleton based on data input.
 func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) -> void:
+	# reset bone transform before calculation to remove precision errors
+	hand_skeleton.set_bone_pose(keypoint_map["wrist"], Transform.IDENTITY)
+
 	var next_frame := Dictionary()
 	var recording := Dictionary()
 	if is_recording_activated:
@@ -194,6 +197,12 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 			# the ending joint is used to calculate the rotation values
 			var ending_joint: int = starting_joint + 1
 
+			# reset bone transform before calculation to remove precision errors
+			# this also makes it less likely to have a zero vector in the calculations
+			hand_skeleton.set_bone_pose(
+				keypoint_map[hand_keypoints[starting_joint]], Transform.IDENTITY
+			)
+
 			var hand_start_joint_pos: Vector3
 			hand_start_joint_pos = hand_skeleton.to_global(
 				hand_skeleton.get_bone_global_pose(
@@ -237,15 +246,21 @@ func transform_hand(hand: Spatial, hand_skeleton: Skeleton, hand_data: Array) ->
 			var skeleton_bone_pose: Transform = hand_node.get_bone_pose(
 				keypoint_map[hand_keypoints[starting_joint]]
 			)
-			skeleton_bone_pose = skeleton_bone_pose.rotated(
-				rotation_axis_local.normalized(), rotation_angle
+
+			# construct new transform with rotation
+			var new_bone_pose := Transform(
+				Basis(skeleton_bone_pose.basis.get_rotation_quat() * Quat(rotation_axis_local.normalized(), rotation_angle)).scaled(
+					skeleton_bone_pose.basis.get_scale()
+				),
+				skeleton_bone_pose.origin
 			)
+
 			hand_skeleton.set_bone_pose(
-				keypoint_map[hand_keypoints[starting_joint]], skeleton_bone_pose
+				keypoint_map[hand_keypoints[starting_joint]], new_bone_pose
 			)
 
 			if is_recording_activated:
-				var bone_euler: Vector3 = skeleton_bone_pose.basis.get_euler()
+				var bone_euler: Vector3 = new_bone_pose.basis.get_euler()
 				for _i in range(3):
 					recording[keypoint_map[hand_keypoints[starting_joint]]] = [
 						str(rad2deg(bone_euler.x)),
