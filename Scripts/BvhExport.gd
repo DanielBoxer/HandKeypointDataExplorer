@@ -4,12 +4,26 @@ extends Control
 onready var OutputSettings := get_node("/root/Main/Pause/SettingsOverlay/Settings/Output")
 onready var Pause := get_node("/root/Main/Pause")
 onready var Hand := get_node("/root/Main/Hands")
-
-var open_file_name := "" setget set_open_file_name, get_open_file_name
+onready var ImportData := get_node("/root/ImportData")
+onready var progress_bar: ProgressBar = get_node(
+	"/root/Main/Pause/BVHOverlay/BVHContainer/BVHBar"
+)
+var recording_end_frame := 0
+var progress_bar_increase := 1.0
+var open_file_name := ""
 
 
 func _ready():
 	self.visible = false
+	set_physics_process(false)
+
+
+func _physics_process(_delta):
+	if ImportData.frame_number == recording_end_frame:
+		progress_bar.value = 0
+		stop_recording()
+	else:
+		progress_bar.value += progress_bar_increase
 
 
 # Produces the skeleton hierarchy that appears at the start of a .bvh file.
@@ -19,7 +33,7 @@ func generate_hierarchy(file_name: String, skeleton) -> void:
 	file.store_line("HIERARCHY")
 	file.store_line("ROOT " + skeleton.get_bone_name(0))
 	file.store_line("{")
-	file.store_line("\tOFFSET 0.00 0.00 0.00")
+	file.store_line("\tOFFSET 0 0 0")
 	file.store_line(
 		"\tCHANNELS 6 Xposition Yposition Zposition Xrotation Yrotation Zrotation"
 	)  # only the root has position channels
@@ -95,20 +109,32 @@ func end_site(file: File, depth: int) -> int:
 func add_empty_frame(file: File, skeleton) -> void:
 	var temp := ""
 	for _i in range(skeleton.get_bone_count() * 3 + 3):
-		temp += "0.00 "
+		temp += "0 "
 	file.store_line(temp)
 
 
-# Adds frame of data to current open file.
-func add_data(data: Dictionary) -> void:
-	var line := ""
-	for vector in data.keys():
-		for element in data[vector]:
-			line += element + " "
+# Adds frame of data to current recording.
+func add_recording_frame(frame: Dictionary) -> void:
 	var file = File.new()
 	file.open(open_file_name, File.READ_WRITE)
 	file.seek_end()
+
+	var line := ""
+	# the wrist contains position in addition to rotation
+	line += str(frame[0][0].x) + " "
+	line += str(frame[0][0].y) + " "
+	line += str(frame[0][0].z) + " "
+	line += str(rad2deg(frame[0][1].x)) + " "
+	line += str(rad2deg(frame[0][1].y)) + " "
+	line += str(rad2deg(frame[0][1].z)) + " "
+
+	for bone in range(1, len(frame)):
+		line += str(rad2deg(frame[bone].x)) + " "
+		line += str(rad2deg(frame[bone].y)) + " "
+		line += str(rad2deg(frame[bone].z)) + " "
+
 	file.store_line(line)
+
 	file.close()
 
 
@@ -126,20 +152,29 @@ func calculate_offset(bone_child: int, bone_parent: int, skeleton) -> Vector3:
 	return bone_offset
 
 
-# Stops adding to file and reopens menu.
+# Starts recording.
+func start_recording(
+	filename: String, skeleton: Skeleton, start_frame: int, end_frame: int
+) -> void:
+	open_file_name = filename
+	generate_hierarchy(open_file_name, skeleton)
+	Engine.iterations_per_second = 1500
+	ImportData.set_frame_number(start_frame)
+	recording_end_frame = end_frame
+	progress_bar_increase = 100.0 / (end_frame - start_frame + 1)
+	for bone in range(skeleton.get_bone_count()):
+		Hand.recording_frame[bone] = Vector3.ZERO
+	set_physics_process(true)
+	Pause.toggle_pause()
+	Pause.visible = true
+	Pause.hide_overlays()
+
+
+# Adds recorded data to file and stops recording.
 func stop_recording() -> void:
+	get_node("/root/Main/Pause/MenuOverlay/MenuContainer/Settings").emit_signal("pressed")
+	Hand.recording_frame.clear()
 	self.visible = false
 	Engine.iterations_per_second = 1
-	Hand.is_recording_activated = false
 	Pause.toggle_pause()
-	get_node("/root/Main/Pause/MenuOverlay/MenuContainer/Settings").emit_signal("pressed")
-
-
-# Sets the open file to the input.
-func set_open_file_name(name: String) -> void:
-	open_file_name = name
-
-
-# Returns the current open file.
-func get_open_file_name() -> String:
-	return open_file_name
+	set_physics_process(false)

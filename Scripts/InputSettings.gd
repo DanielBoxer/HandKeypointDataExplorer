@@ -18,11 +18,6 @@ onready var Controller := get_node("/root/Main/Controller")
 
 
 func _ready():
-	add_button_items()
-
-
-# Adds items to sliders.
-func add_button_items() -> void:
 	input_options.add_item("Keyboard")
 	input_options.add_item("VR")
 

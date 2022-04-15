@@ -11,30 +11,24 @@ onready var right_hand_view_checkbox = get_node(right_hand_view_checkbox_path)
 onready var keypoint_view_checkbox = get_node(keypoint_view_checkbox_path)
 onready var side_keypoints_checkbox: CheckBox = get_node(side_keypoints_checkbox_path)
 onready var display_text_checkbox := get_node(display_text_checkbox_path)
-onready var keypoint_view := get_node("/root/Main/KeypointView")
 
+onready var KeypointView := get_node("/root/Main/KeypointView")
 onready var Pause := get_node("/root/Main/Pause")
 onready var Hand := get_node("/root/Main/Hands")
+onready var ImportData = get_node("/root/ImportData")
 
 
-func _ready():
-	pass
-
-
-# Sets side_keypoints_checkbox to false.
-func uncheck_side_keypoints_checkbox() -> void:
-	side_keypoints_checkbox.pressed = false
+func set_hand_visibility(hand: int, state: bool) -> void:
+	if hand == 0:
+		left_hand_view_checkbox.emit_signal("toggled", state)
+	else:
+		right_hand_view_checkbox.emit_signal("toggled", state)
 
 
 # Sets the side keypoints to be visible or invisible. This appears beside the hand mesh.
 func _on_SideKPOptions_toggled(button_pressed: bool) -> void:
-	var is_plugin_checked: bool = Hand.get_is_plugin_activated()
-	if is_plugin_checked:
-		keypoint_view.visible = false
-		side_keypoints_checkbox.pressed = false
-		Pause.activate_popup("Side Keypoint View unavailable while plugin is on")
-	else:
-		keypoint_view.visible = button_pressed
+	KeypointView.visible = button_pressed
+	KeypointView.set_physics_process(button_pressed)
 
 
 # Shows information.
@@ -81,7 +75,7 @@ func _on_KPInfo_pressed() -> void:
 # Shows or hides left hand.
 func _on_LeftHandView_toggled(button_pressed: bool) -> void:
 	get_node("/root/Main/Hands/LeftHand").visible = button_pressed
-	get_node("/root/Main/KeypointView/left_hand").visible = button_pressed
+	get_node("/root/Main/KeypointView/0").visible = button_pressed
 
 
 # Shows information.
@@ -92,7 +86,7 @@ func _on_LeftHandViewInfo_pressed() -> void:
 # Shows or hides right hand.
 func _on_RightHandView_toggled(button_pressed: bool) -> void:
 	get_node("/root/Main/Hands/RightHand").visible = button_pressed
-	get_node("/root/Main/KeypointView/right_hand").visible = button_pressed
+	get_node("/root/Main/KeypointView/1").visible = button_pressed
 
 
 # Shows information.

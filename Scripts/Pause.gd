@@ -18,6 +18,7 @@ onready var popup := get_node(popup_path)
 onready var popup_text := get_node(popup_text_path)
 onready var dataset_text := get_node(dataset_text_path)
 onready var FrameSettings := get_node("SettingsOverlay/Settings/Frame")
+onready var ImportData := get_node("/root/ImportData")
 
 
 func _ready() -> void:
@@ -97,6 +98,9 @@ func _on_Unpause_pressed():
 # Reloads the current scene. This resets everything.
 func _on_Restart_pressed():
 	var _error_message: int = get_tree().reload_current_scene()
+	# ImportData is a singleton so it doesn't get reset
+	ImportData.frame_number = 0
+	ImportData.is_plugin_activated = false
 	toggle_pause()
 
 

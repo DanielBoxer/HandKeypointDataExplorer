@@ -1,10 +1,7 @@
 # Manages the output tab in the settings menu.
 extends Control
 
-enum hands {
-	LEFT,
-	RIGHT,
-}
+enum hands { LEFT, RIGHT }
 
 export var bvh_button_path: NodePath
 export var frame_start_label_path: NodePath
@@ -32,22 +29,18 @@ onready var hand_bvh_option_button = get_node(hand_bvh_option_button_path)
 onready var left_skeleton := get_node("/root/Main/Hands/LeftHand/Left_Hand/Skeleton")
 onready var right_skeleton := get_node("/root/Main/Hands/RightHand/Right_Hand/Skeleton")
 
+onready var ViewSettings := get_node("/root/Main/Pause/SettingsOverlay/Settings/View")
 onready var Pause := get_node("/root/Main/Pause")
-onready var Hand := get_node("/root/Main/Hands")
 onready var BvhExport := get_node("/root/Main/Pause/BVHOverlay")
+onready var ImportData := get_node("/root/ImportData")
 
 
 func _ready():
-	setup()
-
-
-# Initializes starting variables.
-func setup():
-	var frame_count = get_node("/root/ImportData").keypoint_data["left_hand_data"].size()
-	frame_start_slider.max_value = frame_count - 1
-	frame_end_slider.max_value = frame_count - 1
-	frame_start_input.max_value = frame_count - 1
-	frame_end_input.max_value = frame_count - 1
+	var frame_count = ImportData.get_data_size() - 1
+	frame_start_slider.max_value = frame_count
+	frame_end_slider.max_value = frame_count
+	frame_start_input.max_value = frame_count
+	frame_end_input.max_value = frame_count
 	hand_bvh_option_button.add_item("Left Hand")
 	hand_bvh_option_button.add_item("Right Hand")
 
@@ -80,34 +73,26 @@ func format_datetime() -> String:
 	return formatted
 
 
-# Creates file and start recording.
+# Creates file and starts recording.
 func _on_BVH_pressed() -> void:
+	bvh_overlay.visible = true
 	var file_name: String = format_datetime()  # date time format avoids overwriting files
 	var file_location := "res://Output/"
 	var file_type := ".bvh"
 	var file_hand: String
 	var skeleton: Skeleton
 	if hand_recording == hands.LEFT:
-		Hand.set_left_hand_visibility(true)
-		Hand.set_right_hand_visibility(false)
+		ViewSettings.set_hand_visibility(hands.LEFT, true)
+		ViewSettings.set_hand_visibility(hands.RIGHT, false)
 		file_hand = "L_"
 		skeleton = left_skeleton
 	else:
-		Hand.set_left_hand_visibility(false)
-		Hand.set_right_hand_visibility(true)
+		ViewSettings.set_hand_visibility(hands.LEFT, false)
+		ViewSettings.set_hand_visibility(hands.RIGHT, true)
 		file_hand = "R_"
 		skeleton = right_skeleton
-	BvhExport.open_file_name = file_location + file_hand + file_name + file_type
-	BvhExport.generate_hierarchy(BvhExport.open_file_name, skeleton)
-	Engine.iterations_per_second = 1500
-	Hand.set_frame_number(start_frame)
-	Hand.set_end_frame_number(end_frame)
-	Hand.set_progress_bar_increase(100.0 / (end_frame - start_frame + 1))
-	Hand.is_recording_activated = true
-	Pause.toggle_pause()
-	Pause.visible = true
-	Pause.hide_overlays()
-	bvh_overlay.visible = true
+	var open_file_name = file_location + file_hand + file_name + file_type
+	BvhExport.start_recording(open_file_name, skeleton, start_frame, end_frame)
 
 
 # Shows information.

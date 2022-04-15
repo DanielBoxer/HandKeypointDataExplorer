@@ -4,7 +4,7 @@ extends KinematicBody
 export var acceleration := 6.0
 
 var mouse_sensitivity := 0.1 setget set_mouse
-var speed := 3 setget set_speed
+var speed := 2 setget set_speed
 
 var direction := Vector3()
 var velocity := Vector3()

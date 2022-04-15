@@ -2,18 +2,11 @@
 extends Control
 
 export var screen_options_path: NodePath
-
 onready var screen_options := get_node(screen_options_path)
-
 onready var Pause := get_node("/root/Main/Pause")
 
 
 func _ready():
-	add_button_items()
-
-
-# Adds items to sliders.
-func add_button_items() -> void:
 	screen_options.add_item("Windowed")
 	screen_options.add_item("Fullscreen")
 

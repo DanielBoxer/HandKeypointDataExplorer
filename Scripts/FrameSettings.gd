@@ -18,14 +18,11 @@ onready var plugin_checkbox: CheckBox = get_node(plugin_checkbox_path)
 onready var Pause := get_node("/root/Main/Pause")
 onready var keypoint_view := get_node("/root/Main/KeypointView")
 onready var Hand := get_node("/root/Main/Hands")
-onready var ViewSettings := get_node("/root/Main/Pause/SettingsOverlay/Settings/View")
+onready var ImportData := get_node("/root/ImportData")
 
 
 func _ready():
-	input_frame.max_value = (
-		get_node("/root/ImportData").keypoint_data["left_hand_data"].size()
-		- 1
-	)
+	input_frame.max_value = ImportData.get_data_size() - 1
 
 
 # Resets input frame text.
@@ -58,32 +55,18 @@ func _on_FPSInfo_pressed() -> void:
 
 # Sets next frame of data.
 func _on_InputFrame_value_changed(value: int) -> void:
-	if plugin_checkbox.pressed == false:
-		if value >= 0:
-			Hand.frame_number = value
-			keypoint_view.frame_number = value
-
-			input_frame_label.set_text("Next Frame: " + str(value))
-			input_frame.value = -1
-	else:
-		Pause.activate_popup("Next frame input unavailable while plugin is on")
-		input_frame.value = -1
+	ImportData.frame_number = value - 1
+	input_frame_label.set_text("Next Frame: " + str(value))
 
 
 # Shows information.
 func _on_InputFrameInfo_pressed() -> void:
-	Pause.activate_popup(
-		(
-			"Set the next frame of data that will be shown\n"
-			+ "The input field will always stay at -1"
-		)
-	)
+	Pause.activate_popup("Set the next frame of data that will be shown\n")
 
 
 # Turns plugin data on.
 func _on_PluginOptions_toggled(button_pressed: bool) -> void:
-	Hand.is_plugin_activated = button_pressed
-	ViewSettings.uncheck_side_keypoints_checkbox()
+	ImportData.is_plugin_activated = button_pressed
 
 
 # Shows information.

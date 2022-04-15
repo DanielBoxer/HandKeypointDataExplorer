@@ -366,9 +366,7 @@ margin_left = 246.0
 margin_right = 442.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-min_value = -1.0
 max_value = 10.0
-value = -1.0
 
 [node name="InputFrameInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Frame/Column/NextFrameContainer"]
 margin_left = 492.0
@@ -783,7 +781,7 @@ margin_top = 3.0
 margin_right = 196.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
-text = "Movement Speed: 3"
+text = "Movement Speed: 2"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -795,7 +793,7 @@ margin_bottom = 16.0
 size_flags_horizontal = 3
 min_value = 1.0
 max_value = 10.0
-value = 3.0
+value = 2.0
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -1115,237 +1113,237 @@ shape = SubResource( 61 )
 [node name="KeypointView" type="Spatial" parent="."]
 script = ExtResource( 11 )
 
-[node name="left_hand" type="Spatial" parent="KeypointView"]
+[node name="0" type="Spatial" parent="KeypointView"]
 
-[node name="wrist" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="wrist" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 14 )
 
-[node name="thumb_tip" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="thumb_tip" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 12 )
 
-[node name="thumb_dst" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="thumb_dst" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 12 )
 
-[node name="thumb_pxm" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="thumb_pxm" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 12 )
 
-[node name="thumb_mcp" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="thumb_mcp" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 12 )
 
-[node name="index_tip" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="index_tip" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 13 )
 
-[node name="index_dst" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="index_dst" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 13 )
 
-[node name="index_int" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="index_int" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 13 )
 
-[node name="index_pxm" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="index_pxm" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 13 )
 
-[node name="middle_tip" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="middle_tip" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 16 )
 
-[node name="middle_dst" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="middle_dst" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 16 )
 
-[node name="middle_int" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="middle_int" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 16 )
 
-[node name="middle_pxm" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="middle_pxm" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 16 )
 
-[node name="ring_tip" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="ring_tip" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 17 )
 
-[node name="ring_dst" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="ring_dst" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 17 )
 
-[node name="ring_int" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="ring_int" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 17 )
 
-[node name="ring_pxm" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="ring_pxm" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 17 )
 
-[node name="little_tip" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="little_tip" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 15 )
 
-[node name="little_dst" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="little_dst" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 15 )
 
-[node name="little_int" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="little_int" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 15 )
 
-[node name="little_pxm" type="MeshInstance" parent="KeypointView/left_hand"]
+[node name="little_pxm" type="MeshInstance" parent="KeypointView/0"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 skeleton = NodePath("../..")
 material/0 = ExtResource( 15 )
 
-[node name="right_hand" type="Spatial" parent="KeypointView"]
+[node name="1" type="Spatial" parent="KeypointView"]
 
-[node name="wrist" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="wrist" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 14 )
 
-[node name="thumb_tip" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="thumb_tip" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 12 )
 
-[node name="thumb_dst" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="thumb_dst" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 12 )
 
-[node name="thumb_pxm" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="thumb_pxm" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 12 )
 
-[node name="thumb_mcp" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="thumb_mcp" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 12 )
 
-[node name="index_tip" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="index_tip" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 13 )
 
-[node name="index_dst" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="index_dst" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 13 )
 
-[node name="index_int" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="index_int" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 13 )
 
-[node name="index_pxm" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="index_pxm" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 13 )
 
-[node name="middle_tip" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="middle_tip" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 16 )
 
-[node name="middle_dst" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="middle_dst" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 16 )
 
-[node name="middle_int" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="middle_int" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 16 )
 
-[node name="middle_pxm" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="middle_pxm" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 16 )
 
-[node name="ring_tip" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="ring_tip" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 17 )
 
-[node name="ring_dst" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="ring_dst" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 17 )
 
-[node name="ring_int" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="ring_int" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 17 )
 
-[node name="ring_pxm" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="ring_pxm" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 17 )
 
-[node name="little_tip" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="little_tip" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 15 )
 
-[node name="little_dst" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="little_dst" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 15 )
 
-[node name="little_int" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="little_int" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 15 )
 
-[node name="little_pxm" type="MeshInstance" parent="KeypointView/right_hand"]
+[node name="little_pxm" type="MeshInstance" parent="KeypointView/1"]
 transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0 )
 mesh = SubResource( 67 )
 material/0 = ExtResource( 15 )
