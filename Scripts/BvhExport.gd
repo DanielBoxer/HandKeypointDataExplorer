@@ -159,8 +159,8 @@ func start_recording(
 	open_file_name = filename
 	generate_hierarchy(open_file_name, skeleton)
 	Engine.iterations_per_second = 1500
-	ImportData.set_frame_number(start_frame)
-	recording_end_frame = end_frame
+	ImportData.set_frame_number(start_frame - 1)
+	recording_end_frame = end_frame - 1
 	progress_bar_increase = 100.0 / (end_frame - start_frame + 1)
 	for bone in range(skeleton.get_bone_count()):
 		Hand.recording_frame[bone] = Vector3.ZERO

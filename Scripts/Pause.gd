@@ -99,7 +99,7 @@ func _on_Unpause_pressed():
 func _on_Restart_pressed():
 	var _error_message: int = get_tree().reload_current_scene()
 	# ImportData is a singleton so it doesn't get reset
-	ImportData.frame_number = 0
+	ImportData.frame_number = -1
 	ImportData.is_plugin_activated = false
 	toggle_pause()
 
