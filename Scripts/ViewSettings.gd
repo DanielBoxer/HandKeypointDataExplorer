@@ -96,7 +96,7 @@ func _on_RightHandViewInfo_pressed() -> void:
 
 # Shows or hides the frame count text.
 func _on_DisplayTextOptions_toggled(button_pressed: bool) -> void:
-	Pause.set_is_dataset_text_visible(button_pressed)
+	Pause.set_is_display_text_visible(button_pressed)
 
 
 # Shows information.

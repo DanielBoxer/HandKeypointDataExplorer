@@ -16,9 +16,10 @@ onready var current_frame_checkbox: CheckBox = get_node(current_frame_checkbox_p
 onready var plugin_checkbox: CheckBox = get_node(plugin_checkbox_path)
 
 onready var Pause := get_node("/root/Main/Pause")
-onready var keypoint_view := get_node("/root/Main/KeypointView")
+onready var KeypointView := get_node("/root/Main/KeypointView")
 onready var Hand := get_node("/root/Main/Hands")
 onready var ImportData := get_node("/root/ImportData")
+onready var PoseDetection := get_node("/root/Main/Hands/DisplayContainer/PoseText")
 
 
 func _ready():
@@ -81,8 +82,10 @@ func _on_PluginInfo_pressed() -> void:
 
 # Stops `_physics_process` in Hand script which makes it stay on the current frame.
 func _on_CurrentFrameOptions_toggled(button_pressed: bool) -> void:
+	ImportData.set_physics_process(not button_pressed)
 	Hand.set_physics_process(not button_pressed)
-	keypoint_view.set_physics_process(not button_pressed)
+	PoseDetection.set_physics_process(not button_pressed)
+	KeypointView.set_physics_process(not button_pressed)
 
 
 # Shows information.

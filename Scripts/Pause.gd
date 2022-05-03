@@ -6,17 +6,17 @@ export var instructions_overlay_path: NodePath
 export var settings_overlay_path: NodePath
 export var popup_path: NodePath
 export var popup_text_path: NodePath
-export var dataset_text_path: NodePath
+export var display_text_path: NodePath
 
 var _is_vr_mode_activated := false setget set_is_vr_mode_activated
-var _is_dataset_text_visible := true setget set_is_dataset_text_visible
+var _is_display_text_visible := true setget set_is_display_text_visible
 
 onready var menu_overlay := get_node(menu_overlay_path)
 onready var instructions_overlay := get_node(instructions_overlay_path)
 onready var settings_overlay := get_node(settings_overlay_path)
 onready var popup := get_node(popup_path)
 onready var popup_text := get_node(popup_text_path)
-onready var dataset_text := get_node(dataset_text_path)
+onready var display_text := get_node(display_text_path)
 onready var FrameSettings := get_node("SettingsOverlay/Settings/Frame")
 onready var ImportData := get_node("/root/ImportData")
 
@@ -41,8 +41,8 @@ func toggle_pause() -> void:
 	settings_overlay.hide()
 	self.visible = new_pause_state
 	popup.visible = false
-	if _is_dataset_text_visible:
-		dataset_text.visible = not new_pause_state
+	if _is_display_text_visible:
+		display_text.visible = not new_pause_state
 	if new_pause_state:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
@@ -63,9 +63,9 @@ func hide_overlays() -> void:
 	settings_overlay.hide()
 
 
-# Sets _is_dataset_text_visible to input state.
-func set_is_dataset_text_visible(state: bool) -> void:
-	_is_dataset_text_visible = state
+# Sets _is_display_text_visible to input state.
+func set_is_display_text_visible(state: bool) -> void:
+	_is_display_text_visible = state
 
 
 # Sets _is_vr_mode_activated to input state.

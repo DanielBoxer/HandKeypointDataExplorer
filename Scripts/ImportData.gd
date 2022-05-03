@@ -13,8 +13,6 @@ onready var keypoint_data := preload("res://GDNative/bin/keypoints.gdns").new()
 
 
 func _ready() -> void:
-	get_node("/root/Main/Hands/DisplayContainer/DatasetText").set_text("Dataset: None")
-	get_node("/root/Main/Hands/DisplayContainer/DatasetText").visible = false
 	var file_1 := "res://Data/hand_keypoints_left.json"
 	var file_2 := "res://Data/hand_keypoints_right.json"
 	left_hand_data = import_data(file_1)["hand_array"]

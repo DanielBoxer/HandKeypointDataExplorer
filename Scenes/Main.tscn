@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Assets/sunset_environment.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=2]
@@ -22,9 +22,10 @@
 [ext_resource path="res://Assets/ButtonMaterials/button_pressed.tres" type="Texture" id=20]
 [ext_resource path="res://Scenes/RightHand.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Scripts/ViewSettings.gd" type="Script" id=22]
-[ext_resource path="res://Scripts/DisplaySettings.gd" type="Script" id=23]
+[ext_resource path="res://Scripts/OtherSettings.gd" type="Script" id=23]
 [ext_resource path="res://Scripts/InputSettings.gd" type="Script" id=24]
 [ext_resource path="res://Scripts/BvhExport.gd" type="Script" id=25]
+[ext_resource path="res://Scripts/PoseDetection.gd" type="Script" id=26]
 [ext_resource path="res://Scripts/OutputSettings.gd" type="Script" id=27]
 [ext_resource path="res://Scripts/FrameSettings.gd" type="Script" id=28]
 
@@ -55,24 +56,33 @@ script = ExtResource( 6 )
 
 [node name="DisplayContainer" type="HBoxContainer" parent="Hands"]
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
-margin_top = -40.0
-margin_right = 110.0
-custom_constants/separation = 25
+margin_left = 20.0
+margin_top = -45.0
+custom_constants/separation = 100
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="DatasetText" type="Label" parent="Hands/DisplayContainer"]
-margin_top = 5.0
-margin_right = 110.0
-margin_bottom = 35.0
+margin_right = 157.0
+margin_bottom = 45.0
+size_flags_vertical = 1
 custom_fonts/font = ExtResource( 10 )
-text = "Dataset: 0"
+text = "Dataset: None"
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="PoseText" type="Label" parent="Hands/DisplayContainer"]
+margin_left = 257.0
+margin_right = 619.0
+margin_bottom = 45.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 10 )
+text = "Left Pose: n/a     Right Pose: n/a"
+script = ExtResource( 26 )
 
 [node name="Pause" type="Control" parent="."]
 pause_mode = 2
@@ -87,7 +97,7 @@ instructions_overlay_path = NodePath("InstructionsOverlay")
 settings_overlay_path = NodePath("SettingsOverlay")
 popup_path = NodePath("Popup")
 popup_text_path = NodePath("Popup/PopupContainer/PopupText")
-dataset_text_path = NodePath("../Hands/DisplayContainer/DatasetText")
+display_text_path = NodePath("../Hands/DisplayContainer")
 
 [node name="MenuOverlay" type="ColorRect" parent="Pause"]
 anchor_right = 1.0
@@ -652,67 +662,6 @@ margin_right = 510.0
 margin_bottom = 365.0
 text = "Reset"
 
-[node name="Display" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
-pause_mode = 2
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-script = ExtResource( 23 )
-screen_options_path = NodePath("Column/ScreenContainer/ScreenOptions")
-
-[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Display"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 520.0
-margin_bottom = 360.0
-custom_constants/separation = 45
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ScreenContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Display/Column"]
-margin_right = 510.0
-margin_bottom = 20.0
-custom_constants/separation = 50
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ScreenLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer"]
-margin_top = 3.0
-margin_right = 196.0
-margin_bottom = 17.0
-size_flags_horizontal = 3
-text = "Display"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ScreenOptions" type="OptionButton" parent="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer"]
-margin_left = 246.0
-margin_right = 442.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ScreenInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer"]
-margin_left = 492.0
-margin_right = 510.0
-margin_bottom = 20.0
-text = "?"
-
-[node name="ResetDisplaySettings" type="Button" parent="Pause/SettingsOverlay/Settings/Display/Column"]
-margin_top = 65.0
-margin_right = 510.0
-margin_bottom = 85.0
-text = "Reset"
-
 [node name="Input" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
 pause_mode = 2
 visible = false
@@ -987,6 +936,95 @@ text = "?"
 margin_top = 268.0
 margin_right = 510.0
 margin_bottom = 288.0
+text = "Reset"
+
+[node name="Other" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
+pause_mode = 2
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 23 )
+screen_options_path = NodePath("Column/ScreenContainer/ScreenOptions")
+pose_checkbox_path = NodePath("Column/PoseContainer/PoseCheckBox")
+
+[node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Other"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 520.0
+margin_bottom = 360.0
+custom_constants/separation = 45
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScreenContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Other/Column"]
+margin_right = 510.0
+margin_bottom = 20.0
+custom_constants/separation = 50
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScreenLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Other/Column/ScreenContainer"]
+margin_top = 3.0
+margin_right = 196.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Display"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScreenOptions" type="OptionButton" parent="Pause/SettingsOverlay/Settings/Other/Column/ScreenContainer"]
+margin_left = 246.0
+margin_right = 442.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScreenInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Other/Column/ScreenContainer"]
+margin_left = 492.0
+margin_right = 510.0
+margin_bottom = 20.0
+text = "?"
+
+[node name="PoseContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Other/Column"]
+margin_top = 65.0
+margin_right = 510.0
+margin_bottom = 89.0
+custom_constants/separation = 50
+
+[node name="PoseLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Other/Column/PoseContainer"]
+margin_top = 5.0
+margin_right = 196.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "Pose Detection"
+
+[node name="PoseCheckBox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Other/Column/PoseContainer"]
+margin_left = 246.0
+margin_right = 442.0
+margin_bottom = 24.0
+focus_mode = 0
+size_flags_horizontal = 3
+enabled_focus_mode = 0
+
+[node name="PoseInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Other/Column/PoseContainer"]
+margin_left = 492.0
+margin_right = 510.0
+margin_bottom = 24.0
+text = "?"
+
+[node name="ResetOtherSettings" type="Button" parent="Pause/SettingsOverlay/Settings/Other/Column"]
+margin_top = 134.0
+margin_right = 510.0
+margin_bottom = 154.0
 text = "Reset"
 
 [node name="Back" type="TextureButton" parent="Pause/SettingsOverlay"]
@@ -1390,9 +1428,6 @@ material/0 = null
 [connection signal="toggled" from="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer/DisplayTextOptions" to="Pause/SettingsOverlay/Settings/View" method="_on_DisplayTextOptions_toggled"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/DisplayTextContainer/DisplayTextInfo" to="Pause/SettingsOverlay/Settings/View" method="_on_DisplayTextInfo_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/View/Column/ResetViewSettings" to="Pause/SettingsOverlay/Settings/View" method="_on_ResetViewSettings_pressed"]
-[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer/ScreenOptions" to="Pause/SettingsOverlay/Settings/Display" method="_on_ScreenOptions_item_selected"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Display/Column/ScreenContainer/ScreenInfo" to="Pause/SettingsOverlay/Settings/Display" method="_on_ScreenInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Display/Column/ResetDisplaySettings" to="Pause/SettingsOverlay/Settings/Display" method="_on_ResetDisplaySettings_pressed"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer/MouseSensitivity" to="Pause/SettingsOverlay/Settings/Input" method="_on_MouseSensitivity_value_changed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Input/Column/MouseSensitivityContainer/MouseSensitivityInfo" to="Pause/SettingsOverlay/Settings/Input" method="_on_MouseSensitivityInfo_pressed"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Input/Column/MovementSpeedContainer/MovementSpeed" to="Pause/SettingsOverlay/Settings/Input" method="_on_MovementSpeed_value_changed"]
@@ -1410,5 +1445,10 @@ material/0 = null
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer/BVHButton" to="Pause/SettingsOverlay/Settings/Output" method="_on_BVH_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/BVHContainer/BVHInfo" to="Pause/SettingsOverlay/Settings/Output" method="_on_BVHInfo_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Output/Column/ResetBVHSettings" to="Pause/SettingsOverlay/Settings/Output" method="_on_ResetBVHSettings_pressed"]
+[connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Other/Column/ScreenContainer/ScreenOptions" to="Pause/SettingsOverlay/Settings/Other" method="_on_ScreenOptions_item_selected"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/ScreenContainer/ScreenInfo" to="Pause/SettingsOverlay/Settings/Other" method="_on_ScreenInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/PoseContainer/PoseCheckBox" to="Pause/SettingsOverlay/Settings/Other" method="_on_PoseCheckBox_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/PoseContainer/PoseInfo" to="Pause/SettingsOverlay/Settings/Other" method="_on_PoseInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/ResetOtherSettings" to="Pause/SettingsOverlay/Settings/Other" method="_on_ResetOtherSettings_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Back" to="Pause" method="_on_Back_pressed"]
 [connection signal="pressed" from="Pause/Popup/PopupContainer/Close" to="Pause" method="_on_Close_pressed"]
