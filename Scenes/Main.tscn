@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Assets/sunset_environment.tres" type="Environment" id=1]
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=2]
@@ -28,6 +28,7 @@
 [ext_resource path="res://Scripts/PoseDetection.gd" type="Script" id=26]
 [ext_resource path="res://Scripts/OutputSettings.gd" type="Script" id=27]
 [ext_resource path="res://Scripts/FrameSettings.gd" type="Script" id=28]
+[ext_resource path="res://Scripts/CreateObjects.gd" type="Script" id=29]
 
 [sub_resource type="StyleBoxEmpty" id=68]
 
@@ -43,6 +44,8 @@ height = 3.0
 [sub_resource type="SphereMesh" id=67]
 
 [sub_resource type="CubeMesh" id=66]
+
+[sub_resource type="BoxShape" id=72]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 2 )
@@ -950,6 +953,9 @@ margin_bottom = -4.0
 script = ExtResource( 23 )
 screen_options_path = NodePath("Column/ScreenContainer/ScreenOptions")
 pose_checkbox_path = NodePath("Column/PoseContainer/PoseCheckBox")
+amount_spinbox_path = NodePath("Column/RandomContainer/AmountSpinBox")
+location_checkbox_path = NodePath("Column/RandomContainer/LocationCheckBox")
+size_checkbox_path = NodePath("Column/RandomContainer/SizeCheckBox")
 
 [node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Other"]
 margin_left = 10.0
@@ -1021,10 +1027,76 @@ margin_right = 510.0
 margin_bottom = 24.0
 text = "?"
 
-[node name="ResetOtherSettings" type="Button" parent="Pause/SettingsOverlay/Settings/Other/Column"]
+[node name="CubeContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Other/Column"]
 margin_top = 134.0
 margin_right = 510.0
 margin_bottom = 154.0
+custom_constants/separation = 50
+
+[node name="CubeButton" type="Button" parent="Pause/SettingsOverlay/Settings/Other/Column/CubeContainer"]
+margin_right = 196.0
+margin_bottom = 20.0
+focus_mode = 0
+size_flags_horizontal = 3
+enabled_focus_mode = 0
+text = "Create Cubes"
+
+[node name="DeleteCubeButton" type="Button" parent="Pause/SettingsOverlay/Settings/Other/Column/CubeContainer"]
+margin_left = 246.0
+margin_right = 442.0
+margin_bottom = 20.0
+focus_mode = 0
+size_flags_horizontal = 3
+enabled_focus_mode = 0
+text = "Delete All Cubes"
+
+[node name="CubeInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Other/Column/CubeContainer"]
+margin_left = 492.0
+margin_right = 510.0
+margin_bottom = 20.0
+text = "?"
+
+[node name="RandomContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Other/Column"]
+margin_top = 199.0
+margin_right = 510.0
+margin_bottom = 223.0
+custom_constants/separation = 50
+
+[node name="AmountSpinBox" type="SpinBox" parent="Pause/SettingsOverlay/Settings/Other/Column/RandomContainer"]
+margin_right = 74.0
+margin_bottom = 24.0
+min_value = 1.0
+max_value = 500.0
+value = 1.0
+
+[node name="LocationCheckBox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Other/Column/RandomContainer"]
+margin_left = 124.0
+margin_right = 262.0
+margin_bottom = 24.0
+focus_mode = 0
+size_flags_horizontal = 3
+enabled_focus_mode = 0
+text = "Random Location"
+
+[node name="SizeCheckBox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Other/Column/RandomContainer"]
+margin_left = 312.0
+margin_right = 442.0
+margin_bottom = 24.0
+focus_mode = 0
+size_flags_horizontal = 3
+enabled_focus_mode = 0
+text = "Random Size"
+
+[node name="RandomInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Other/Column/RandomContainer"]
+margin_left = 492.0
+margin_right = 510.0
+margin_bottom = 24.0
+text = "?"
+
+[node name="ResetOtherSettings" type="Button" parent="Pause/SettingsOverlay/Settings/Other/Column"]
+margin_top = 268.0
+margin_right = 510.0
+margin_bottom = 288.0
 text = "Reset"
 
 [node name="Back" type="TextureButton" parent="Pause/SettingsOverlay"]
@@ -1145,8 +1217,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 current = true
 
 [node name="CollisionShape" type="CollisionShape" parent="Controller"]
-transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, 0 )
+transform = Transform( 0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0, 0, 0 )
 shape = SubResource( 61 )
+disabled = true
 
 [node name="KeypointView" type="Spatial" parent="."]
 script = ExtResource( 11 )
@@ -1387,6 +1460,7 @@ mesh = SubResource( 67 )
 material/0 = ExtResource( 15 )
 
 [node name="Objects" type="Spatial" parent="."]
+script = ExtResource( 29 )
 
 [node name="Sunset" type="WorldEnvironment" parent="Objects"]
 environment = ExtResource( 1 )
@@ -1395,11 +1469,16 @@ environment = ExtResource( 1 )
 
 [node name="ARVRCamera" type="ARVRCamera" parent="Objects/ARVROrigin"]
 
-[node name="Floor" type="MeshInstance" parent="Objects"]
+[node name="Floor" type="StaticBody" parent="Objects"]
 transform = Transform( 5, 0, 0, 0, 0.1, 0, 0, 0, 5, 0, -2, 0 )
+
+[node name="FloorMesh" type="MeshInstance" parent="Objects/Floor"]
 mesh = SubResource( 66 )
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 material/0 = null
+
+[node name="FloorCollider" type="CollisionShape" parent="Objects/Floor"]
+shape = SubResource( 72 )
 
 [connection signal="pressed" from="Pause/MenuOverlay/MenuContainer/Instructions" to="Pause" method="_on_Instructions_pressed"]
 [connection signal="pressed" from="Pause/MenuOverlay/MenuContainer/Settings" to="Pause" method="_on_Settings_pressed"]
@@ -1449,6 +1528,13 @@ material/0 = null
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/ScreenContainer/ScreenInfo" to="Pause/SettingsOverlay/Settings/Other" method="_on_ScreenInfo_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/PoseContainer/PoseCheckBox" to="Pause/SettingsOverlay/Settings/Other" method="_on_PoseCheckBox_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/PoseContainer/PoseInfo" to="Pause/SettingsOverlay/Settings/Other" method="_on_PoseInfo_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/CubeContainer/CubeButton" to="Pause/SettingsOverlay/Settings/Other" method="_on_CubeButton_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/CubeContainer/DeleteCubeButton" to="Pause/SettingsOverlay/Settings/Other" method="_on_DeleteCubeButton_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/CubeContainer/CubeInfo" to="Pause/SettingsOverlay/Settings/Other" method="_on_CubeInfo_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Other/Column/RandomContainer/AmountSpinBox" to="Pause/SettingsOverlay/Settings/Other" method="_on_AmountSpinBox_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/RandomContainer/LocationCheckBox" to="Pause/SettingsOverlay/Settings/Other" method="_on_LocationCheckBox_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/RandomContainer/SizeCheckBox" to="Pause/SettingsOverlay/Settings/Other" method="_on_SizeCheckBox_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/RandomContainer/RandomInfo" to="Pause/SettingsOverlay/Settings/Other" method="_on_RandomInfo_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Other/Column/ResetOtherSettings" to="Pause/SettingsOverlay/Settings/Other" method="_on_ResetOtherSettings_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Back" to="Pause" method="_on_Back_pressed"]
 [connection signal="pressed" from="Pause/Popup/PopupContainer/Close" to="Pause" method="_on_Close_pressed"]
