@@ -1,40 +1,22 @@
-# Manages the other tab in the settings menu.
+# Manages the Misc tab in the settings menu.
 extends Control
 
-export var screen_options_path: NodePath
-export var pose_checkbox_path: NodePath
+export var cube_button_path: NodePath
 export var amount_spinbox_path: NodePath
 export var location_checkbox_path: NodePath
 export var size_checkbox_path: NodePath
-onready var screen_options: OptionButton = get_node(screen_options_path)
-onready var pose_checkbox: CheckBox = get_node(pose_checkbox_path)
+export var pose_checkbox_path: NodePath
+onready var cube_button: Button = get_node(cube_button_path)
 onready var amount_spinbox: SpinBox = get_node(amount_spinbox_path)
 onready var location_checkbox: CheckBox = get_node(location_checkbox_path)
 onready var size_checkbox: CheckBox = get_node(size_checkbox_path)
+onready var pose_checkbox: CheckBox = get_node(pose_checkbox_path)
 onready var Pause := get_node("/root/Main/Pause")
 onready var PoseDetection := get_node("/root/Main/Hands/DisplayContainer/PoseText")
 onready var CreateObjects := get_node("/root/Main/Objects")
 var is_cube_location_random := false
 var is_cube_size_random := false
 var cube_amount := 1
-
-
-func _ready():
-	screen_options.add_item("Windowed")
-	screen_options.add_item("Fullscreen")
-
-
-# Toggles fullscreen.
-func _on_ScreenOptions_item_selected(index: int) -> void:
-	if index == 0:
-		OS.window_fullscreen = false
-	else:
-		OS.window_fullscreen = true
-
-
-# Shows information.
-func _on_ScreenInfo_pressed() -> void:
-	Pause.activate_popup("Change the application to be fullscreen or windowed")
 
 
 # Turns pose detection on or off.
@@ -72,6 +54,7 @@ func _on_CubeInfo_pressed():
 
 
 func _on_AmountSpinBox_value_changed(value):
+	cube_button.text = "Create Cubes (" + str(value) + ")"
 	cube_amount = value
 
 
@@ -94,8 +77,6 @@ func _on_RandomInfo_pressed():
 
 # Resets all other tab settings to default value.
 func _on_ResetOtherSettings_pressed():
-	screen_options.select(0)
-	screen_options.emit_signal("item_selected", 0)
 	pose_checkbox.pressed = false
 	pose_checkbox.emit_signal("pressed")
 	amount_spinbox.value = 1

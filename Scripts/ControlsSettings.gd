@@ -6,12 +6,13 @@ export var mouse_sensitivity_slider_path: NodePath
 export var movement_speed_text_path: NodePath
 export var movement_speed_slider_path: NodePath
 export var input_options_path: NodePath
-
+export var screen_options_path: NodePath
 onready var mouse_sensitivity_text := get_node(mouse_sensitivity_text_path)
 onready var mouse_sensitivity_slider: HSlider = get_node(mouse_sensitivity_slider_path)
 onready var movement_speed_text := get_node(movement_speed_text_path)
 onready var movement_speed_slider: HSlider = get_node(movement_speed_slider_path)
 onready var input_options: OptionButton = get_node(input_options_path)
+onready var screen_options: OptionButton = get_node(screen_options_path)
 
 onready var Pause := get_node("/root/Main/Pause")
 onready var Controller := get_node("/root/Main/Controller")
@@ -20,6 +21,8 @@ onready var Controller := get_node("/root/Main/Controller")
 func _ready():
 	input_options.add_item("Keyboard")
 	input_options.add_item("VR")
+	screen_options.add_item("Windowed")
+	screen_options.add_item("Fullscreen")
 
 
 # Sets mouse sensitivity to input value.
@@ -74,7 +77,22 @@ func _on_InputInfo_pressed() -> void:
 	Pause.activate_popup("Turn VR mode on or off\nThe menu is disabled in VR mode")
 
 
+# Toggles fullscreen.
+func _on_ScreenOptions_item_selected(index: int) -> void:
+	if index == 0:
+		OS.window_fullscreen = false
+	else:
+		OS.window_fullscreen = true
+
+
+# Shows information.
+func _on_ScreenInfo_pressed() -> void:
+	Pause.activate_popup("Change the application to be fullscreen or windowed")
+
+
 # Resets all input tab settings to default values.
 func _on_ResetInputSettings_pressed():
 	mouse_sensitivity_slider.value = 5
 	movement_speed_slider.value = 3
+	screen_options.select(0)
+	screen_options.emit_signal("item_selected", 0)

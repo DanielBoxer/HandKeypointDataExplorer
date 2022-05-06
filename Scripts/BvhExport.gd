@@ -1,7 +1,7 @@
 # Exports hand animations as a .bvh file.
 extends Control
 
-onready var OutputSettings := get_node("/root/Main/Pause/SettingsOverlay/Settings/Output")
+onready var ExportSettings := get_node("/root/Main/Pause/SettingsOverlay/Settings/Export")
 onready var Pause := get_node("/root/Main/Pause")
 onready var Hand := get_node("/root/Main/Hands")
 onready var ImportData := get_node("/root/ImportData")
@@ -75,7 +75,7 @@ func generate_hierarchy(file_name: String, skeleton) -> void:
 	# +1 because frames are 0 indexed
 	# +1 for the first frame which is all 0.00
 	file.store_line(
-		"Frames: " + str(OutputSettings.end_frame - OutputSettings.start_frame + 2)
+		"Frames: " + str(ExportSettings.end_frame - ExportSettings.start_frame + 2)
 	)
 	file.store_line("Frame Time: " + str(1.0 / Engine.iterations_per_second))
 	# the first frame has no rotation
