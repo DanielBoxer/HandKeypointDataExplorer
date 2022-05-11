@@ -832,13 +832,13 @@ margin_right = -4.0
 margin_bottom = -4.0
 script = ExtResource( 27 )
 bvh_button_path = NodePath("Column/BVHContainer/BVHButton")
+recording_button_path = NodePath("Column/BVHContainer/RecordingButton")
 frame_start_label_path = NodePath("Column/FrameStartContainer/FrameStartLabel")
 frame_end_label_path = NodePath("Column/FrameEndContainer/FrameEndLabel")
 frame_start_slider_path = NodePath("Column/FrameStartContainer/FrameStartSlider")
 frame_end_slider_path = NodePath("Column/FrameEndContainer/FrameEndSlider")
 frame_start_input_path = NodePath("Column/FrameStartContainer/FrameStartInput")
 frame_end_input_path = NodePath("Column/FrameEndContainer/FrameEndInput")
-bvh_overlay_path = NodePath("../../../BVHOverlay")
 hand_bvh_option_button_path = NodePath("Column/HandBVHContainer/HandBVHOptionButton")
 
 [node name="Column" type="VBoxContainer" parent="Pause/SettingsOverlay/Settings/Export"]
@@ -897,13 +897,15 @@ margin_top = 5.0
 margin_right = 114.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
-text = "Frame End: 0"
+text = "Frame End: 1"
 
 [node name="FrameEndSlider" type="HSlider" parent="Pause/SettingsOverlay/Settings/Export/Column/FrameEndContainer"]
 margin_left = 164.0
 margin_right = 278.0
 margin_bottom = 16.0
 size_flags_horizontal = 3
+min_value = 1.0
+value = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -913,6 +915,8 @@ margin_left = 328.0
 margin_right = 442.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
+min_value = 1.0
+value = 1.0
 
 [node name="FrameEndInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Export/Column/FrameEndContainer"]
 margin_left = 492.0
@@ -955,13 +959,20 @@ __meta__ = {
 }
 
 [node name="BVHButton" type="Button" parent="Pause/SettingsOverlay/Settings/Export/Column/BVHContainer"]
-margin_right = 442.0
+margin_right = 196.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 text = "Generate BVH"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="RecordingButton" type="Button" parent="Pause/SettingsOverlay/Settings/Export/Column/BVHContainer"]
+margin_left = 246.0
+margin_right = 442.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Start Recording"
 
 [node name="BVHInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Export/Column/BVHContainer"]
 margin_left = 492.0
@@ -1525,6 +1536,7 @@ shape = SubResource( 72 )
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Export/Column/FrameEndContainer/FrameEndInfo" to="Pause/SettingsOverlay/Settings/Export" method="_on_FrameEndInfo_pressed"]
 [connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Export/Column/HandBVHContainer/HandBVHOptionButton" to="Pause/SettingsOverlay/Settings/Export" method="_on_HandBVHOptionButton_item_selected"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Export/Column/BVHContainer/BVHButton" to="Pause/SettingsOverlay/Settings/Export" method="_on_BVH_pressed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Export/Column/BVHContainer/RecordingButton" to="Pause/SettingsOverlay/Settings/Export" method="_on_RecordingButton_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Export/Column/BVHContainer/BVHInfo" to="Pause/SettingsOverlay/Settings/Export" method="_on_BVHInfo_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Export/Column/ResetBVHSettings" to="Pause/SettingsOverlay/Settings/Export" method="_on_ResetBVHSettings_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Misc/Column/CubeContainer/CubeButton" to="Pause/SettingsOverlay/Settings/Misc" method="_on_CubeButton_pressed"]
