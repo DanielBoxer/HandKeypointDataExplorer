@@ -192,12 +192,12 @@ func _on_FrameEndInfo_pressed() -> void:
 
 
 # Resets all output tab settings to default value.
-func _on_ResetBVHSettings_pressed():
-	frame_start_input.value = 1
+func _on_ResetBVHSettings_pressed() -> void:
+	frame_start_input.value = 0
 	frame_end_input.value = 1
 
 
-func _on_HandBVHOptionButton_item_selected(index):
+func _on_HandBVHOptionButton_item_selected(index: int) -> void:
 	if index == 0:
 		hand_recording = hands.LEFT
 	else:

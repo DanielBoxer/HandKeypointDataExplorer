@@ -5,12 +5,23 @@ export var mouse_sensitivity_text_path: NodePath
 export var mouse_sensitivity_slider_path: NodePath
 export var movement_speed_text_path: NodePath
 export var movement_speed_slider_path: NodePath
+export var gravity_label_path: NodePath
+export var gravity_checkbox_path: NodePath
+export var gravity_slider_path: NodePath
+export var jump_label_path: NodePath
+export var jump_slider_path: NodePath
 export var input_options_path: NodePath
 export var screen_options_path: NodePath
-onready var mouse_sensitivity_text := get_node(mouse_sensitivity_text_path)
+
+onready var mouse_sensitivity_text: Label = get_node(mouse_sensitivity_text_path)
 onready var mouse_sensitivity_slider: HSlider = get_node(mouse_sensitivity_slider_path)
-onready var movement_speed_text := get_node(movement_speed_text_path)
+onready var movement_speed_text: Label = get_node(movement_speed_text_path)
 onready var movement_speed_slider: HSlider = get_node(movement_speed_slider_path)
+onready var gravity_label: Label = get_node(gravity_label_path)
+onready var gravity_checkbox: CheckBox = get_node(gravity_checkbox_path)
+onready var gravity_slider: HSlider = get_node(gravity_slider_path)
+onready var jump_label: Label = get_node(jump_label_path)
+onready var jump_slider: HSlider = get_node(jump_slider_path)
 onready var input_options: OptionButton = get_node(input_options_path)
 onready var screen_options: OptionButton = get_node(screen_options_path)
 
@@ -47,6 +58,38 @@ func _on_MovementSpeed_value_changed(value: int) -> void:
 # Shows information.
 func _on_MovementSpeedInfo_pressed() -> void:
 	Pause.activate_popup("Change the movement speed of the camera")
+
+
+func _on_GravityCheckBox_toggled(_button_pressed: bool) -> void:
+	Controller.toggle_gravity()
+
+
+func _on_GravitySlider_value_changed(value: float) -> void:
+	gravity_label.text = "Gravity: " + str(value)
+	Controller.gravity = value
+
+
+func _on_GravityInfo_pressed() -> void:
+	Pause.activate_popup(
+		(
+			"Toggle gravity and controller collider."
+			+ "\nUse the slider to change the strength of gravity"
+		)
+	)
+
+
+func _on_JumpSlider_value_changed(value: int) -> void:
+	jump_label.text = "Jump: " + str(value)
+	Controller.jump = value
+
+
+func _on_JumpInfo_pressed() -> void:
+	Pause.activate_popup(
+		(
+			"Change the amount the controller will move up when jumping."
+			+ "\nJumping is disabled when gravity is off"
+		)
+	)
 
 
 # Switches to VR mode.
@@ -93,6 +136,9 @@ func _on_ScreenInfo_pressed() -> void:
 # Resets all input tab settings to default values.
 func _on_ResetInputSettings_pressed():
 	mouse_sensitivity_slider.value = 5
-	movement_speed_slider.value = 3
+	movement_speed_slider.value = 2
 	screen_options.select(0)
 	screen_options.emit_signal("item_selected", 0)
+	gravity_checkbox.pressed = false
+	gravity_slider.value = 9.8
+	jump_slider.value = 5

@@ -337,6 +337,7 @@ __meta__ = {
 
 [node name="Frame" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
 pause_mode = 2
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -667,7 +668,6 @@ text = "Reset"
 
 [node name="Controls" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
 pause_mode = 2
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -679,6 +679,11 @@ mouse_sensitivity_text_path = NodePath("Column/MouseSensitivityContainer/MouseSe
 mouse_sensitivity_slider_path = NodePath("Column/MouseSensitivityContainer/MouseSensitivity")
 movement_speed_text_path = NodePath("Column/MovementSpeedContainer/MovementSpeedValue")
 movement_speed_slider_path = NodePath("Column/MovementSpeedContainer/MovementSpeed")
+gravity_label_path = NodePath("Column/GravityContainer/GravityLabel")
+gravity_checkbox_path = NodePath("Column/GravityContainer/GravityCheckBox")
+gravity_slider_path = NodePath("Column/GravityContainer/GravitySlider")
+jump_label_path = NodePath("Column/JumpContainer/JumpLabel")
+jump_slider_path = NodePath("Column/JumpContainer/JumpSlider")
 input_options_path = NodePath("Column/InputContainer/InputOptions")
 screen_options_path = NodePath("Column/ScreenContainer/ScreenOptions")
 
@@ -757,9 +762,75 @@ margin_right = 510.0
 margin_bottom = 20.0
 text = "?"
 
-[node name="ScreenContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Controls/Column"]
+[node name="GravityContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Controls/Column"]
+margin_top = 130.0
+margin_right = 510.0
+margin_bottom = 154.0
+custom_constants/separation = 50
+
+[node name="GravityLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Controls/Column/GravityContainer"]
+margin_top = 5.0
+margin_right = 114.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "Gravity: 9.8"
+
+[node name="GravityCheckBox" type="CheckBox" parent="Pause/SettingsOverlay/Settings/Controls/Column/GravityContainer"]
+margin_left = 164.0
+margin_right = 278.0
+margin_bottom = 24.0
+focus_mode = 0
+size_flags_horizontal = 3
+enabled_focus_mode = 0
+
+[node name="GravitySlider" type="HSlider" parent="Pause/SettingsOverlay/Settings/Controls/Column/GravityContainer"]
+margin_left = 328.0
+margin_right = 442.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 25.0
+step = 0.2
+value = 9.8
+
+[node name="GravityInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Controls/Column/GravityContainer"]
+margin_left = 492.0
+margin_right = 510.0
+margin_bottom = 24.0
+text = "?"
+
+[node name="JumpContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Controls/Column"]
+margin_top = 199.0
+margin_right = 510.0
+margin_bottom = 219.0
+custom_constants/separation = 50
+
+[node name="JumpLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Controls/Column/JumpContainer"]
+margin_top = 3.0
+margin_right = 196.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Jump: 5"
+
+[node name="JumpSlider" type="HSlider" parent="Pause/SettingsOverlay/Settings/Controls/Column/JumpContainer"]
+margin_left = 246.0
+margin_right = 442.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 25.0
+value = 5.0
+
+[node name="JumpInfo" type="Button" parent="Pause/SettingsOverlay/Settings/Controls/Column/JumpContainer"]
+margin_left = 492.0
 margin_right = 510.0
 margin_bottom = 20.0
+text = "?"
+
+[node name="ScreenContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Controls/Column"]
+margin_top = 264.0
+margin_right = 510.0
+margin_bottom = 284.0
 custom_constants/separation = 50
 __meta__ = {
 "_edit_use_anchors_": false
@@ -791,9 +862,9 @@ margin_bottom = 20.0
 text = "?"
 
 [node name="InputContainer" type="HBoxContainer" parent="Pause/SettingsOverlay/Settings/Controls/Column"]
-margin_top = 130.0
+margin_top = 329.0
 margin_right = 510.0
-margin_bottom = 150.0
+margin_bottom = 349.0
 custom_constants/separation = 50
 
 [node name="InputLabel" type="Label" parent="Pause/SettingsOverlay/Settings/Controls/Column/InputContainer"]
@@ -816,9 +887,9 @@ margin_bottom = 20.0
 text = "?"
 
 [node name="ResetInputSettings" type="Button" parent="Pause/SettingsOverlay/Settings/Controls/Column"]
-margin_top = 195.0
+margin_top = 394.0
 margin_right = 510.0
-margin_bottom = 215.0
+margin_bottom = 414.0
 text = "Reset"
 
 [node name="Export" type="Tabs" parent="Pause/SettingsOverlay/Settings"]
@@ -1142,6 +1213,7 @@ __meta__ = {
 }
 
 [node name="BVHOverlay" type="ColorRect" parent="Pause"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.196078 )
@@ -1228,7 +1300,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 [node name="Camera" type="Camera" parent="Controller/Head"]
 current = true
 
-[node name="CollisionShape" type="CollisionShape" parent="Controller"]
+[node name="ControllerCollider" type="CollisionShape" parent="Controller"]
 transform = Transform( 0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0, 0, 0 )
 shape = SubResource( 61 )
 disabled = true
@@ -1523,6 +1595,11 @@ shape = SubResource( 72 )
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Controls/Column/MouseSensitivityContainer/MouseSensitivityInfo" to="Pause/SettingsOverlay/Settings/Controls" method="_on_MouseSensitivityInfo_pressed"]
 [connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Controls/Column/MovementSpeedContainer/MovementSpeed" to="Pause/SettingsOverlay/Settings/Controls" method="_on_MovementSpeed_value_changed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Controls/Column/MovementSpeedContainer/MovementSpeedInfo" to="Pause/SettingsOverlay/Settings/Controls" method="_on_MovementSpeedInfo_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Controls/Column/GravityContainer/GravityCheckBox" to="Pause/SettingsOverlay/Settings/Controls" method="_on_GravityCheckBox_toggled"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Controls/Column/GravityContainer/GravitySlider" to="Pause/SettingsOverlay/Settings/Controls" method="_on_GravitySlider_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Controls/Column/GravityContainer/GravityInfo" to="Pause/SettingsOverlay/Settings/Controls" method="_on_GravityInfo_pressed"]
+[connection signal="value_changed" from="Pause/SettingsOverlay/Settings/Controls/Column/JumpContainer/JumpSlider" to="Pause/SettingsOverlay/Settings/Controls" method="_on_JumpSlider_value_changed"]
+[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Controls/Column/JumpContainer/JumpInfo" to="Pause/SettingsOverlay/Settings/Controls" method="_on_JumpInfo_pressed"]
 [connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Controls/Column/ScreenContainer/ScreenOptions" to="Pause/SettingsOverlay/Settings/Controls" method="_on_ScreenOptions_item_selected"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Controls/Column/ScreenContainer/ScreenInfo" to="Pause/SettingsOverlay/Settings/Controls" method="_on_ScreenInfo_pressed"]
 [connection signal="item_selected" from="Pause/SettingsOverlay/Settings/Controls/Column/InputContainer/InputOptions" to="Pause/SettingsOverlay/Settings/Controls" method="_on_InputOptions_item_selected"]
@@ -1546,7 +1623,7 @@ shape = SubResource( 72 )
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Misc/Column/RandomContainer/LocationCheckBox" to="Pause/SettingsOverlay/Settings/Misc" method="_on_LocationCheckBox_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Misc/Column/RandomContainer/SizeCheckBox" to="Pause/SettingsOverlay/Settings/Misc" method="_on_SizeCheckBox_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Misc/Column/RandomContainer/RandomInfo" to="Pause/SettingsOverlay/Settings/Misc" method="_on_RandomInfo_pressed"]
-[connection signal="pressed" from="Pause/SettingsOverlay/Settings/Misc/Column/PoseContainer/PoseCheckBox" to="Pause/SettingsOverlay/Settings/Misc" method="_on_PoseCheckBox_pressed"]
+[connection signal="toggled" from="Pause/SettingsOverlay/Settings/Misc/Column/PoseContainer/PoseCheckBox" to="Pause/SettingsOverlay/Settings/Misc" method="_on_PoseCheckBox_toggled"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Misc/Column/PoseContainer/PoseInfo" to="Pause/SettingsOverlay/Settings/Misc" method="_on_PoseInfo_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Settings/Misc/Column/ResetOtherSettings" to="Pause/SettingsOverlay/Settings/Misc" method="_on_ResetOtherSettings_pressed"]
 [connection signal="pressed" from="Pause/SettingsOverlay/Back" to="Pause" method="_on_Back_pressed"]
